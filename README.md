@@ -1,4 +1,4 @@
-[![pipeline status](https://gitlab.com/kdries/fractals/badges/master/pipeline.svg)](https://gitlab.com/kdries/fractals/commits/master)
+[![pipeline status](https://gitlab.com/kdries/opengl-fractals/badges/master/pipeline.svg)](https://gitlab.com/kdries/opengl-fractals/commits/master)
 
 # OpenGL fractals
 
