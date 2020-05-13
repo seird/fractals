@@ -1,0 +1,13 @@
+image: gcc
+
+build:
+  stage: build
+  script: make build
+  artifacts:
+    paths:
+      - a_release.exe
+
+test:
+  stage: test
+  script:
+    - make test
