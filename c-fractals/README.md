@@ -32,31 +32,31 @@ Include the library interface **fracal_color.h** in the project. Add the source 
 - Retrieve a pointer to a value in the color matrix
 
     ```c
-    float * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
+    double * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
     ```
 
 - Compute the fractal colors
 
     ```c
     void fractal_get_colors(HCMATRIX hCmatrix,
-                           float x_start, float x_step, float y_start, float y_step,
-                           enum Fractal frac, float c_real, float c_imag,
-                           float R, int max_iterations);
+                           double x_start, double x_step, double y_start, double y_step,
+                           enum Fractal frac, double c_real, double c_imag,
+                           double R, int max_iterations);
     ```
 
 - Compute the fractal colors with threads
 
     ```c
     void fractal_get_colors_th(HCMATRIX hCmatrix,
-                            float x_start, float x_step, float y_start, float y_step,
-                            enum Fractal frac, float c_real, float c_imag,
-                            float R, int max_iterations, int num_threads);
+                            double x_start, double x_step, double y_start, double y_step,
+                            enum Fractal frac, double c_real, double c_imag,
+                            double R, int max_iterations, int num_threads);
     ```
 
 - Retrieve the maximum color value in the color matrix
 
     ```c
-    float fractal_get_max_color(HCMATRIX hCmatrix);
+    double fractal_get_max_color(HCMATRIX hCmatrix);
     ```
 
 ### Fractals

@@ -15,14 +15,14 @@ enum Fractal {
 typedef void * HCMATRIX;
 
 struct FractalProperties {
-    float x_start;
-    float x_step;
-    float y_start;
-    float y_step;
+    double x_start;
+    double x_step;
+    double y_start;
+    double y_step;
     enum Fractal frac;
-    float c_real;
-    float c_imag;
-    float R;
+    double c_real;
+    double c_imag;
+    double R;
     int max_iterations;
 };
 
@@ -36,7 +36,7 @@ HCMATRIX fractal_cmatrix_reshape(HCMATRIX hCmatrix, int ROWS_new, int COLS_new);
 void fractal_cmatrix_free(HCMATRIX hCmatrix);
 
 /* get a matrix value */
-float * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
+double * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
 
 /* get fractal colors without complex data type */
 void fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
@@ -45,6 +45,6 @@ void fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
 void fractal_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads);
 
 /* get the maximum color value */
-float fractal_get_max_color(HCMATRIX hCmatrix);
+double fractal_get_max_color(HCMATRIX hCmatrix);
 
 #endif

@@ -19,7 +19,7 @@
 #define BLACK 0.0
 
 
-typedef float ** CMATRIX;
+typedef double ** CMATRIX;
 typedef struct S_CMATRIX {
     CMATRIX cmatrix;
     int ROWS;
@@ -34,8 +34,8 @@ struct ThreadArg {
 };
 
 
-bool escape_magnitude_check(float _Complex z, float R);
-void fractal_get_single_color(float * color, float x, float y, float _Complex (*fractal)(float complex, float _Complex), float _Complex c, float R, int max_iterations);
+bool escape_magnitude_check(double _Complex z, double R);
+void fractal_get_single_color(double * color, double x, double y, double _Complex (*fractal)(double complex, double _Complex), double _Complex c, double R, int max_iterations);
 void * get_colors_thread_worker(void * arg);
 
 #if (!defined(TEST) && !defined(SHARED))

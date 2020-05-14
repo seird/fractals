@@ -10,8 +10,8 @@
 #include "fractal_color.h"
 
 
-#define PI 3.14159f
-#define R_escape 2.0f
+#define PI 3.14159
+#define R_escape 2.0
 
 #define HEIGHT 1000
 #define WIDTH 1000
@@ -19,23 +19,23 @@
 #define ARROW_STEP 100
 
 
-float x_start = -R_escape;
-float x_end = R_escape;
+double x_start = -R_escape;
+double x_end = R_escape;
 
-float y_start = -R_escape;
-float y_end = R_escape;
+double y_start = -R_escape;
+double y_end = R_escape;
 
-float x_step = 2 * R_escape / WIDTH;
-float y_step = 2 * R_escape / HEIGHT;
+double x_step = 2 * R_escape / WIDTH;
+double y_step = 2 * R_escape / HEIGHT;
 
 
 void
 scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
 {
-	float x_delta = x_end - x_start;
-	float y_delta = y_end - y_start;
+	double x_delta = x_end - x_start;
+	double y_delta = y_end - y_start;
 
-	if (yoffset > 0 && (x_delta < 0.00001 || y_delta < 0.00001)) return;
+	if (yoffset > 0 && (x_delta < 0.000000000000001 || y_delta < 0.000000000000001)) return;
 
 	if (yoffset > 0) {
 		x_start += x_delta / 8;
@@ -78,9 +78,9 @@ main(int argc, char * argv[])
 
 	void(__cdecl * fractal_get_colors) (HCMATRIX hCmatrix, struct FractalProperties * fp) = GetProcAddress(hLib, "fractal_get_colors");
 	void(__cdecl * fractal_get_colors_th) (HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads) = GetProcAddress(hLib, "fractal_get_colors_th");
-	float(__cdecl * fractal_get_max_color) (HCMATRIX hCmatrix) = GetProcAddress(hLib, "fractal_get_max_color");
+	double(__cdecl * fractal_get_max_color) (HCMATRIX hCmatrix) = GetProcAddress(hLib, "fractal_get_max_color");
 	HCMATRIX(__cdecl * fractal_cmatrix_create) (int ROWS, int COLS) = GetProcAddress(hLib, "fractal_cmatrix_create");
-	float * (__cdecl * fractal_cmatrix_value) (HCMATRIX hCmatrix, int row, int col) = GetProcAddress(hLib, "fractal_cmatrix_value");
+	double * (__cdecl * fractal_cmatrix_value) (HCMATRIX hCmatrix, int row, int col) = GetProcAddress(hLib, "fractal_cmatrix_value");
 	
 	if (!glfwInit()) {
 		exit(EXIT_FAILURE);
@@ -115,8 +115,8 @@ main(int argc, char * argv[])
 
 	float r, g, b;
 
-	float counter = 0;
-	float step = 0.1;
+	double counter = 0;
+	double step = 0.1;
 	while (!glfwWindowShouldClose(window)) {
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
 			x_start -= x_step * ARROW_STEP;
@@ -164,7 +164,7 @@ main(int argc, char * argv[])
 
 		//fractal_get_colors(hCmatrix, &fp);
 		fractal_get_colors_th(hCmatrix, &fp, 12);
-		float max_color = fractal_get_max_color(hCmatrix);
+		double max_color = fractal_get_max_color(hCmatrix);
 
 		glBegin(GL_POINTS);
 		for (int row = 0; row < WIDTH; ++row) {
@@ -175,9 +175,9 @@ main(int argc, char * argv[])
 				b *= 2;
 
 				glColor3f(r, g, b);
-				glVertex2f(
-					(((float)row) / WIDTH - 0.5) * 2,
-					(((float)col) / HEIGHT - 0.5) * 2
+				glVertex2d(
+					(((double)row) / WIDTH - 0.5) * 2,
+					(((double)col) / HEIGHT - 0.5) * 2
 				);
 			}
 		}

@@ -9,8 +9,8 @@
 
 
 
-float _Complex fractal_julia(float _Complex z, float _Complex c);
+double _Complex fractal_julia(double _Complex z, double _Complex c);
 
-float _Complex (*fractal_get(enum Fractal frac))(float _Complex, float _Complex);
+double _Complex (*fractal_get(enum Fractal frac))(double _Complex, double _Complex);
 
 #endif
