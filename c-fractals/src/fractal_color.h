@@ -6,7 +6,7 @@
 #define __FRACTAL_COLOR_H__
 
 
-#define FRACDTYPE double
+#define FRACDTYPE float
 
 
 /* Fractal functions */
