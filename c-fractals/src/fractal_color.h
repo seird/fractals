@@ -14,15 +14,17 @@ enum Fractal {
 /* types */
 typedef void * HCMATRIX;
 
-
-#ifdef COMPLEX
-#include <complex.h>
-/* get fractal colors */
-void fractal_get_colors_cmpx(HCMATRIX hCmatrix,
-                        float x_start, float x_step, float y_start, float y_step,
-                        enum Fractal frac, float _Complex c,
-                        float R, int max_iterations);
-#endif
+struct FractalProperties {
+    float x_start;
+    float x_step;
+    float y_start;
+    float y_step;
+    enum Fractal frac;
+    float c_real;
+    float c_imag;
+    float R;
+    int max_iterations;
+};
 
 /* create a color matrix */
 HCMATRIX fractal_cmatrix_create(int ROWS, int COLS);
@@ -37,16 +39,10 @@ void fractal_cmatrix_free(HCMATRIX hCmatrix);
 float * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
 
 /* get fractal colors without complex data type */
-void fractal_get_colors(HCMATRIX hCmatrix,
-                           float x_start, float x_step, float y_start, float y_step,
-                           enum Fractal frac, float c_real, float c_imag,
-                           float R, int max_iterations);
+void fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
 
 /* get fractal colors with threading */
-void fractal_get_colors_th(HCMATRIX hCmatrix,
-                           float x_start, float x_step, float y_start, float y_step,
-                           enum Fractal frac, float c_real, float c_imag,
-                           float R, int max_iterations, int num_threads);
+void fractal_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads);
 
 /* get the maximum color value */
 float fractal_get_max_color(HCMATRIX hCmatrix);

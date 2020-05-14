@@ -27,12 +27,23 @@ main(int argc, char * argv[])
     float y_step = (y_end - y_start) / COLS;
 
     int max_iterations = 100;
+    
+    struct FractalProperties fp = {
+        .x_start = -R,
+        .x_step = x_step,
+        .y_start = y_start,
+        .y_step = y_step,
+        .frac = FRAC_JULIA,
+        .c_real = c_real,
+        .c_imag = c_imag,
+        .R = R,
+        .max_iterations = max_iterations,
+    };
 
-    //fractal_get_colors_cmpx(hCmatrix, x_start, x_step, y_start, y_step, FRAC_JULIA, c, R, max_iterations);
-    fractal_get_colors(hCmatrix, x_start, x_step, y_start, y_step, FRAC_JULIA, c_real, c_imag, R, max_iterations);
-    //fractal_get_colors_th(hCmatrix, x_start, x_step, y_start, y_step, FRAC_JULIA, c_real, c_imag, R, max_iterations, 6);
+    fractal_get_colors(hCmatrix, &fp);
+    //fractal_get_colors_th(hCmatrix, fp, 6);
 
-    //float max_color = fractal_get_max_color(hCmatrix);
+    float max_color = fractal_get_max_color(hCmatrix);
 
     fractal_cmatrix_free(hCmatrix);
 	return 0;

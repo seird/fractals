@@ -30,15 +30,7 @@ struct ThreadArg {
     HS_CMATRIX hc;
     int row_start;
     int row_end;
-    float x_start;
-    float x_step;
-    float y_start;
-    float y_step;
-    enum Fractal frac;
-    float c_real;
-    float c_imag;
-    float R;
-    int max_iterations;
+    struct FractalProperties * fp;
 };
 
 

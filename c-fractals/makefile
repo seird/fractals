@@ -4,16 +4,16 @@ CFLAGS_RELEASE = -O3 -Wall -pthread #-shared
 CFLAGS_RELEASE_LIB = -O3 -Wall -shared -DSHARED -pthread
 
 library:
-	$(CC) $(CFLAGS_RELEASE_LIB) c-fractals/src/*.c -o libfractal.dll
+	$(CC) $(CFLAGS_RELEASE_LIB) src/*.c -o libfractal.dll
 
 build: 
-	$(CC) $(CFLAGS_RELEASE) c-fractals/src/*.c -o a_release.exe
+	$(CC) $(CFLAGS_RELEASE) src/*.c -o a_release.exe
 
 run: build
 	./a_release.exe
 
 debug:
-	$(CC) $(CFLAGS_DEBUG) c-fractals/src/*.c -o a_debug.exe -lm
+	$(CC) $(CFLAGS_DEBUG) src/*.c -o a_debug.exe -lm
 
 profile: debug
 	valgrind --tool=callgrind ./a_debug.exe
@@ -26,7 +26,7 @@ cache: build
 	#cg_annotate cachegrind.out.{PID}
 
 test:
-	$(CC) $(CFLAGS_RELEASE) -DTEST c-fractals/tests/*.c c-fractals/src/*.c -o test.exe
+	$(CC) $(CFLAGS_RELEASE) -DTEST tests/*.c src/*.c -o test.exe
 	./test.exe
 
 clean:

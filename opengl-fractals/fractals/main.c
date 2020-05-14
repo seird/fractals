@@ -7,9 +7,7 @@
 #include <math.h>
 
 #include <GLFW\glfw3.h>
-
 #include "fractal_color.h"
-
 
 #define PI 3.14159
 
@@ -28,12 +26,12 @@ main(int argc, char * argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	void(__cdecl * fractal_get_colors_nc) (HCMATRIX hCmatrix, float x_start, float x_step, float y_start, float y_step, enum Fractal frac, float c_real, float c_imag, float R, int max_iterations) = GetProcAddress(hLib, "fractal_get_colors_nc");
-	void(__cdecl * fractal_get_colors_th) (HCMATRIX hCmatrix, float x_start, float x_step, float y_start, float y_step, enum Fractal frac, float c_real, float c_imag, float R, int max_iterations, int num_threads) = GetProcAddress(hLib, "fractal_get_colors_th");
+	void(__cdecl * fractal_get_colors) (HCMATRIX hCmatrix, struct FractalProperties * fp) = GetProcAddress(hLib, "fractal_get_colors");
+	void(__cdecl * fractal_get_colors_th) (HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads) = GetProcAddress(hLib, "fractal_get_colors_th");
 	float(__cdecl * fractal_get_max_color) (HCMATRIX hCmatrix) = GetProcAddress(hLib, "fractal_get_max_color");
 	HCMATRIX(__cdecl * fractal_cmatrix_create) (int ROWS, int COLS) = GetProcAddress(hLib, "fractal_cmatrix_create");
 	float * (__cdecl * fractal_cmatrix_value) (HCMATRIX hCmatrix, int row, int col) = GetProcAddress(hLib, "fractal_cmatrix_value");
-
+	
 	if (!glfwInit()) {
 		exit(EXIT_FAILURE);
 	}
@@ -59,12 +57,25 @@ main(int argc, char * argv[])
 	float y_start = -R;
 	float y_end = R;
 
+	float c_real = 0;
+	float c_imag = 0;
+
+
 	float x_step = (x_end - x_start) / ROWS;
 	float y_step = (y_end - y_start) / COLS;
 
 
-	float c_real = 0;
-	float c_imag = 0;
+	struct FractalProperties fp = {
+		.x_start = -R,
+		.x_step = x_step,
+		.y_start = y_start,
+		.y_step = y_step,
+		.frac = FRAC_JULIA,
+		.c_real = c_real,
+		.c_imag = c_imag,
+		.R = R,
+		.max_iterations = max_iterations,
+	};
 
 
 	float r, g, b;
@@ -84,12 +95,12 @@ main(int argc, char * argv[])
 		//   = 0.7885 * (cos(x) + j * sin(x))
 		//   = 0.7885 * cos(x) + j * 0.7885 * sin(x)
 		// x = 0..2*PI
-		c_real = 0.7885 * cosf(counter / (2 * PI));
-		c_imag = 0.7885 * sinf(counter / (2 * PI));
+		fp.c_real = 0.7885 * cosf(counter / (2 * PI));
+		fp.c_imag = 0.7885 * sinf(counter / (2 * PI));
 		counter += step;
 
-		fractal_get_colors_nc(hCmatrix, x_start, x_step, y_start, y_step, FRAC_JULIA, c_real, c_imag, R, max_iterations);
-		//fractal_get_colors_th(hCmatrix, x_start, x_step, y_start, y_step, FRAC_JULIA, c_real, c_imag, R, max_iterations, 12);
+		fractal_get_colors(hCmatrix, &fp);
+		//fractal_get_colors_th(hCmatrix, fp, 12);
 		float max_color = fractal_get_max_color(hCmatrix);
 
 		glBegin(GL_POINTS);

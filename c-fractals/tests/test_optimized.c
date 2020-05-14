@@ -25,22 +25,29 @@ MU_TEST(test_threaded_result)
 
     int max_iterations = 100;
 
-    HCMATRIX hCmatrix = fractal_cmatrix_create(ROWS, COLS);
     HCMATRIX hCmatrix_nc = fractal_cmatrix_create(ROWS, COLS);
     HCMATRIX hCmatrix_th = fractal_cmatrix_create(ROWS, COLS);
 
-    fractal_get_colors_cmpx(hCmatrix, x_start, x_step, y_start, y_step, FRAC_JULIA, c, R, max_iterations);
-    fractal_get_colors(hCmatrix_nc, x_start, x_step, y_start, y_step, FRAC_JULIA, c_real, c_imag, R, max_iterations);
-    fractal_get_colors_th(hCmatrix_th, x_start, x_step, y_start, y_step, FRAC_JULIA, c_real, c_imag, R, max_iterations, num_threads);
+    struct FractalProperties fp = {
+        .x_start = -R,
+        .x_step = x_step,
+        .y_start = y_start,
+        .y_step = y_step,
+        .frac = FRAC_JULIA,
+        .c_real = c_real,
+        .c_imag = c_imag,
+        .R = R,
+        .max_iterations = max_iterations,
+    };
 
-    float max_color = fractal_get_max_color(hCmatrix);
+    fractal_get_colors(hCmatrix_nc, &fp);
+    fractal_get_colors_th(hCmatrix_th, &fp, num_threads);
+
     float max_color_nc = fractal_get_max_color(hCmatrix_nc);
     float max_color_th = fractal_get_max_color(hCmatrix_th);
 
-    MU_CHECK(max_color == max_color_nc);
-    MU_CHECK(max_color == max_color_th);
+    MU_CHECK(max_color_nc == max_color_th);
 
-    fractal_cmatrix_free(hCmatrix);
     fractal_cmatrix_free(hCmatrix_nc);
     fractal_cmatrix_free(hCmatrix_th);
 }

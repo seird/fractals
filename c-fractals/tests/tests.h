@@ -4,9 +4,9 @@
 
 #include "minunit.h"
 
+#include <complex.h>
 #include <math.h>
 
-#define COMPLEX
 #include "../src/fractal_color.h"
 
 
