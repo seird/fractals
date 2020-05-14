@@ -32,31 +32,43 @@ Include the library interface **fracal_color.h** in the project. Add the source 
 - Retrieve a pointer to a value in the color matrix
 
     ```c
-    double * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
+    FRACDTYPE * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
     ```
 
 - Compute the fractal colors
 
     ```c
-    void fractal_get_colors(HCMATRIX hCmatrix,
-                           double x_start, double x_step, double y_start, double y_step,
-                           enum Fractal frac, double c_real, double c_imag,
-                           double R, int max_iterations);
+    void fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
     ```
 
 - Compute the fractal colors with threads
 
     ```c
-    void fractal_get_colors_th(HCMATRIX hCmatrix,
-                            double x_start, double x_step, double y_start, double y_step,
-                            enum Fractal frac, double c_real, double c_imag,
-                            double R, int max_iterations, int num_threads);
+    void fractal_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads);
     ```
 
 - Retrieve the maximum color value in the color matrix
 
     ```c
-    double fractal_get_max_color(HCMATRIX hCmatrix);
+    FRACDTYPE fractal_get_max_color(HCMATRIX hCmatrix);
+    ```
+
+### Structs
+
+- Parameters to pass to `fractal_get_colors`
+
+    ```c
+    struct FractalProperties {
+        FRACDTYPE x_start;
+        FRACDTYPE x_step;
+        FRACDTYPE y_start;
+        FRACDTYPE y_step;
+        enum Fractal frac;
+        FRACDTYPE c_real;
+        FRACDTYPE c_imag;
+        FRACDTYPE R;
+        int max_iterations;
+    };
     ```
 
 ### Fractals

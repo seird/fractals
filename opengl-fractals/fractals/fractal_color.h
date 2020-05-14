@@ -6,6 +6,9 @@
 #define __FRACTAL_COLOR_H__
 
 
+#define FRACDTYPE double
+
+
 /* Fractal functions */
 enum Fractal {
     FRAC_JULIA,
@@ -15,16 +18,17 @@ enum Fractal {
 typedef void * HCMATRIX;
 
 struct FractalProperties {
-    double x_start;
-    double x_step;
-    double y_start;
-    double y_step;
+    FRACDTYPE x_start;
+    FRACDTYPE x_step;
+    FRACDTYPE y_start;
+    FRACDTYPE y_step;
     enum Fractal frac;
-    double c_real;
-    double c_imag;
-    double R;
+    FRACDTYPE c_real;
+    FRACDTYPE c_imag;
+    FRACDTYPE R;
     int max_iterations;
 };
+
 
 /* create a color matrix */
 HCMATRIX fractal_cmatrix_create(int ROWS, int COLS);
@@ -36,7 +40,7 @@ HCMATRIX fractal_cmatrix_reshape(HCMATRIX hCmatrix, int ROWS_new, int COLS_new);
 void fractal_cmatrix_free(HCMATRIX hCmatrix);
 
 /* get a matrix value */
-double * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
+FRACDTYPE * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
 
 /* get fractal colors without complex data type */
 void fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
@@ -45,6 +49,6 @@ void fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
 void fractal_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads);
 
 /* get the maximum color value */
-double fractal_get_max_color(HCMATRIX hCmatrix);
+FRACDTYPE fractal_get_max_color(HCMATRIX hCmatrix);
 
 #endif

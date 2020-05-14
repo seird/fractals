@@ -5,23 +5,23 @@ MU_TEST(test_threaded_result)
 {
     int num_threads = 2;
 
-    double c_real = -0.835f;
-	double c_imag = -0.2321f;
+    FRACDTYPE c_real = -0.835f;
+	FRACDTYPE c_imag = -0.2321f;
 
-    double _Complex c = c_real + c_imag*I;
-    double R = ceilf(cabs(c)) + 1;
+    FRACDTYPE _Complex c = c_real + c_imag*I;
+    FRACDTYPE R = ceilf(cabs(c)) + 1;
 
     int ROWS = 100;
     int COLS = 100;
 
-    double x_start = -R;
-    double x_end = R;
+    FRACDTYPE x_start = -R;
+    FRACDTYPE x_end = R;
 
-    double y_start = -R;
-    double y_end = R;
+    FRACDTYPE y_start = -R;
+    FRACDTYPE y_end = R;
 
-    double x_step = (x_end - x_start) / ROWS;
-    double y_step = (y_end - y_start) / COLS;
+    FRACDTYPE x_step = (x_end - x_start) / ROWS;
+    FRACDTYPE y_step = (y_end - y_start) / COLS;
 
     int max_iterations = 100;
 
@@ -43,8 +43,8 @@ MU_TEST(test_threaded_result)
     fractal_get_colors(hCmatrix_nc, &fp);
     fractal_get_colors_th(hCmatrix_th, &fp, num_threads);
 
-    double max_color_nc = fractal_get_max_color(hCmatrix_nc);
-    double max_color_th = fractal_get_max_color(hCmatrix_th);
+    FRACDTYPE max_color_nc = fractal_get_max_color(hCmatrix_nc);
+    FRACDTYPE max_color_th = fractal_get_max_color(hCmatrix_th);
 
     MU_CHECK(max_color_nc == max_color_th);
 

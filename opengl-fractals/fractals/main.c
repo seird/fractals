@@ -28,6 +28,18 @@ double y_end = R_escape;
 double x_step = 2 * R_escape / WIDTH;
 double y_step = 2 * R_escape / HEIGHT;
 
+void
+view_reset()
+{
+	x_start = -R_escape;
+	x_end = R_escape;
+
+	y_start = -R_escape;
+	y_end = R_escape;
+
+	x_step = 2 * R_escape / WIDTH;
+	y_step = 2 * R_escape / HEIGHT;
+}
 
 void
 scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
@@ -35,7 +47,7 @@ scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
 	double x_delta = x_end - x_start;
 	double y_delta = y_end - y_start;
 
-	if (yoffset > 0 && (x_delta < 0.000000000000001 || y_delta < 0.000000000000001)) return;
+	if (yoffset > 0 && (x_delta < 0.000000000001 || y_delta < 0.000000000001)) return;
 
 	if (yoffset > 0) {
 		x_start += x_delta / 8;
@@ -139,6 +151,12 @@ main(int argc, char * argv[])
 		}
 		else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
 			counter -= 0.1;
+		}
+		else if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
+			view_reset();
+		}
+		else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
+			break;
 		}
 
 		//Setup View

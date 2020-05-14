@@ -1,16 +1,16 @@
 #include "fractals.h"
 
 
-double _Complex
-fractal_julia(double _Complex z, double _Complex c)
+FRACDTYPE _Complex
+fractal_julia(FRACDTYPE _Complex z, FRACDTYPE _Complex c)
 {
     return z*z + c;
 }
 
 
-double _Complex (*fractal_get(enum Fractal frac))(double _Complex, double _Complex)
+FRACDTYPE _Complex (*fractal_get(enum Fractal frac))(FRACDTYPE _Complex, FRACDTYPE _Complex)
 {
-    double _Complex (*fptr)(double _Complex, double _Complex) = &fractal_julia;
+    FRACDTYPE _Complex (*fptr)(FRACDTYPE _Complex, FRACDTYPE _Complex) = &fractal_julia;
     switch (frac) 
     {
         case FRAC_JULIA: 

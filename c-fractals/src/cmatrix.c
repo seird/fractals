@@ -8,9 +8,9 @@ fractal_cmatrix_create(int ROWS, int COLS)
 
     hc->ROWS = ROWS;
     hc->COLS = COLS;
-    hc->cmatrix = malloc(sizeof(double *) * ROWS);
+    hc->cmatrix = malloc(sizeof(FRACDTYPE *) * ROWS);
 	for (int i = 0; i < ROWS; ++i) {
-		hc->cmatrix[i] = malloc(sizeof(double) * COLS);
+		hc->cmatrix[i] = malloc(sizeof(FRACDTYPE) * COLS);
 	}
     return (HCMATRIX)hc;
 }
@@ -27,9 +27,9 @@ fractal_cmatrix_reshape(HCMATRIX hCmatrix, int ROWS_new, int COLS_new)
     hc->ROWS = ROWS_new;
     hc->COLS = COLS_new;
     
-    hc->cmatrix = realloc(hc->cmatrix, sizeof(double *) * ROWS_new);
+    hc->cmatrix = realloc(hc->cmatrix, sizeof(FRACDTYPE *) * ROWS_new);
 	for (int i = 0; i < ROWS_new; ++i) {
-		hc->cmatrix[i] = malloc(sizeof(double) * COLS_new);
+		hc->cmatrix[i] = malloc(sizeof(FRACDTYPE) * COLS_new);
 	}
     return hc;
 }
@@ -46,7 +46,7 @@ fractal_cmatrix_free(HCMATRIX hCmatrix)
     free(hc);
 }
 
-double *
+FRACDTYPE *
 fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col)
 {
     return &((HS_CMATRIX) hCmatrix)->cmatrix[row][col];

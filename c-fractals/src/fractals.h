@@ -9,8 +9,8 @@
 
 
 
-double _Complex fractal_julia(double _Complex z, double _Complex c);
+FRACDTYPE _Complex fractal_julia(FRACDTYPE _Complex z, FRACDTYPE _Complex c);
 
-double _Complex (*fractal_get(enum Fractal frac))(double _Complex, double _Complex);
+FRACDTYPE _Complex (*fractal_get(enum Fractal frac))(FRACDTYPE _Complex, FRACDTYPE _Complex);
 
 #endif
