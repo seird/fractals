@@ -10,6 +10,7 @@
 #include <complex.h>
 #include <stdbool.h>
 #include <pthread.h>
+#include <string.h>
 #include <immintrin.h>
 
 #include "fractals.h"

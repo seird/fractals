@@ -28,17 +28,16 @@ fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
     HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
 
     FRACDTYPE _Complex c = fp->c_real + fp->c_imag * I;
-
     FRACDTYPE _Complex (*fractal)(FRACDTYPE complex, FRACDTYPE _Complex) = fractal_get(fp->frac);
 
-    FRACDTYPE x = fp->x_start;
+    FRACDTYPE y = fp->y_start;
     for (int row=0; row<hc->ROWS; ++row) {
-        FRACDTYPE y = fp->y_start;
+        FRACDTYPE x = fp->x_start;
         for (int col=0; col<hc->COLS; ++col) {
             fractal_get_single_color(&hc->cmatrix[row][col], x, y, fractal, c, fp->R, fp->max_iterations);
-            y += fp->y_step;
+            x += fp->x_step;
         }
-        x += fp->x_step;
+        y += fp->y_step;
     }
 }
 
@@ -52,41 +51,32 @@ get_colors_thread_worker(void * arg)
     FRACDTYPE _Complex c = fp->c_real + fp->c_imag * I;
     FRACDTYPE _Complex (*fractal)(FRACDTYPE complex, FRACDTYPE _Complex) = fractal_get(fp->frac);
 
-    FRACDTYPE x = fp->x_start;
+    FRACDTYPE y = fp->y_start;
     for (int row=targ->row_start; row<targ->row_end; ++row) {
-        FRACDTYPE y = fp->y_start;
+        FRACDTYPE x = fp->x_start;
         for (int col=0; col<hc->COLS; ++col) {
             fractal_get_single_color(&hc->cmatrix[row][col], x, y, fractal, c, fp->R, fp->max_iterations);
-            y += fp->y_step;
+            x += fp->x_step;
         }
-        x += fp->x_step;
+        y += fp->y_step;
     }
     return NULL;
 }
 
 void
-fractal_get_colors_th(
-    HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads)
+fractal_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads)
 {
     HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
 
     pthread_t threads[num_threads];
     struct ThreadArg args[num_threads];
-    struct FractalProperties props[num_threads];
     for (int i=0; i<num_threads; ++i) {
         args[i].hc = hc;
         args[i].row_start = i*hc->ROWS/num_threads;
         args[i].row_end = (i+1)*hc->ROWS/num_threads;
-        props[i].x_start = fp->x_start + fp->x_step*i*(FRACDTYPE)hc->ROWS/num_threads;
-        props[i].x_step = fp->x_step;
-        props[i].y_start = fp->y_start;
-        props[i].y_step = fp->y_step;
-        props[i].frac = fp->frac;
-        props[i].c_real = fp->c_real;
-        props[i].c_imag = fp->c_imag;
-        props[i].R = fp->R;
-        props[i].max_iterations = fp->max_iterations;
-        args[i].fp = &props[i];
+        args[i].fp = malloc(sizeof(struct FractalProperties));
+        memcpy(args[i].fp, fp, sizeof(struct FractalProperties));
+        args[i].fp->y_start = fp->y_start + fp->y_step*i*(FRACDTYPE)hc->ROWS/num_threads;
 
         if (pthread_create(&threads[i], NULL, get_colors_thread_worker, &args[i]) != 0) {
             printf("Thread %d could not be created.\n", i);
@@ -97,6 +87,7 @@ fractal_get_colors_th(
         if (pthread_join(threads[i], NULL) != 0) {
             printf("Thread %d could not be joined.\n", i);
         }
+        free(args[i].fp);
 
     }
 }

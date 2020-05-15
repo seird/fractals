@@ -18,7 +18,7 @@
 
 #define ARROW_STEP 100
 
-#define ZOOMLIMIT 1e-12
+#define ZOOMLIMIT 1e-5 // 1e-12
 
 FRACDTYPE x_start, x_end, x_step, y_start, y_end, y_step;
 
@@ -125,19 +125,19 @@ main(int argc, char * argv[])
 	FRACDTYPE counter = 0;
 	FRACDTYPE step = 0.1;
 	while (!glfwWindowShouldClose(window)) {
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-			x_start -= x_step * ARROW_STEP;
-			x_end -= x_step * ARROW_STEP;
-		}
-		else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 			x_start += x_step * ARROW_STEP;
 			x_end += x_step * ARROW_STEP;
 		}
 		else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+			x_start -= x_step * ARROW_STEP;
+			x_end -= x_step * ARROW_STEP;
+		}
+		else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
 			y_start -= y_step * ARROW_STEP;
 			y_end -= y_step * ARROW_STEP;
 		}
-		else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+		else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
 			y_start += y_step * ARROW_STEP;
 			y_end += y_step * ARROW_STEP;
 		}
@@ -173,7 +173,7 @@ main(int argc, char * argv[])
 		fp.y_step = y_step;
 		fp.x_start = x_start;
 		fp.y_start = y_start;
-		//counter += step;
+		//counter += 0.2;
 
 		//fractal_get_colors(hCmatrix, &fp);
 		fractal_get_colors_th(hCmatrix, &fp, 12);
