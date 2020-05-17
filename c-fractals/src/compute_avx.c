@@ -3,16 +3,18 @@
 
 
 void
-fractal_avx_print_vec(__m256 * v)
+fractal_avxf_print_vec(__m256 * v)
 {
-    for (float * f = (float*)v; f < (float*)v + VECSIZE; ++f) {
+    for (float * f = (float*)v; f < (float*)v + VECFSIZE; ++f) {
         printf("%5f ", *f);
     }
     putchar('\n');
 }
 
 void
-fractal_avx_julia(__m256 * result_real, __m256 * result_imag, __m256 * z_real, __m256 * z_imag, __m256 * c_real, __m256 * c_imag)
+fractal_avxf_julia(__m256 * result_real, __m256 * result_imag, 
+                   __m256 * z_real, __m256 * z_imag, 
+                   __m256 * c_real, __m256 * c_imag)
 {
     // z * z = (a+bj)*(a+bj) = a*a - b*b + 2(a*b)j
 
