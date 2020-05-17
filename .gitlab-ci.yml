@@ -1,6 +1,8 @@
 image: gcc
 
 build:
+  before_script:
+      - cd c-fractals/ 
   stage: build
   script: make build
   artifacts:
@@ -8,6 +10,8 @@ build:
       - a_release.exe
 
 test:
+  before_script:
+      - cd c-fractals/ 
   stage: test
   script:
     - make test
