@@ -14,7 +14,7 @@ MU_TEST(test_avx_escape)
 
     float R = 2.0;
     __m256 RR = _mm256_set1_ps(R*R);
-    fractal_avx_escape_magnitude_check(&escaped_mask, &z_real_vec, &z_imag_vec, &RR);
+    fractal_avxf_escape_magnitude_check(&escaped_mask, &z_real_vec, &z_imag_vec, &RR);
     
     int escaped_avx = _mm256_movemask_ps(escaped_mask); // 0bXXXXXXXX -- LSB => escaped_mask[0]
 
@@ -27,6 +27,4 @@ MU_TEST(test_avx_escape)
         MU_CHECK(escaped == (escaped_avx & 1));
         escaped_avx >>= 1;
     }
-
-    MU_CHECK(1==1);
 }
