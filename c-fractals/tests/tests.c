@@ -11,6 +11,7 @@ ALL_TESTS()
 {
     MU_RUN_TEST(test_threaded_result);
     MU_RUN_TEST(test_avx_julia);
+    MU_RUN_TEST(test_avx_escape);
 }
 
 int

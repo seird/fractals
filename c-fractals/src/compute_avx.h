@@ -11,9 +11,14 @@
 
 
 void fractal_avxf_print_vec(__m256 * v);
+
 void fractal_avxf_julia(__m256 * result_real, __m256 * result_imag, 
                         __m256 * z_real, __m256 * z_imag,
                         __m256 * c_real, __m256 * c_imag);
+
+void fractal_avx_escape_magnitude_check(__m256 * escaped_mask, 
+                                        __m256 * z_real, __m256 * z_imag,
+                                        __m256 * RR);
 
 
 #endif
