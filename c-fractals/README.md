@@ -50,7 +50,7 @@ Include the library interface **fracal_color.h** in the project. Add the source 
 - Retrieve the maximum color value in the color matrix
 
     ```c
-    FRACDTYPE fractal_get_max_color(HCMATRIX hCmatrix);
+    FRACDTYPE fractal_cmatrix_max(HCMATRIX hCmatrix);
     ```
 
 ### Structs

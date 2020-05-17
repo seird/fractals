@@ -43,8 +43,8 @@ MU_TEST(test_threaded_result)
     fractal_get_colors(hCmatrix_nc, &fp);
     fractal_get_colors_th(hCmatrix_th, &fp, num_threads);
 
-    FRACDTYPE max_color_nc = fractal_get_max_color(hCmatrix_nc);
-    FRACDTYPE max_color_th = fractal_get_max_color(hCmatrix_th);
+    FRACDTYPE max_color_nc = fractal_cmatrix_max(hCmatrix_nc);
+    FRACDTYPE max_color_th = fractal_cmatrix_max(hCmatrix_th);
 
     MU_CHECK(max_color_nc == max_color_th);
 

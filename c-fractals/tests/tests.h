@@ -8,8 +8,10 @@
 #include <math.h>
 
 #include "../src/fractal_color.h"
+#include "../src/compute_avx.h"
 
 
 MU_TEST(test_threaded_result);
+MU_TEST(test_avx_julia);
 
 #endif

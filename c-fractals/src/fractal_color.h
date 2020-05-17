@@ -49,6 +49,6 @@ void fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
 void fractal_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads);
 
 /* get the maximum color value */
-FRACDTYPE fractal_get_max_color(HCMATRIX hCmatrix);
+FRACDTYPE fractal_cmatrix_max(HCMATRIX hCmatrix);
 
 #endif

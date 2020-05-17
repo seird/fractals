@@ -84,7 +84,8 @@ main(int argc, char * argv[])
 
 	void(__cdecl * fractal_get_colors) (HCMATRIX hCmatrix, struct FractalProperties * fp) = GetProcAddress(hLib, "fractal_get_colors");
 	void(__cdecl * fractal_get_colors_th) (HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads) = GetProcAddress(hLib, "fractal_get_colors_th");
-	FRACDTYPE(__cdecl * fractal_get_max_color) (HCMATRIX hCmatrix) = GetProcAddress(hLib, "fractal_get_max_color");
+	void(__cdecl * fractal_avx_get_colors) (HCMATRIX hCmatrix, struct FractalProperties * fp) = GetProcAddress(hLib, "fractal_avx_get_colors");
+	FRACDTYPE(__cdecl * fractal_cmatrix_max) (HCMATRIX hCmatrix) = GetProcAddress(hLib, "fractal_cmatrix_max");
 	HCMATRIX(__cdecl * fractal_cmatrix_create) (int ROWS, int COLS) = GetProcAddress(hLib, "fractal_cmatrix_create");
 	FRACDTYPE * (__cdecl * fractal_cmatrix_value) (HCMATRIX hCmatrix, int row, int col) = GetProcAddress(hLib, "fractal_cmatrix_value");
 	
@@ -177,7 +178,7 @@ main(int argc, char * argv[])
 
 		//fractal_get_colors(hCmatrix, &fp);
 		fractal_get_colors_th(hCmatrix, &fp, 12);
-		FRACDTYPE max_color = fractal_get_max_color(hCmatrix);
+		FRACDTYPE max_color = fractal_cmatrix_max(hCmatrix);
 
 		glBegin(GL_POINTS);
 		for (int row = 0; row < WIDTH; ++row) {
