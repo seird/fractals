@@ -9,6 +9,7 @@
 
 #include "../src/fractal_color.h"
 #include "../src/compute_avx.h"
+#include "../src/fractals.h"
 
 
 MU_TEST(test_threaded_result);

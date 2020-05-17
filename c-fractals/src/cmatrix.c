@@ -51,7 +51,7 @@ fractal_cmatrix_reshape(HCMATRIX hCmatrix, int ROWS_new, int COLS_new)
                 free(hc->cmatrix[i]);
             }
             free(hc->cmatrix);
-            hc = ractal_cmatrix_create(int ROWS_new, int COLS_new);
+            hc = fractal_cmatrix_create(ROWS_new, COLS_new);
         #endif
     #else
         for (int i = 0; i < hc->ROWS; ++i) {

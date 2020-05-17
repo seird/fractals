@@ -1,3 +1,6 @@
+[![pipeline status]https://gitlab.com/kdries/opengl-fractals/badges/opt-intrinsics/pipeline.svg)](https://gitlab.com/kdries/opengl-fractals/commits/opt-intrinsics)
+
+
 # Compute fractal colors
 
 ## Build dynamic lirary
