@@ -29,6 +29,10 @@ test:
 	$(CC) $(CFLAGS_RELEASE) -DTEST tests/*.c src/*.c -o test.exe
 	./test.exe
 
+bench:
+	$(CC) $(CFLAGS_RELEASE) -DBENCHMARK benchmark/*.c src/*.c -o benchmark.exe
+	./benchmark.exe
+
 clean:
 	rm --force *.exe
 	rm --force *.out.*
