@@ -1,7 +1,7 @@
 CC = gcc
-CFLAGS_DEBUG = -g -Wall -pthread #-shared
-CFLAGS_RELEASE = -O3 -Wall -pthread #-shared
-CFLAGS_RELEASE_LIB = -O3 -Wall -shared -DSHARED -pthread
+CFLAGS_DEBUG = -g -Wall -pthread -mavx2 #-shared
+CFLAGS_RELEASE = -O3 -Wall -pthread -mavx2 #-shared
+CFLAGS_RELEASE_LIB = -O3 -Wall -shared -DSHARED -pthread -mavx2 
 
 library:
 	$(CC) $(CFLAGS_RELEASE_LIB) src/*.c -o libfractal.dll
@@ -28,6 +28,10 @@ cache: build
 test:
 	$(CC) $(CFLAGS_RELEASE) -DTEST tests/*.c src/*.c -o test.exe
 	./test.exe
+
+bench:
+	$(CC) $(CFLAGS_RELEASE) -DBENCHMARK benchmark/*.c src/*.c -o benchmark.exe
+	./benchmark.exe
 
 clean:
 	rm --force *.exe

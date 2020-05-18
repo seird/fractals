@@ -48,7 +48,13 @@ void fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
 /* get fractal colors with threading */
 void fractal_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads);
 
+/* get fractal colors with AVX2 */
+void fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
+
+/* get fractal colors with AVX2 and threading */
+void fractal_avxf_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads);
+
 /* get the maximum color value */
-FRACDTYPE fractal_get_max_color(HCMATRIX hCmatrix);
+FRACDTYPE fractal_cmatrix_max(HCMATRIX hCmatrix);
 
 #endif
