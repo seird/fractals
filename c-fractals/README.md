@@ -1,4 +1,4 @@
-[![pipeline status]https://gitlab.com/kdries/opengl-fractals/badges/opt-intrinsics/pipeline.svg)](https://gitlab.com/kdries/opengl-fractals/commits/opt-intrinsics)
+[![pipeline status](https://gitlab.com/kdries/opengl-fractals/badges/opt-intrinsics/pipeline.svg)](https://gitlab.com/kdries/opengl-fractals/commits/opt-intrinsics)
 
 
 # Compute fractal colors
@@ -48,6 +48,18 @@ Include the library interface **fracal_color.h** in the project. Add the source 
 
     ```c
     void fractal_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads);
+    ```
+
+- Compute the fractal colors with AVX2
+
+    ```c
+    void fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
+    ```
+
+- Compute the fractal colors with AVX2 and threads
+
+    ```c
+    void fractal_avxf_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads);
     ```
 
 - Retrieve the maximum color value in the color matrix

@@ -15,13 +15,20 @@
 
 #define HEIGHT 1000
 #define WIDTH 1000
-#define MAX_ITERATIONS 400
+#define MAX_ITERATIONS 1000
 
 #define PAN_STEP 15
 
 #define ZOOMLIMIT 1e-5 // 1e-12
 
 FRACDTYPE x_start, x_end, x_step, y_start, y_end, y_step;
+
+enum ColorFunction {
+	CF_DEFAULT = 1,
+	CF_THREADED,
+	CF_AVX,
+	CF_AVX_THREADED
+};
 
 void
 view_reset()
@@ -59,16 +66,16 @@ scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
 		y_end += y_delta / 4;
 	}
 
-	printf("start/end: %f, %f, %f, %f\n", x_start, x_end, y_start, y_end);
+	//printf("start/end: %f, %f, %f, %f\n", x_start, x_end, y_start, y_end);
 
 	x_step = (x_end - x_start) / WIDTH;
 	y_step = (y_end - y_start) / HEIGHT;
 
-	printf("step: %f, %f", x_step, y_step);
+	//printf("step: %f, %f", x_step, y_step);
 
-	double xpos, ypos;
-	glfwGetCursorPos(window, &xpos, &ypos);
-	printf("[%f, %f] %f, %f\n", xpos, ypos, xoffset, yoffset);
+	//double xpos, ypos;
+	//glfwGetCursorPos(window, &xpos, &ypos);
+	//printf("[%f, %f] %f, %f\n", xpos, ypos, xoffset, yoffset);
 }
 
 int
@@ -82,6 +89,7 @@ main(int argc, char * argv[])
 
 	void(__cdecl * fractal_get_colors) (HCMATRIX hCmatrix, struct FractalProperties * fp) = GetProcAddress(hLib, "fractal_get_colors");
 	void(__cdecl * fractal_get_colors_th) (HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads) = GetProcAddress(hLib, "fractal_get_colors_th");
+	void(__cdecl * fractal_avxf_get_colors_th) (HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads) = GetProcAddress(hLib, "fractal_avxf_get_colors_th");
 	void(__cdecl * fractal_avxf_get_colors) (HCMATRIX hCmatrix, struct FractalProperties * fp) = GetProcAddress(hLib, "fractal_avxf_get_colors");
 	FRACDTYPE(__cdecl * fractal_cmatrix_max) (HCMATRIX hCmatrix) = GetProcAddress(hLib, "fractal_cmatrix_max");
 	HCMATRIX(__cdecl * fractal_cmatrix_create) (int ROWS, int COLS) = GetProcAddress(hLib, "fractal_cmatrix_create");
@@ -118,12 +126,14 @@ main(int argc, char * argv[])
 		.max_iterations = MAX_ITERATIONS,
 	};
 
+	enum ColorFunction cf = CF_DEFAULT;
 
 	float r, g, b;
 
 	FRACDTYPE counter = 0;
 	FRACDTYPE step = 0.1;
 	while (!glfwWindowShouldClose(window)) {
+		// PAN KEYS
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 			x_start += x_step * PAN_STEP;
 			x_end += x_step * PAN_STEP;
@@ -140,17 +150,37 @@ main(int argc, char * argv[])
 			y_start += y_step * PAN_STEP;
 			y_end += y_step * PAN_STEP;
 		}
+		// ROTATE KEYS
 		else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 			counter += 0.1;
 		}
 		else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
 			counter -= 0.1;
 		}
+		// RESET KEY
 		else if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
 			view_reset();
 		}
+		// QUIT KEY
 		else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
 			break;
+		}
+		// COLOR FUNCTION KEYS
+		else if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
+			cf = CF_DEFAULT;
+			printf("Switching to CF_DEFAULT\n");
+		}
+		else if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
+			cf = CF_THREADED;
+			printf("Switching to CF_THREADED\n");
+		}
+		else if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
+			cf = CF_AVX;
+			printf("Switching to CF_AVX\n");
+		}
+		else if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
+			cf = CF_AVX_THREADED;
+			printf("Switching to avx CF_AVX_THREADED\n");
 		}
 
 		//Setup View
@@ -174,12 +204,22 @@ main(int argc, char * argv[])
 		fp.y_start = y_start;
 		//counter += 0.2;
 
-		//fractal_get_colors(hCmatrix, &fp);
-		//fractal_get_colors_th(hCmatrix, &fp, 12);
-		fractal_avxf_get_colors(hCmatrix, &fp);
+		// Compute the color matrix
+		switch (cf) {
+		case CF_DEFAULT:
+			fractal_get_colors(hCmatrix, &fp); break;
+		case CF_THREADED:
+			fractal_get_colors_th(hCmatrix, &fp, 12);  break;
+		case CF_AVX:
+			fractal_avxf_get_colors(hCmatrix, &fp); break;
+		case CF_AVX_THREADED:
+			fractal_avxf_get_colors_th(hCmatrix, &fp, 12); break;
+		}
 
+		// Find the maximum color value in the matrix
 		FRACDTYPE max_color = fractal_cmatrix_max(hCmatrix);
 
+		// Draw the fractal
 		glBegin(GL_POINTS);
 		for (int row = 0; row < WIDTH; ++row) {
 			for (int col = 0; col < HEIGHT; ++col) {
