@@ -65,39 +65,33 @@ fractal_avxf_get_vector_color(FRACDTYPE * color_array,
                               __m256 * c_real, __m256 * c_imag,
                               __m256 * RR, int max_iterations)
 {
-	int iteration = 0;
     __m256 colors_vec = _mm256_set1_ps(0);
-    __m256 escaped_mask, escaped_so_far_mask;
+    __m256 escaped_so_far_mask = _mm256_set1_ps(0);
+    __m256 escaped_mask;
 
-	for (; iteration < max_iterations; ++iteration) {
+	for (int iteration = 0 ; iteration < max_iterations; ++iteration) {
         // get all pixels that escaped this iteration
 		fractal_avxf_escape_magnitude_check(&escaped_mask, z_real, z_imag, RR);
 
         // get pixels that escaped for the first time
-        __m256 escaped_this_round_mask = _mm256_and_ps(
+        __m256 escaped_this_iteration_mask = _mm256_and_ps(
             escaped_mask,
             _mm256_xor_ps(escaped_mask, escaped_so_far_mask)
         );
 
         // for the newly escaped pixels, set the escape iteration
-        //_mm256_maskstore_ps(color, _mm256_castps_si256(escaped_this_round_mask), _mm256_set1_ps(iteration));
-
-        // for the newly escaped pixels, set the escape iteration
         // color is iteration if mask = 1, else the color value remains the same 
-        colors_vec =_mm256_blendv_ps(colors_vec, _mm256_set1_ps(iteration), escaped_this_round_mask);
+        colors_vec =_mm256_blendv_ps(colors_vec, _mm256_set1_ps(iteration), escaped_this_iteration_mask);
 
         // update pixels that escaped this iteration
-        escaped_so_far_mask = _mm256_or_ps(escaped_so_far_mask, escaped_this_round_mask);
+        escaped_so_far_mask = _mm256_or_ps(escaped_so_far_mask, escaped_this_iteration_mask);
+
+        // break if all pixels have escaped
+        if (_mm256_movemask_ps(escaped_so_far_mask) == 0b11111111) break;
 
         // next fractal step
 		fractal_avxf_julia(z_real, z_imag, z_real, z_imag, c_real, c_imag);
 	}
-
-    // check which pixels didn't escape
-    __m256 max_iter_mask = _mm256_cmp_ps(_mm256_load_ps(color_array), _mm256_set1_ps(max_iterations), _CMP_GE_OQ);
-
-    // give the pixels that didn't escape a color value of 0
-    colors_vec =_mm256_blendv_ps(colors_vec, _mm256_set1_ps(0), max_iter_mask);
 
     // store the pixel values
     _mm256_store_ps(color_array, colors_vec);
@@ -106,41 +100,31 @@ fractal_avxf_get_vector_color(FRACDTYPE * color_array,
 void
 fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
 {
-}
-
-/*
-void
-fractal_get_single_color(FRACDTYPE * color, FRACDTYPE x, FRACDTYPE y, FRACDTYPE _Complex (*fractal)(FRACDTYPE complex, FRACDTYPE _Complex), FRACDTYPE _Complex c, FRACDTYPE R, int max_iterations)
-{
-	int num_iterations = 0;
-	FRACDTYPE _Complex z = x + y*I;
-
-	for (; num_iterations < max_iterations; ++num_iterations) {
-		if (fractal_escape_magnitude_check(z, R))
-			break;
-		z = (*fractal)(z, c);
-	}
-
-	*color = num_iterations == max_iterations ? BLACK : num_iterations;
-}
-
-void
-fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
-{
     HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
 
-    FRACDTYPE _Complex c = fp->c_real + fp->c_imag * I;
-    FRACDTYPE _Complex (*fractal)(FRACDTYPE complex, FRACDTYPE _Complex) = fractal_get(fp->frac);
+    __m256 RR = _mm256_set1_ps(fp->R*fp->R);
+    __m256 c_real = _mm256_set1_ps(fp->c_real);
+    __m256 c_imag = _mm256_set1_ps(fp->c_imag);
 
+    float x_step = fp->y_step;
     FRACDTYPE y = fp->y_start;
     for (int row=0; row<hc->ROWS; ++row) {
         FRACDTYPE x = fp->x_start;
-        for (int col=0; col<hc->COLS; ++col) {
-            fractal_get_single_color(&hc->cmatrix[row][col], x, y, fractal, c, fp->R, fp->max_iterations);
-            x += fp->x_step;
+        for (int col=0; col<hc->COLS; col+=VECFSIZE) {
+            __m256 y_vec = _mm256_set1_ps(y);
+            __m256 x_vec = _mm256_add_ps(
+                _mm256_set1_ps(x),
+                _mm256_set_ps(7*x_step, 6*x_step, 5*x_step, 4*x_step, 3*x_step, 2*x_step, x_step, 0) // Little endian
+                //_mm256_set_ps(0, x_step, 2*x_step, 3*x_step, 4*x_step, 5*x_step, 6*x_step, 7*x_step)
+            );
+
+            fractal_avxf_get_vector_color(&hc->cmatrix[row][col], 
+                                          &x_vec, &y_vec,
+                                          &c_real, &c_imag,
+                                          &RR, fp->max_iterations);
+
+            x += VECFSIZE * x_step;
         }
         y += fp->y_step;
     }
 }
-
-*/

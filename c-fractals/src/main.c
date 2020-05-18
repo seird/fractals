@@ -41,7 +41,8 @@ main(int argc, char * argv[])
     };
 
     //fractal_get_colors(hCmatrix, &fp);
-    fractal_get_colors_th(hCmatrix, &fp, 6);
+    //fractal_get_colors_th(hCmatrix, &fp, 6);
+    fractal_avxf_get_colors(hCmatrix, &fp);
 
     //FRACDTYPE max_color = fractal_cmatrix_max(hCmatrix);
 

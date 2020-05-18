@@ -15,8 +15,9 @@
 
 #define HEIGHT 1000
 #define WIDTH 1000
+#define MAX_ITERATIONS 400
 
-#define ARROW_STEP 100
+#define PAN_STEP 15
 
 #define ZOOMLIMIT 1e-5 // 1e-12
 
@@ -73,9 +74,6 @@ scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
 int
 main(int argc, char * argv[])
 {
-	
-	int max_iterations = 400;
-
 	HMODULE hLib = LoadLibraryA("./libfractal.dll");
 	if (hLib == NULL) {
 		printf("Failed to load libfractal.dll\n");
@@ -84,7 +82,7 @@ main(int argc, char * argv[])
 
 	void(__cdecl * fractal_get_colors) (HCMATRIX hCmatrix, struct FractalProperties * fp) = GetProcAddress(hLib, "fractal_get_colors");
 	void(__cdecl * fractal_get_colors_th) (HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads) = GetProcAddress(hLib, "fractal_get_colors_th");
-	void(__cdecl * fractal_avx_get_colors) (HCMATRIX hCmatrix, struct FractalProperties * fp) = GetProcAddress(hLib, "fractal_avx_get_colors");
+	void(__cdecl * fractal_avxf_get_colors) (HCMATRIX hCmatrix, struct FractalProperties * fp) = GetProcAddress(hLib, "fractal_avxf_get_colors");
 	FRACDTYPE(__cdecl * fractal_cmatrix_max) (HCMATRIX hCmatrix) = GetProcAddress(hLib, "fractal_cmatrix_max");
 	HCMATRIX(__cdecl * fractal_cmatrix_create) (int ROWS, int COLS) = GetProcAddress(hLib, "fractal_cmatrix_create");
 	FRACDTYPE * (__cdecl * fractal_cmatrix_value) (HCMATRIX hCmatrix, int row, int col) = GetProcAddress(hLib, "fractal_cmatrix_value");
@@ -117,7 +115,7 @@ main(int argc, char * argv[])
 		.c_real = 0,
 		.c_imag = 0,
 		.R = R_escape,
-		.max_iterations = max_iterations,
+		.max_iterations = MAX_ITERATIONS,
 	};
 
 
@@ -127,20 +125,20 @@ main(int argc, char * argv[])
 	FRACDTYPE step = 0.1;
 	while (!glfwWindowShouldClose(window)) {
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-			x_start += x_step * ARROW_STEP;
-			x_end += x_step * ARROW_STEP;
+			x_start += x_step * PAN_STEP;
+			x_end += x_step * PAN_STEP;
 		}
 		else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-			x_start -= x_step * ARROW_STEP;
-			x_end -= x_step * ARROW_STEP;
+			x_start -= x_step * PAN_STEP;
+			x_end -= x_step * PAN_STEP;
 		}
 		else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-			y_start -= y_step * ARROW_STEP;
-			y_end -= y_step * ARROW_STEP;
+			y_start -= y_step * PAN_STEP;
+			y_end -= y_step * PAN_STEP;
 		}
 		else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-			y_start += y_step * ARROW_STEP;
-			y_end += y_step * ARROW_STEP;
+			y_start += y_step * PAN_STEP;
+			y_end += y_step * PAN_STEP;
 		}
 		else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 			counter += 0.1;
@@ -177,7 +175,9 @@ main(int argc, char * argv[])
 		//counter += 0.2;
 
 		//fractal_get_colors(hCmatrix, &fp);
-		fractal_get_colors_th(hCmatrix, &fp, 12);
+		//fractal_get_colors_th(hCmatrix, &fp, 12);
+		fractal_avxf_get_colors(hCmatrix, &fp);
+
 		FRACDTYPE max_color = fractal_cmatrix_max(hCmatrix);
 
 		glBegin(GL_POINTS);

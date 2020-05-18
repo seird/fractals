@@ -24,7 +24,7 @@ MU_TEST(test_avx_vector_color)
     __m256 RR = _mm256_set1_ps(R*R);
 
     fractal_avxf_get_vector_color(colors_avx, &x_vec, &y_vec, &c_real_vec, &c_imag_vec, &RR, max_iterations);
-
+    
     FRACDTYPE _Complex (*fractal)(FRACDTYPE complex, FRACDTYPE _Complex) = fractal_get(FRAC_JULIA);
 
     for (int i=0; i<VECFSIZE; ++i) {
