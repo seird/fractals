@@ -17,7 +17,7 @@ main(void)
     printf("\n=================================================\nBenchmarking ...\n");
     printf("\tNumber of runs     = %20d\n", num_runs);
     printf("\tFractal iterations = %20d\n", MAX_ITERATIONS);
-    printf("\tNumber of thraeds  = %20d\n", NUM_THREADS);
+    printf("\tNumber of threads  = %20d\n", NUM_THREADS);
     printf("\tROWS               = %20d\n", ROWS);
     printf("\tCOLUMNS            = %20d\n", COLS);
     printf("\tC_REAL             = %20f\n", C_REAL);
