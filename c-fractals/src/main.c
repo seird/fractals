@@ -33,7 +33,7 @@ main(int argc, char * argv[])
         .x_step = x_step,
         .y_start = y_start,
         .y_step = y_step,
-        .frac = FRAC_JULIA,
+        .frac = FRAC_JULIA_3,
         .c_real = c_real,
         .c_imag = c_imag,
         .R = R,
@@ -42,8 +42,8 @@ main(int argc, char * argv[])
 
     //fractal_get_colors(hCmatrix, &fp);
     //fractal_get_colors_th(hCmatrix, &fp, 6);
-    //fractal_avxf_get_colors(hCmatrix, &fp);
-    fractal_avxf_get_colors_th(hCmatrix, &fp, 6);
+    fractal_avxf_get_colors(hCmatrix, &fp);
+    //fractal_avxf_get_colors_th(hCmatrix, &fp, 6);
 
     //FRACDTYPE max_color = fractal_cmatrix_max(hCmatrix);
 

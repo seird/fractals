@@ -17,6 +17,7 @@
 MU_TEST(test_threaded_result);
 
 MU_TEST(test_avx_julia);
+MU_TEST(test_avx_julia_n);
 MU_TEST(test_avx_escape);
 MU_TEST(test_avx_vector_color);
 

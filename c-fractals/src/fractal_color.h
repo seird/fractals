@@ -11,7 +11,9 @@
 
 /* Fractal functions */
 enum Fractal {
-    FRAC_JULIA,
+    FRAC_JULIA,   // z^2 + c
+    FRAC_JULIA_3, // z^3 + c
+    FRAC_JULIA_4, // z^4 + c
 };
 
 /* types */

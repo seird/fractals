@@ -11,35 +11,6 @@ fractal_avxf_print_vec(__m256 * v)
 }
 
 void
-fractal_avxf_julia(__m256 * result_real, __m256 * result_imag, 
-                   __m256 * z_real, __m256 * z_imag, 
-                   __m256 * c_real, __m256 * c_imag)
-{
-    // z * z = (a+bj)*(a+bj) = a*a - b*b + 2(a*b)j
-
-    // z_real*z_real
-    __m256 z_real_sq = _mm256_mul_ps(*z_real, *z_real);
-
-    // z_imag*z_imag
-    __m256 z_imag_sq = _mm256_mul_ps(*z_imag, *z_imag);
-
-    // 2*z_real*z_imag
-    __m256 z_real_imag_prod = _mm256_mul_ps(
-        _mm256_mul_ps(*z_real, *z_imag),
-        _mm256_set1_ps(2)
-    );
-
-    // z_real*z_real - z_imag*z_imag
-    __m256 z_sq_diff = _mm256_sub_ps(z_real_sq, z_imag_sq);
-
-    // z_real*z_real + c_real
-    *result_real = _mm256_add_ps(z_sq_diff, *c_real);
-
-    // z_imag*z_imag + c_imag
-    *result_imag = _mm256_add_ps(z_real_imag_prod, *c_imag);
-}
-
-void
 fractal_avxf_escape_magnitude_check(__m256 * escaped_mask,
                                     __m256 * z_real, __m256 * z_imag,
                                     __m256 * RR)
@@ -63,7 +34,8 @@ void
 fractal_avxf_get_vector_color(FRACDTYPE * color_array, 
                               __m256 * z_real, __m256 * z_imag,
                               __m256 * c_real, __m256 * c_imag,
-                              __m256 * RR, int max_iterations)
+                              __m256 * RR, int max_iterations,
+                              void (*fractal)(__m256 *, __m256 *, __m256 *, __m256 *, __m256 * , __m256 *))
 {
     __m256 colors_vec = _mm256_set1_ps(0);
     __m256 escaped_so_far_mask = _mm256_set1_ps(0);
@@ -90,7 +62,7 @@ fractal_avxf_get_vector_color(FRACDTYPE * color_array,
         if (_mm256_movemask_ps(escaped_so_far_mask) == 0b11111111) break;
 
         // next fractal step
-		fractal_avxf_julia(z_real, z_imag, z_real, z_imag, c_real, c_imag);
+		fractal(z_real, z_imag, z_real, z_imag, c_real, c_imag);
 	}
 
     // store the pixel values
@@ -101,6 +73,8 @@ void
 fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
 {
     HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
+
+    void (*fractal)(__m256 *, __m256 *, __m256 *, __m256 *, __m256 * , __m256 *) = fractal_avx_get(fp->frac);
 
     __m256 RR = _mm256_set1_ps(fp->R*fp->R);
     __m256 c_real = _mm256_set1_ps(fp->c_real);
@@ -121,7 +95,8 @@ fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
             fractal_avxf_get_vector_color(&hc->cmatrix[row][col], 
                                           &x_vec, &y_vec,
                                           &c_real, &c_imag,
-                                          &RR, fp->max_iterations);
+                                          &RR, fp->max_iterations,
+                                          fractal);
 
             x += VECFSIZE * x_step;
         }

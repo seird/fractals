@@ -119,14 +119,14 @@ main(int argc, char * argv[])
 		.x_step = x_step,
 		.y_start = y_start,
 		.y_step = y_step,
-		.frac = FRAC_JULIA,
+		.frac = FRAC_JULIA_3,
 		.c_real = 0,
 		.c_imag = 0,
 		.R = R_escape,
 		.max_iterations = MAX_ITERATIONS,
 	};
 
-	enum ColorFunction cf = CF_DEFAULT;
+	enum ColorFunction cf = CF_AVX;
 
 	float r, g, b;
 
@@ -225,7 +225,7 @@ main(int argc, char * argv[])
 			for (int col = 0; col < HEIGHT; ++col) {
 				r = g = b = *fractal_cmatrix_value(hCmatrix, row, col) / max_color;
 				r *= 2;
-				//g *= 3;
+				//g *= 2;
 				b *= 2;
 
 				glColor3f(r, g, b);

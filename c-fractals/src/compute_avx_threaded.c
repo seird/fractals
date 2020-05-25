@@ -8,6 +8,8 @@ fractal_avxf_get_colors_thread_worker(void * arg)
     HS_CMATRIX hc = targ->hc;
     struct FractalProperties * fp = targ->fp;
 
+    void (*fractal)(__m256 *, __m256 *, __m256 *, __m256 *, __m256 * , __m256 *) = fractal_avx_get(fp->frac);
+
     __m256 RR = _mm256_set1_ps(fp->R*fp->R);
     __m256 c_real = _mm256_set1_ps(fp->c_real);
     __m256 c_imag = _mm256_set1_ps(fp->c_imag);
@@ -27,7 +29,8 @@ fractal_avxf_get_colors_thread_worker(void * arg)
             fractal_avxf_get_vector_color(&hc->cmatrix[row][col], 
                                           &x_vec, &y_vec,
                                           &c_real, &c_imag,
-                                          &RR, fp->max_iterations);
+                                          &RR, fp->max_iterations,
+                                          fractal);
 
             x += VECFSIZE * x_step;
         }
