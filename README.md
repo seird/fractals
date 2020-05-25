@@ -36,6 +36,12 @@ bench_avx_threaded
 
 ## Examples
 
+![](images/example_ultra.png)
+
+![](images/example_zoom_ultra.gif)
+
+![](images/example_rotate_ultra.gif)
+
 ![](images/example_rotate.gif)
 
 ![](images/example_zoom1.gif)
