@@ -41,3 +41,5 @@ bench_avx_threaded
 ![](images/example_zoom1.gif)
 
 ![](images/example_zoom2.gif)
+
+![](images/example_julia_3_4.png)
