@@ -170,10 +170,13 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="gradient_monochrome.c" />
+    <ClCompile Include="gradient_ultra.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fractal_color.h" />
+    <ClInclude Include="gradients.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

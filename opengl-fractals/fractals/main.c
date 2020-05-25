@@ -8,6 +8,7 @@
 
 #include <GLFW\glfw3.h>
 #include "fractal_color.h"
+#include "gradients.h"
 
 
 #define PI 3.14159
@@ -119,7 +120,7 @@ main(int argc, char * argv[])
 		.x_step = x_step,
 		.y_start = y_start,
 		.y_step = y_step,
-		.frac = FRAC_JULIA_3,
+		.frac = FRAC_JULIA,
 		.c_real = 0,
 		.c_imag = 0,
 		.R = R_escape,
@@ -223,10 +224,8 @@ main(int argc, char * argv[])
 		glBegin(GL_POINTS);
 		for (int row = 0; row < WIDTH; ++row) {
 			for (int col = 0; col < HEIGHT; ++col) {
-				r = g = b = *fractal_cmatrix_value(hCmatrix, row, col) / max_color;
-				r *= 2;
-				//g *= 2;
-				b *= 2;
+				value_to_rgb_ultra(&r, &g, &b, (int)*fractal_cmatrix_value(hCmatrix, row, col));
+				//value_to_rgb_monochrome(&r, &g, &b, (int)*fractal_cmatrix_value(hCmatrix, row, col), max_color);
 
 				glColor3f(r, g, b);
 				glVertex2f(
@@ -243,6 +242,6 @@ main(int argc, char * argv[])
 	}
 
 	glfwDestroyWindow(window);
-	glfwTerminate;
+	glfwTerminate();
 	exit(EXIT_SUCCESS);
 }
