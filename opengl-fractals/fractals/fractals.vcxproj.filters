@@ -27,6 +27,9 @@
     <ClCompile Include="gradient_ultra.c">
       <Filter>gradients</Filter>
     </ClCompile>
+    <ClCompile Include="gradient_tri.c">
+      <Filter>gradients</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fractal_color.h">

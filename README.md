@@ -42,10 +42,4 @@ bench_avx_threaded
 
 ![](images/example_rotate_ultra.gif)
 
-![](images/example_rotate.gif)
-
-![](images/example_zoom1.gif)
-
-![](images/example_zoom2.gif)
-
-![](images/example_julia_3_4.png)
+![](images/example_gradients.png)

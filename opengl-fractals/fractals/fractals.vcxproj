@@ -171,6 +171,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="gradient_monochrome.c" />
+    <ClCompile Include="gradient_tri.c" />
     <ClCompile Include="gradient_ultra.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>

@@ -7,7 +7,7 @@
 
 
 void value_to_rgb_ultra(float * r, float * g, float * b, int value);
-void value_to_rgb_monochrome(float * r, float * g, float * b, int value, float max_color);
-
+void value_to_rgb_monochrome(float * r, float * g, float * b, int value);
+void value_to_rgb_tri(float * r, float * g, float * b, int value);
 
 #endif

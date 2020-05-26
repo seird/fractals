@@ -225,7 +225,8 @@ main(int argc, char * argv[])
 		for (int row = 0; row < WIDTH; ++row) {
 			for (int col = 0; col < HEIGHT; ++col) {
 				value_to_rgb_ultra(&r, &g, &b, (int)*fractal_cmatrix_value(hCmatrix, row, col));
-				//value_to_rgb_monochrome(&r, &g, &b, (int)*fractal_cmatrix_value(hCmatrix, row, col), max_color);
+				//value_to_rgb_tri(&r, &g, &b, (int)*fractal_cmatrix_value(hCmatrix, row, col));
+				//value_to_rgb_monochrome(&r, &g, &b, (int)*fractal_cmatrix_value(hCmatrix, row, col));
 
 				glColor3f(r, g, b);
 				glVertex2f(
