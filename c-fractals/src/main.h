@@ -17,6 +17,7 @@
 #include "compute_avx.h"
 
 
+#define COLORMAP_SIZE 16
 #define BLACK 0.0
 
 

@@ -1,5 +1,5 @@
 /*
-    fracal_color.h Library interface
+    fractal_color.h Library interface
 */
 
 #ifndef __FRACTAL_COLOR_H__
@@ -7,6 +7,7 @@
 
 
 #define FRACDTYPE float
+#define COLORMAP_SIZE 16
 
 
 /* Fractal functions */
@@ -58,5 +59,17 @@ void fractal_avxf_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp
 
 /* get the maximum color value */
 FRACDTYPE fractal_cmatrix_max(HCMATRIX hCmatrix);
+
+/* save a color matrix as jpg */
+void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename);
+
+/* convert a fractal value to rgb - ultra */
+void value_to_rgb_ultra(float * r, float * g, float * b, int value);
+
+/* convert a fractal value to rgb - monochrome */
+void value_to_rgb_monochrome(float * r, float * g, float * b, int value);
+
+/* convert a fractal value to rgb - tri */
+void value_to_rgb_tri(float * r, float * g, float * b, int value);
 
 #endif

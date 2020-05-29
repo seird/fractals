@@ -5,10 +5,10 @@
 int
 main(int argc, char * argv[])
 {    
-    FRACDTYPE c_real = -0.835f;
+    FRACDTYPE c_real = -0.7835f;
 	FRACDTYPE c_imag = -0.2321f;
 
-    FRACDTYPE _Complex c = -0.835 - 0.2321*I;
+    FRACDTYPE _Complex c = c_real + c_imag*I;
     FRACDTYPE R = ceilf(cabs(c)) + 1;
 
     int ROWS = 8*100;
@@ -47,7 +47,10 @@ main(int argc, char * argv[])
 
     //FRACDTYPE max_color = fractal_cmatrix_max(hCmatrix);
 
+    fractal_cmatrix_save(hCmatrix, "fractal.jpg");
+
     fractal_cmatrix_free(hCmatrix);
+
 	return 0;
 }
 #endif

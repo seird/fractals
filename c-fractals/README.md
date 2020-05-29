@@ -65,6 +65,30 @@ Include the library interface **fracal_color.h** in the project. Add the source 
     FRACDTYPE fractal_cmatrix_max(HCMATRIX hCmatrix);
     ```
 
+- Convert a fractal value to rgb - ultra
+
+    ```c
+    void value_to_rgb_ultra(float * r, float * g, float * b, int value);
+    ```
+
+- Convert a fractal value to rgb - monochrome
+
+    ```c
+    void value_to_rgb_monochrome(float * r, float * g, float * b, int value);
+    ```
+
+- Convert a fractal value to rgb - tri
+
+    ```c
+    void value_to_rgb_tri(float * r, float * g, float * b, int value);
+    ```
+
+- Save a color matrix as jpg
+
+    ```c
+    void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename);
+    ```
+    
 ### Structs
 
 - Parameters to pass to `fractal_get_colors`

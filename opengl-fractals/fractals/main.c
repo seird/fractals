@@ -8,7 +8,6 @@
 
 #include <GLFW\glfw3.h>
 #include "fractal_color.h"
-#include "gradients.h"
 
 
 #define PI 3.14159
@@ -95,7 +94,10 @@ main(int argc, char * argv[])
 	FRACDTYPE(__cdecl * fractal_cmatrix_max) (HCMATRIX hCmatrix) = GetProcAddress(hLib, "fractal_cmatrix_max");
 	HCMATRIX(__cdecl * fractal_cmatrix_create) (int ROWS, int COLS) = GetProcAddress(hLib, "fractal_cmatrix_create");
 	FRACDTYPE * (__cdecl * fractal_cmatrix_value) (HCMATRIX hCmatrix, int row, int col) = GetProcAddress(hLib, "fractal_cmatrix_value");
-	
+	void(__cdecl * value_to_rgb_ultra) (float * r, float * g, float * b) = GetProcAddress(hLib, "value_to_rgb_ultra");
+	void(__cdecl * value_to_rgb_monochrome) (float * r, float * g, float * b) = GetProcAddress(hLib, "value_to_rgb_monochrome");
+	void(__cdecl * value_to_rgb_tri) (float * r, float * g, float * b) = GetProcAddress(hLib, "value_to_rgb_tri");
+
 	if (!glfwInit()) {
 		exit(EXIT_FAILURE);
 	}
@@ -120,7 +122,7 @@ main(int argc, char * argv[])
 		.x_step = x_step,
 		.y_start = y_start,
 		.y_step = y_step,
-		.frac = FRAC_JULIA,
+		.frac = FRAC_JULIA_4,
 		.c_real = 0,
 		.c_imag = 0,
 		.R = R_escape,
@@ -218,7 +220,7 @@ main(int argc, char * argv[])
 		}
 
 		// Find the maximum color value in the matrix
-		FRACDTYPE max_color = fractal_cmatrix_max(hCmatrix);
+		//FRACDTYPE max_color = fractal_cmatrix_max(hCmatrix);
 
 		// Draw the fractal
 		glBegin(GL_POINTS);

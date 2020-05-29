@@ -1,5 +1,8 @@
 #include "main.h"
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
+
 
 HCMATRIX
 fractal_cmatrix_create(int ROWS, int COLS)
@@ -108,4 +111,28 @@ fractal_cmatrix_max(HCMATRIX hCmatrix)
         }
     }
     return max_color;
+}
+
+void
+fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename)
+{
+    HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
+
+    int comp = 3; // rgb
+    int quality = 100;
+
+    float pr, pg, pb;
+    char * data = malloc(hc->ROWS*hc->COLS*comp);
+    for (int r=0; r<hc->ROWS; ++r) {
+        for (int c=0; c<hc->COLS; ++c) {
+            value_to_rgb_ultra(&pr, &pg, &pb, (int)*fractal_cmatrix_value(hCmatrix, r, c));
+            data[r*(hc->COLS*3)+(c*3)] = (char) (pr*255);
+            data[r*(hc->COLS*3)+(c*3)+1] = (char) (pg*255);
+            data[r*(hc->COLS*3)+(c*3)+2] = (char) (pb*255);
+        }
+    }
+
+    stbi_write_jpg(filename, hc->COLS, hc->ROWS, comp, data, quality);
+
+    free(data);
 }

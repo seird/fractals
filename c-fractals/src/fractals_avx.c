@@ -85,6 +85,8 @@ fractal_avxf_julia_n(__m256 * result_real, __m256 * result_imag,
                        z_real, z_imag);
     }
 
+    
+
     // z_real*z_real + c_real
     *result_real = _mm256_add_ps(r_real, *c_real);
 
