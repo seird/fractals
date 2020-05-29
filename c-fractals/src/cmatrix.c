@@ -119,7 +119,6 @@ fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename)
     HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
 
     int comp = 3; // rgb
-    int quality = 100;
 
     float pr, pg, pb;
     char * data = malloc(hc->ROWS*hc->COLS*comp);
@@ -132,7 +131,7 @@ fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename)
         }
     }
 
-    stbi_write_jpg(filename, hc->COLS, hc->ROWS, comp, data, quality);
+    stbi_write_png(filename, hc->COLS, hc->ROWS, comp, data, 0);
 
     free(data);
 }

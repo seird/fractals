@@ -47,7 +47,7 @@ main(int argc, char * argv[])
 
     //FRACDTYPE max_color = fractal_cmatrix_max(hCmatrix);
 
-    fractal_cmatrix_save(hCmatrix, "fractal.jpg");
+    fractal_cmatrix_save(hCmatrix, "fractal.png");
 
     fractal_cmatrix_free(hCmatrix);
 

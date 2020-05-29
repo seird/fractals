@@ -83,7 +83,7 @@ Include the library interface **fracal_color.h** in the project. Add the source 
     void value_to_rgb_tri(float * r, float * g, float * b, int value);
     ```
 
-- Save a color matrix as jpg
+- Save a color matrix as png
 
     ```c
     void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename);
