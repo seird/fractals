@@ -100,6 +100,7 @@ Include the library interface **fracal_color.h** in the project. Add the source 
         FRACDTYPE y_start;
         FRACDTYPE y_step;
         enum Fractal frac;
+        enum Mode mode;
         FRACDTYPE c_real;
         FRACDTYPE c_imag;
         FRACDTYPE R;
@@ -111,9 +112,18 @@ Include the library interface **fracal_color.h** in the project. Add the source 
 
 ```c
 enum Fractal {
-    FRAC_JULIA,   // z^2 + c
-    FRAC_JULIA_3, // z^3 + c
-    FRAC_JULIA_4, // z^4 + c
+    FRAC_Z2, // z^2 + c
+    FRAC_Z3, // z^3 + c
+    FRAC_Z4, // z^4 + c
+};
+```
+
+### Modes
+
+```c
+enum Mode {
+    MODE_MANDELBROT,
+    MODE_JULIA,
 };
 ```
 

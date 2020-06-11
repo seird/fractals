@@ -14,7 +14,7 @@
 #define R_escape 2.0
 
 #define HEIGHT 1000
-#define WIDTH 1000
+#define WIDTH 1024
 #define MAX_ITERATIONS 1000
 
 #define PAN_STEP 15
@@ -122,7 +122,8 @@ main(int argc, char * argv[])
 		.x_step = x_step,
 		.y_start = y_start,
 		.y_step = y_step,
-		.frac = FRAC_JULIA_4,
+		.frac = FRAC_Z2,
+		.mode = MODE_MANDELBROT,
 		.c_real = 0,
 		.c_imag = 0,
 		.R = R_escape,

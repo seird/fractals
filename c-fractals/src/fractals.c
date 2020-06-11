@@ -35,13 +35,13 @@ FRACDTYPE _Complex (*fractal_get(enum Fractal frac))(FRACDTYPE _Complex, FRACDTY
     FRACDTYPE _Complex (*fptr)(FRACDTYPE _Complex, FRACDTYPE _Complex) = &fractal_julia;
     switch (frac) 
     {
-        case FRAC_JULIA: 
+        case FRAC_Z2: 
             fptr = &fractal_julia;
             break;
-        case FRAC_JULIA_3:
+        case FRAC_Z3:
             fptr = &fractal_julia_3;
             break;
-        case FRAC_JULIA_4:
+        case FRAC_Z4:
             fptr = &fractal_julia_4;
             break;
         default:

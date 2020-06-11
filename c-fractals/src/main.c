@@ -11,8 +11,8 @@ main(int argc, char * argv[])
     FRACDTYPE _Complex c = c_real + c_imag*I;
     FRACDTYPE R = ceilf(cabs(c)) + 1;
 
-    int ROWS = 8*100;
-    int COLS = 8*100;
+    int ROWS = 16*100;
+    int COLS = 16*100;
 
     HCMATRIX hCmatrix = fractal_cmatrix_create(1, 1);
     hCmatrix = fractal_cmatrix_reshape(hCmatrix, ROWS, COLS);
@@ -33,7 +33,8 @@ main(int argc, char * argv[])
         .x_step = x_step,
         .y_start = y_start,
         .y_step = y_step,
-        .frac = FRAC_JULIA_3,
+        .frac = FRAC_Z2,
+        .mode = MODE_JULIA,
         .c_real = c_real,
         .c_imag = c_imag,
         .R = R,

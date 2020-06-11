@@ -118,13 +118,13 @@ void (*fractal_avx_get(enum Fractal frac))(__m256 * result_real, __m256 * result
 
     switch (frac) 
     {
-        case FRAC_JULIA: 
+        case FRAC_Z2: 
             fptr = &fractal_avxf_julia;
             break;
-        case FRAC_JULIA_3:
+        case FRAC_Z3:
             fptr = &fractal_avxf_julia_3;
             break;
-        case FRAC_JULIA_4:
+        case FRAC_Z4:
             fptr = &fractal_avxf_julia_4;
             break;
         default:

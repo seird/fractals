@@ -7,14 +7,19 @@
 
 
 #define FRACDTYPE float
-#define COLORMAP_SIZE 16
 
 
 /* Fractal functions */
 enum Fractal {
-    FRAC_JULIA,   // z^2 + c
-    FRAC_JULIA_3, // z^3 + c
-    FRAC_JULIA_4, // z^4 + c
+    FRAC_Z2, // z^2 + c
+    FRAC_Z3, // z^3 + c
+    FRAC_Z4, // z^4 + c
+};
+
+/* Fractal modes */
+enum Mode {
+    MODE_MANDELBROT,
+    MODE_JULIA,
 };
 
 /* types */
@@ -26,6 +31,7 @@ struct FractalProperties {
     FRACDTYPE y_start;
     FRACDTYPE y_step;
     enum Fractal frac;
+    enum Mode mode;
     FRACDTYPE c_real;
     FRACDTYPE c_imag;
     FRACDTYPE R;
@@ -60,9 +66,6 @@ void fractal_avxf_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp
 /* get the maximum color value */
 FRACDTYPE fractal_cmatrix_max(HCMATRIX hCmatrix);
 
-/* save a color matrix as jpg */
-void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename);
-
 /* convert a fractal value to rgb - ultra */
 void value_to_rgb_ultra(float * r, float * g, float * b, int value);
 
@@ -71,5 +74,8 @@ void value_to_rgb_monochrome(float * r, float * g, float * b, int value);
 
 /* convert a fractal value to rgb - tri */
 void value_to_rgb_tri(float * r, float * g, float * b, int value);
+
+/* save a color matrix as jpg */
+void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename);
 
 #endif

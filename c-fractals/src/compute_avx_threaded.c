@@ -10,31 +10,71 @@ fractal_avxf_get_colors_thread_worker(void * arg)
 
     void (*fractal)(__m256 *, __m256 *, __m256 *, __m256 *, __m256 * , __m256 *) = fractal_avx_get(fp->frac);
 
-    __m256 RR = _mm256_set1_ps(fp->R*fp->R);
-    __m256 c_real = _mm256_set1_ps(fp->c_real);
-    __m256 c_imag = _mm256_set1_ps(fp->c_imag);
+    switch (fp->mode)
+    {
+        case MODE_JULIA:
+        {
+            __m256 RR = _mm256_set1_ps(fp->R*fp->R);
+            __m256 c_real = _mm256_set1_ps(fp->c_real);
+            __m256 c_imag = _mm256_set1_ps(fp->c_imag);
 
-    float x_step = fp->y_step;
-    FRACDTYPE y = fp->y_start;
-    for (int row=targ->row_start; row<targ->row_end; ++row) {
-        FRACDTYPE x = fp->x_start;
-        for (int col=0; col<hc->COLS; col+=VECFSIZE) {
-            __m256 y_vec = _mm256_set1_ps(y);
-            __m256 x_vec = _mm256_add_ps(
-                _mm256_set1_ps(x),
-                _mm256_set_ps(7*x_step, 6*x_step, 5*x_step, 4*x_step, 3*x_step, 2*x_step, x_step, 0) // Little endian
-                //_mm256_set_ps(0, x_step, 2*x_step, 3*x_step, 4*x_step, 5*x_step, 6*x_step, 7*x_step)
-            );
+            float x_step = fp->y_step;
+            FRACDTYPE y = fp->y_start;
+            for (int row=targ->row_start; row<targ->row_end; ++row) {
+                FRACDTYPE x = fp->x_start;
+                for (int col=0; col<hc->COLS; col+=VECFSIZE) {
+                    __m256 y_vec = _mm256_set1_ps(y);
+                    __m256 x_vec = _mm256_add_ps(
+                        _mm256_set1_ps(x),
+                        _mm256_set_ps(7*x_step, 6*x_step, 5*x_step, 4*x_step, 3*x_step, 2*x_step, x_step, 0) // Little endian
+                        //_mm256_set_ps(0, x_step, 2*x_step, 3*x_step, 4*x_step, 5*x_step, 6*x_step, 7*x_step)
+                    );
 
-            fractal_avxf_get_vector_color(&hc->cmatrix[row][col], 
-                                          &x_vec, &y_vec,
-                                          &c_real, &c_imag,
-                                          &RR, fp->max_iterations,
-                                          fractal);
+                    fractal_avxf_get_vector_color(&hc->cmatrix[row][col], 
+                                                &x_vec, &y_vec,
+                                                &c_real, &c_imag,
+                                                &RR, fp->max_iterations,
+                                                fractal);
 
-            x += VECFSIZE * x_step;
+                    x += VECFSIZE * x_step;
+                }
+                y += fp->y_step;
+            }
+            break;
         }
-        y += fp->y_step;
+        case MODE_MANDELBROT:
+        {
+            __m256 RR = _mm256_set1_ps(fp->R*fp->R);
+
+            float x_step = fp->y_step;
+            FRACDTYPE y = fp->y_start;
+            for (int row=targ->row_start; row<targ->row_end; ++row) {
+                FRACDTYPE x = fp->x_start;
+                for (int col=0; col<hc->COLS; col+=VECFSIZE) {
+                    // Start at z=0
+                    __m256 z_real = _mm256_set1_ps(0);
+                    __m256 z_imag = _mm256_set1_ps(0);
+
+                    __m256 c_real = _mm256_set1_ps(y);
+                    __m256 c_imag = _mm256_add_ps(
+                        _mm256_set1_ps(x),
+                        _mm256_set_ps(7*x_step, 6*x_step, 5*x_step, 4*x_step, 3*x_step, 2*x_step, x_step, 0) // Little endian
+                        //_mm256_set_ps(0, x_step, 2*x_step, 3*x_step, 4*x_step, 5*x_step, 6*x_step, 7*x_step)
+                    );
+
+                    fractal_avxf_get_vector_color(&hc->cmatrix[row][col], 
+                                                &z_real, &z_imag,
+                                                &c_real, &c_imag,
+                                                &RR, fp->max_iterations,
+                                                fractal);
+
+                    x += VECFSIZE * x_step;
+                }
+                y += fp->y_step;
+            }
+            break;
+        }
+        default: printf("Unsupported mode.\n");
     }
     return NULL;
 }
