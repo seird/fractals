@@ -59,7 +59,7 @@ fractal_avxf_get_vector_color(FRACDTYPE * color_array,
         escaped_so_far_mask = _mm256_or_ps(escaped_so_far_mask, escaped_this_iteration_mask);
 
         // break if all pixels have escaped
-        if (_mm256_movemask_ps(escaped_so_far_mask) == 0b11111111) break;
+        if (_mm256_movemask_ps(escaped_so_far_mask) == 255) break; // mask == 0b11111111
 
         // next fractal step
 		fractal(z_real, z_imag, z_real, z_imag, c_real, c_imag);

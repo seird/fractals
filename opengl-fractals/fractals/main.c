@@ -94,9 +94,7 @@ main(int argc, char * argv[])
 	FRACDTYPE(__cdecl * fractal_cmatrix_max) (HCMATRIX hCmatrix) = GetProcAddress(hLib, "fractal_cmatrix_max");
 	HCMATRIX(__cdecl * fractal_cmatrix_create) (int ROWS, int COLS) = GetProcAddress(hLib, "fractal_cmatrix_create");
 	FRACDTYPE * (__cdecl * fractal_cmatrix_value) (HCMATRIX hCmatrix, int row, int col) = GetProcAddress(hLib, "fractal_cmatrix_value");
-	void(__cdecl * value_to_rgb_ultra) (float * r, float * g, float * b) = GetProcAddress(hLib, "value_to_rgb_ultra");
-	void(__cdecl * value_to_rgb_monochrome) (float * r, float * g, float * b) = GetProcAddress(hLib, "value_to_rgb_monochrome");
-	void(__cdecl * value_to_rgb_tri) (float * r, float * g, float * b) = GetProcAddress(hLib, "value_to_rgb_tri");
+	void(__cdecl * fractal_value_to_color) (float * r, float * g, float * b, enum Color color) = GetProcAddress(hLib, "fractal_value_to_color");
 
 	if (!glfwInit()) {
 		exit(EXIT_FAILURE);
@@ -227,9 +225,7 @@ main(int argc, char * argv[])
 		glBegin(GL_POINTS);
 		for (int row = 0; row < WIDTH; ++row) {
 			for (int col = 0; col < HEIGHT; ++col) {
-				value_to_rgb_ultra(&r, &g, &b, (int)*fractal_cmatrix_value(hCmatrix, row, col));
-				//value_to_rgb_tri(&r, &g, &b, (int)*fractal_cmatrix_value(hCmatrix, row, col));
-				//value_to_rgb_monochrome(&r, &g, &b, (int)*fractal_cmatrix_value(hCmatrix, row, col));
+				fractal_value_to_color(&r, &g, &b, (int)*fractal_cmatrix_value(hCmatrix, row, col), COLOR_ULTRA);
 
 				glColor3f(r, g, b);
 				glVertex2f(

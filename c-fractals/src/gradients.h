@@ -14,7 +14,7 @@ void value_to_rgb_monochrome(float * r, float * g, float * b, int value);
 /* convert a fractal value to rgb - tri */
 void value_to_rgb_tri(float * r, float * g, float * b, int value);
 
-/*  */
+/* get a color function */
 void (*colorfunc_get(enum Color color))(float * r, float * g, float * b, int value);
 
 

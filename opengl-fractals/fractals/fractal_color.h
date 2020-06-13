@@ -6,7 +6,9 @@
 #define __FRACTAL_COLOR_H__
 
 
+#ifndef FRACDTYPE
 #define FRACDTYPE float
+#endif
 
 
 /* Fractal functions */
@@ -20,6 +22,14 @@ enum Fractal {
 enum Mode {
     MODE_MANDELBROT,
     MODE_JULIA,
+    MODE_BUDDHABROT,
+};
+
+/* Color modes to convert CMATRIX values to */
+enum Color {
+    COLOR_ULTRA,
+    COLOR_MONOCHROME,
+    COLOR_TRI,
 };
 
 /* types */
@@ -66,16 +76,10 @@ void fractal_avxf_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp
 /* get the maximum color value */
 FRACDTYPE fractal_cmatrix_max(HCMATRIX hCmatrix);
 
-/* convert a fractal value to rgb - ultra */
-void value_to_rgb_ultra(float * r, float * g, float * b, int value);
-
-/* convert a fractal value to rgb - monochrome */
-void value_to_rgb_monochrome(float * r, float * g, float * b, int value);
-
-/* convert a fractal value to rgb - tri */
-void value_to_rgb_tri(float * r, float * g, float * b, int value);
-
 /* save a color matrix as jpg */
-void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename);
+void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum Color color);
+
+/* convert a cmatrix value to rgb */
+void fractal_value_to_color(float * r, float * g, float * b, int value, enum Color color);
 
 #endif

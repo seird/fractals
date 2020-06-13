@@ -79,6 +79,8 @@ FRACDTYPE fractal_cmatrix_max(HCMATRIX hCmatrix);
 /* save a color matrix as jpg */
 void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum Color color);
 
+/* convert a cmatrix value to rgb */
 void fractal_value_to_color(float * r, float * g, float * b, int value, enum Color color);
+
 
 #endif
