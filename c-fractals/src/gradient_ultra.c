@@ -4,7 +4,7 @@
 void
 value_to_rgb_ultra(float * r, float * g, float * b, int value)
 {
-    float colormap[COLORMAP_SIZE][3] = {
+    static const float colormap[COLORMAP_SIZE][3] = {
         {66, 30, 15},
         {25, 7, 26},
         {9, 1, 47},

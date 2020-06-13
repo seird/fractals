@@ -4,7 +4,7 @@
 void
 value_to_rgb_monochrome(float * r, float * g, float * b, int value)
 {
-    float colormap[COLORMAP_SIZE][3] = {
+    static const float colormap[COLORMAP_SIZE][3] = {
         {50, 50, 50},
         {60, 60, 60},
         {70, 70, 70},

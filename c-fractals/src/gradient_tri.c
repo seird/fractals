@@ -4,7 +4,7 @@
 void
 value_to_rgb_tri(float * r, float * g, float * b, int value)
 {
-    float colormap[3][3] = {
+    static const float colormap[3][3] = {
         {255, 150, 150},
         {150, 255, 150},
         {150, 150, 255},

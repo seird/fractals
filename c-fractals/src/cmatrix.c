@@ -114,7 +114,7 @@ fractal_cmatrix_max(HCMATRIX hCmatrix)
 }
 
 void
-fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename)
+fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum Color color)
 {
     HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
 
@@ -124,7 +124,7 @@ fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename)
     char * data = malloc(hc->ROWS*hc->COLS*comp);
     for (int r=0; r<hc->ROWS; ++r) {
         for (int c=0; c<hc->COLS; ++c) {
-            value_to_rgb_ultra(&pr, &pg, &pb, (int)*fractal_cmatrix_value(hCmatrix, r, c));
+            fractal_value_to_color(&pr, &pg, &pb, (int)*fractal_cmatrix_value(hCmatrix, r, c), color);
             data[r*(hc->COLS*3)+(c*3)] = (char) (pr*255);
             data[r*(hc->COLS*3)+(c*3)+1] = (char) (pg*255);
             data[r*(hc->COLS*3)+(c*3)+2] = (char) (pb*255);
