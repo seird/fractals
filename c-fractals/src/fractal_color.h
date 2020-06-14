@@ -76,7 +76,7 @@ void fractal_avxf_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp
 /* get the maximum color value */
 FRACDTYPE fractal_cmatrix_max(HCMATRIX hCmatrix);
 
-/* save a color matrix as jpg */
+/* save a color matrix as png */
 void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum Color color);
 
 /* convert a cmatrix value to rgb */
