@@ -159,11 +159,11 @@ def fractal_cmatrix_max(hCmatrix: HCMATRIX) -> float:
     """
     return fractal_cmatrix_max_wrapped(hCmatrix)
 
-def fractal_cmatrix_save(hCmatrix: HCMATRIX, filename: bytes, color: Color) -> None:
+def fractal_cmatrix_save(hCmatrix: HCMATRIX, filename: str, color: Color) -> None:
     """
     Save a color matrix as png
     """
-    return fractal_cmatrix_save_wrapped(hCmatrix, filename, c_int(color.value))
+    return fractal_cmatrix_save_wrapped(hCmatrix, filename.encode('utf-8'), c_int(color.value))
 
 def fractal_value_to_color(value: int, color: Color) -> Tuple[float, float, float]:
     """
