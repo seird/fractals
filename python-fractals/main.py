@@ -18,6 +18,10 @@ if __name__ == "__main__":
         #pf.fractal_avxf_get_colors(hCmatrix, properties)
         pf.fractal_avxf_get_colors_th(hCmatrix, properties, 12)
 
+        m = pf.fractal_cmatrix_max(hCmatrix)
+        print(f"max = {m:.5f}")
+        print("pixel =", pf.fractal_value_to_color(m, pf.Color.MONOCHROME))
+
         elapsed = time.time() - start
         print(f"[{i}]: {elapsed} seconds.")
         elapsed_total += elapsed

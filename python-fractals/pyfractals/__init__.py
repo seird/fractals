@@ -1,21 +1,22 @@
+import errno
 import os
 import platform
-import sys
 from ctypes import (CDLL, POINTER, Structure, byref, c_char_p, c_float, c_int,
                     c_void_p, cast)
+from typing import List, Tuple
+
 
 from .datatypes import *
 
 lib_path = os.path.join(os.path.dirname(__file__), f"resources/libfractal_{platform.system()}.dll")
 
 if not os.path.exists(lib_path):
-    print(f"Error:\n\tresources/libfractal_{platform.system()}.dll was not found.")
-    sys.exit(1)
+    raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), lib_path)
 
 lib = CDLL(lib_path)
 
 
-def wrap_lib_function(fname, argtypes=[], restype=[]):
+def wrap_lib_function(fname, argtypes: List = [], restype=None):
     func = getattr(lib, fname)
     if not func:
         return None
@@ -28,69 +29,69 @@ def wrap_lib_function(fname, argtypes=[], restype=[]):
 fractal_cmatrix_create_wrapped = wrap_lib_function(
     "fractal_cmatrix_create",
     argtypes = [c_int, c_int],
-    restype  = c_void_p
+    restype  = HCMATRIX
 )
 
 # HCMATRIX fractal_cmatrix_reshape(HCMATRIX hCmatrix, int ROWS_new, int COLS_new);
 fractal_cmatrix_reshape_wrapped = wrap_lib_function(
     "fractal_cmatrix_reshape",
-    argtypes = [c_void_p, c_int, c_int],
-    restype  = c_void_p
+    argtypes = [HCMATRIX, c_int, c_int],
+    restype  = HCMATRIX
 )
 
 # void fractal_cmatrix_free(HCMATRIX hCmatrix);
 fractal_cmatrix_free_wrapped = wrap_lib_function(
     "fractal_cmatrix_free",
-    argtypes = [c_void_p],
+    argtypes = [HCMATRIX],
     restype  = None
 )
 
 # float * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
 fractal_cmatrix_value_wrapped = wrap_lib_function(
     "fractal_cmatrix_value",
-    argtypes = [c_void_p, c_int, c_int],
+    argtypes = [HCMATRIX, c_int, c_int],
     restype  = c_float_p
 )
 
 # void fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
 fractal_get_colors_wrapped = wrap_lib_function(
     "fractal_get_colors",
-    argtypes = [c_void_p, POINTER(FractalProperties)],
+    argtypes = [HCMATRIX, POINTER(FractalProperties)],
     restype  = None
 )
 
 # void fractal_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads);
 fractal_get_colors_th_wrapped = wrap_lib_function(
     "fractal_get_colors_th",
-    argtypes = [c_void_p, POINTER(FractalProperties), c_int],
+    argtypes = [HCMATRIX, POINTER(FractalProperties), c_int],
     restype  = None
 )
 
 # void fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
 fractal_avxf_get_colors_wrapped = wrap_lib_function(
     "fractal_avxf_get_colors",
-    argtypes = [c_void_p, POINTER(FractalProperties)],
+    argtypes = [HCMATRIX, POINTER(FractalProperties)],
     restype  = None
 )
 
 # void fractal_avxf_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads);
 fractal_avxf_get_colors_th_wrapped = wrap_lib_function(
     "fractal_avxf_get_colors_th",
-    argtypes = [c_void_p, POINTER(FractalProperties), c_int],
+    argtypes = [HCMATRIX, POINTER(FractalProperties), c_int],
     restype  = None
 )
 
 # float fractal_cmatrix_max(HCMATRIX hCmatrix);
 fractal_cmatrix_max_wrapped = wrap_lib_function(
     "fractal_cmatrix_max",
-    argtypes = [c_void_p],
-    restype  = c_float_p
+    argtypes = [HCMATRIX],
+    restype  = c_float
 )
 
 # void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum Color color);
 fractal_cmatrix_save_wrapped = wrap_lib_function(
     "fractal_cmatrix_save",
-    argtypes = [c_void_p, c_char_p, c_int],
+    argtypes = [HCMATRIX, c_char_p, c_int],
     restype  = None
 )
 
@@ -103,17 +104,17 @@ fractal_value_to_color_wrapped = wrap_lib_function(
 
 
 
-def fractal_cmatrix_create(ROWS:int, COLS:int) -> HCMATRIX:
+def fractal_cmatrix_create(rows: int, cols: int) -> HCMATRIX:
     """
     Create a color matrix
     """
-    return fractal_cmatrix_create_wrapped(c_int(ROWS), c_int(COLS))
+    return fractal_cmatrix_create_wrapped(c_int(rows), c_int(cols))
 
-def fractal_cmatrix_reshape(hCmatrix: HCMATRIX, ROWS_new: int, COLS_new: int) -> HCMATRIX:
+def fractal_cmatrix_reshape(hCmatrix: HCMATRIX, rows_new: int, cols_new: int) -> HCMATRIX:
     """
     Reshape a color matrix
     """
-    return fractal_cmatrix_reshape_wrapped(hCmatrix, c_int(ROWS_new), c_int(COLS_new))
+    return fractal_cmatrix_reshape_wrapped(hCmatrix, c_int(rows_new), c_int(cols_new))
 
 def fractal_cmatrix_free(hCmatrix: HCMATRIX) -> None:
     """
@@ -156,8 +157,7 @@ def fractal_cmatrix_max(hCmatrix: HCMATRIX) -> float:
     """
     Get the maximum color value
     """
-    f_p = fractal_cmatrix_max_wrapped(hCmatrix)
-    return cast(f_p, c_float_p).contents.value
+    return fractal_cmatrix_max_wrapped(hCmatrix)
 
 def fractal_cmatrix_save(hCmatrix: HCMATRIX, filename: bytes, color: Color) -> None:
     """
@@ -165,8 +165,12 @@ def fractal_cmatrix_save(hCmatrix: HCMATRIX, filename: bytes, color: Color) -> N
     """
     return fractal_cmatrix_save_wrapped(hCmatrix, filename, c_int(color.value))
 
-def fractal_value_to_color(r_p: c_float_p, g_p: c_float_p, b_p: c_float_p, value: c_int, color: Color) -> None:
+def fractal_value_to_color(value: int, color: Color) -> Tuple[float, float, float]:
     """
     Convert a cmatrix value to rgb
     """
-    return fractal_value_to_color_wrapped(r_p, g_p, b_p, value, c_int(color.value))
+    r = c_float(0.0)
+    g = c_float(0.0)
+    b = c_float(0.0)
+    fractal_value_to_color_wrapped(byref(r), byref(g), byref(b), c_int(int(value)), c_int(color.value))
+    return (r.value, g.value, b.value)
