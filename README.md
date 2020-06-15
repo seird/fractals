@@ -21,21 +21,25 @@ Benchmarking ...
         COLUMNS            =                 1000
         C_REAL             =            -0.788485
         C_IMAG             =             0.004913
+        MODE               =                    1
+        FRACTAL            =                    0
 
 bench_default
-          1.174300 seconds per run [11.743000 seconds total]
+          1.173700 seconds per run [11.737000 seconds total]
 
 bench_threaded
-          0.576600 seconds per run [5.765999 seconds total]
+          0.581400 seconds per run [5.814001 seconds total]
 
 bench_avx
-          0.048300 seconds per run [0.483002 seconds total]
+          0.086600 seconds per run [0.865999 seconds total]
 
 bench_avx_threaded
-          0.032600 seconds per run [0.326000 seconds total]
+          0.043200 seconds per run [0.431999 seconds total]
 ```
 
 ## Examples
+
+![](python-fractals/images/gui_example.gif)
 
 ![](images/example_ultra.png)
 

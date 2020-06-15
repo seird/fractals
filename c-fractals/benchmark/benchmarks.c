@@ -1,13 +1,14 @@
 #include "benchmarks.h"
 
 
-int MAX_ITERATIONS = 1000;
-int ROWS           = 1000;
-int COLS           = 1000;
-float C_REAL       = -0.788485;//-0.835f
-float C_IMAG       = 0.004913;//-0.2321f
-int NUM_THREADS    = 6;
-
+int MAX_ITERATIONS   = 1000;
+int ROWS             = 1000;
+int COLS             = 1000;
+float C_REAL         = -0.788485;//-0.835f
+float C_IMAG         = 0.004913;//-0.2321f
+int NUM_THREADS      = 6;
+enum Mode MODE       = MODE_JULIA;
+enum Fractal FRACTAL = FRAC_Z2;
 
 int
 main(void)
@@ -22,6 +23,8 @@ main(void)
     printf("\tCOLUMNS            = %20d\n", COLS);
     printf("\tC_REAL             = %20f\n", C_REAL);
     printf("\tC_IMAG             = %20f\n", C_IMAG);
+    printf("\tMODE               = %20d\n", MODE);
+    printf("\tFRACTAL            = %20d\n", FRACTAL);
     putchar('\n');
 
     BENCH_RUN(bench_default, num_runs);
