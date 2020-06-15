@@ -41,6 +41,10 @@ bench_avx_threaded
 
 ![](python-fractals/images/gui_example.gif)
 
+![](images/example_iteration_1.gif)
+
+![](images/example_iteration_2.gif)
+
 ![](images/example_ultra.png)
 
 ![](images/example_zoom_ultra.gif)

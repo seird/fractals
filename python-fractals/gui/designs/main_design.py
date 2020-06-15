@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'designs/main.ui'
+# Form implementation generated from reading ui file 'gui/designs/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.0
 #
@@ -14,7 +14,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(772, 746)
+        MainWindow.resize(772, 755)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
+        MainWindow.setSizePolicy(sizePolicy)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.centralwidget)
@@ -83,6 +88,18 @@ class Ui_MainWindow(object):
         self.radio_color_tri.setObjectName("radio_color_tri")
         self.formLayout_6.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.radio_color_tri)
         self.verticalLayout.addWidget(self.groupBox_Color)
+        self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
+        self.groupBox.setMaximumSize(QtCore.QSize(200, 16777215))
+        self.groupBox.setObjectName("groupBox")
+        self.gridLayout = QtWidgets.QGridLayout(self.groupBox)
+        self.gridLayout.setObjectName("gridLayout")
+        self.spin_iterations = QtWidgets.QSpinBox(self.groupBox)
+        self.spin_iterations.setMinimum(1)
+        self.spin_iterations.setMaximum(2000)
+        self.spin_iterations.setProperty("value", 1000)
+        self.spin_iterations.setObjectName("spin_iterations")
+        self.gridLayout.addWidget(self.spin_iterations, 0, 0, 1, 1)
+        self.verticalLayout.addWidget(self.groupBox)
         self.groupBox_C = QtWidgets.QGroupBox(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
@@ -102,7 +119,7 @@ class Ui_MainWindow(object):
         self.label.setObjectName("label")
         self.verticalLayout_2.addWidget(self.label)
         self.slider_real = QtWidgets.QSlider(self.groupBox_C)
-        self.slider_real.setMinimumSize(QtCore.QSize(0, 300))
+        self.slider_real.setMinimumSize(QtCore.QSize(0, 250))
         self.slider_real.setMinimum(-100)
         self.slider_real.setMaximum(100)
         self.slider_real.setOrientation(QtCore.Qt.Vertical)
@@ -119,7 +136,7 @@ class Ui_MainWindow(object):
         self.label_2.setObjectName("label_2")
         self.verticalLayout_3.addWidget(self.label_2)
         self.slider_imag = QtWidgets.QSlider(self.groupBox_C)
-        self.slider_imag.setMinimumSize(QtCore.QSize(0, 300))
+        self.slider_imag.setMinimumSize(QtCore.QSize(0, 250))
         self.slider_imag.setMinimum(-100)
         self.slider_imag.setMaximum(100)
         self.slider_imag.setSingleStep(1)
@@ -131,9 +148,10 @@ class Ui_MainWindow(object):
         self.label_imag.setObjectName("label_imag")
         self.verticalLayout_3.addWidget(self.label_imag)
         self.horizontalLayout.addLayout(self.verticalLayout_3)
-        self.gridLayout_2.addLayout(self.horizontalLayout, 0, 0, 1, 1)
+        self.gridLayout_2.addLayout(self.horizontalLayout, 1, 0, 1, 1)
         self.verticalLayout.addWidget(self.groupBox_C)
         self.pb_reset = QtWidgets.QPushButton(self.centralwidget)
+        self.pb_reset.setMaximumSize(QtCore.QSize(200, 16777215))
         self.pb_reset.setObjectName("pb_reset")
         self.verticalLayout.addWidget(self.pb_reset)
         self.frame = QtWidgets.QFrame(self.centralwidget)
@@ -152,6 +170,7 @@ class Ui_MainWindow(object):
         self.layout_display.setObjectName("layout_display")
         self.label_display = QtWidgets.QLabel(self.centralwidget)
         self.label_display.setText("")
+        self.label_display.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_display.setObjectName("label_display")
         self.layout_display.addWidget(self.label_display, 0, 0, 1, 1)
         self.gridLayout_3.addLayout(self.layout_display, 0, 1, 1, 1)
@@ -179,6 +198,7 @@ class Ui_MainWindow(object):
         self.radio_color_ultra.setText(_translate("MainWindow", "Ultra"))
         self.radio_color_monochrome.setText(_translate("MainWindow", "Monochrome"))
         self.radio_color_tri.setText(_translate("MainWindow", "Tri"))
+        self.groupBox.setTitle(_translate("MainWindow", "Iterations"))
         self.label.setText(_translate("MainWindow", "Real"))
         self.label_2.setText(_translate("MainWindow", "Imag"))
         self.pb_reset.setText(_translate("MainWindow", "Reset"))

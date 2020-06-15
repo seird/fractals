@@ -16,8 +16,8 @@ import pyfractals as pf
 
 from .designs.main_design import Ui_MainWindow
 
-ROWS = 700
-COLS = 700
+ROWS = 1000
+COLS = 1000
 
 C_REAL_RANGE = 4
 C_IMAG_RANGE = 4
@@ -49,6 +49,8 @@ class Window(QtWidgets.QMainWindow, Ui_MainWindow):
         self.mode = pf.Mode.JULIA
 
         self.label_display.resize(ROWS, COLS)
+        #self.resize(0,0)
+        self.setFixedSize(0, 0)
 
     def reset(self):
         self.c_real = 0
@@ -57,11 +59,13 @@ class Window(QtWidgets.QMainWindow, Ui_MainWindow):
         self.x_end = 2
         self.y_start = -2
         self.y_end = 2
+        self.iterations = 500
 
         self.slider_real.setValue(self.c_real)
         self.label_real.setText(f"{self.c_real:5.2f}")
         self.slider_imag.setValue(self.c_imag)
         self.label_imag.setText(f"{self.c_imag:5.2f}")
+        self.spin_iterations.setValue(self.iterations)
 
         self.compute()
 
@@ -88,19 +92,24 @@ class Window(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_imag.setText(f"{self.c_imag:5.2f}")
         if self.mode == pf.Mode.JULIA:
             self.compute()
+
+    def update_iterations(self, spinbox: QtWidgets.QSpinBox):
+        self.iterations = spinbox.value()
+        self.compute()
         
     def compute(self):
         fractal_properties = pf.FractalProperties(
-            mode    = self.mode,
-            fractal = self.fractal,
-            c_real  = self.c_real,
-            c_imag  = self.c_imag,
-            x_start = self.x_start,
-            x_end   = self.x_end,
-            y_start = self.y_start,
-            y_end   = self.y_end,
-            x_size  = COLS,
-            y_size  = ROWS,
+            mode           = self.mode,
+            fractal        = self.fractal,
+            c_real         = self.c_real,
+            c_imag         = self.c_imag,
+            x_start        = self.x_start,
+            x_end          = self.x_end,
+            y_start        = self.y_start,
+            y_end          = self.y_end,
+            x_size         = COLS,
+            y_size         = ROWS,
+            max_iterations = self.iterations,
         )
         pf.fractal_avxf_get_colors_th(self.hCmatrix, fractal_properties, 12)
         pf.fractal_cmatrix_save(self.hCmatrix, "fractal_temp.png", self.color)
@@ -121,6 +130,8 @@ class Window(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.slider_real.valueChanged.connect(lambda: self.update_c_real(self.slider_real))
         self.slider_imag.valueChanged.connect(lambda: self.update_c_imag(self.slider_imag))
+
+        self.spin_iterations.valueChanged.connect(lambda: self.update_iterations(self.spin_iterations))
 
         self.pb_reset.clicked.connect(self.reset)
 
