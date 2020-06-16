@@ -142,8 +142,12 @@ class Window(QtWidgets.QMainWindow, Ui_MainWindow):
 def main():
     app = QtWidgets.QApplication(sys.argv)
 
+    with open("gui/styles/dark.css", "r") as f:
+        stylesheet = f.read()
+        app.setStyleSheet(stylesheet)
+    
     window = Window()
-
+    
     sys.exit(app.exec_())
 
 if __name__ == '__main__':    

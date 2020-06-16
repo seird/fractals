@@ -1,0 +1,28 @@
+QWidget {
+    background-color: darkslategray;
+    color: white;
+}
+
+
+QPushButton {
+    background-color: rgb(20, 153, 158);
+    border-style: outset;
+    border-width: 2px;
+    border-radius: 10px;
+    border-color: beige;
+    font: bold 14px;
+    padding: 6px;
+}
+
+QPushButton:hover {
+    background: rgb(97, 97, 97);
+}
+
+QPushButton:pressed {
+    background: green;
+}
+
+
+QSpinBox:hover {
+    background: rgb(97, 97, 97);
+}
