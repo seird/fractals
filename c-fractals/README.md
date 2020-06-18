@@ -100,9 +100,12 @@ Include the library interface **fracal_color.h** in the project. Add the source 
 
 ```c
 enum Fractal {
-    FRAC_Z2, // z^2 + c
-    FRAC_Z3, // z^3 + c
-    FRAC_Z4, // z^4 + c
+    FRAC_Z2,     // z^2 + c
+    FRAC_Z3,     // z^3 + c
+    FRAC_Z4,     // z^4 + c
+    FRAC_ZCONJ2, // (conj(z))^2 + c
+    FRAC_ZCONJ3, // (conj(z))^3 + c
+    FRAC_ZCONJ4, // (conj(z))^4 + c
 };
 ```
 

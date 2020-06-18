@@ -3,7 +3,7 @@
 
 MU_TEST(test_avx_vector_color)
 {
-    float colors_avx[VECFSIZE] = {0};
+    float __attribute__((aligned(AVX_ALIGNMENT))) colors_avx[VECFSIZE] = {0};
     float colors[VECFSIZE] = {0};
 
     float R = 2.0;

@@ -101,6 +101,45 @@
            </property>
           </widget>
          </item>
+         <item row="3" column="0">
+          <widget class="QRadioButton" name="radio_fractal_zconj2">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>conj(z)^2 + c</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QRadioButton" name="radio_fractal_zconj3">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>conj(z)^3 + c</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QRadioButton" name="radio_fractal_zconj4">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>conj(z)^4 + c</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>

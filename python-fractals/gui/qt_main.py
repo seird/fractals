@@ -127,6 +127,9 @@ class Window(QtWidgets.QMainWindow, Ui_MainWindow):
         self.radio_fractal_z2.clicked.connect(lambda: self.update_fractal(pf.Fractal.Z2))
         self.radio_fractal_z3.clicked.connect(lambda: self.update_fractal(pf.Fractal.Z3))
         self.radio_fractal_z4.clicked.connect(lambda: self.update_fractal(pf.Fractal.Z4))
+        self.radio_fractal_zconj2.clicked.connect(lambda: self.update_fractal(pf.Fractal.ZCONJ2))
+        self.radio_fractal_zconj3.clicked.connect(lambda: self.update_fractal(pf.Fractal.ZCONJ3))
+        self.radio_fractal_zconj4.clicked.connect(lambda: self.update_fractal(pf.Fractal.ZCONJ4))
 
         self.slider_real.valueChanged.connect(lambda: self.update_c_real(self.slider_real))
         self.slider_imag.valueChanged.connect(lambda: self.update_c_imag(self.slider_imag))

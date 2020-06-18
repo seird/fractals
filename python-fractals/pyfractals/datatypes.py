@@ -9,9 +9,12 @@ c_float_p = POINTER(c_float)
 
 
 class Fractal(Enum):
-    Z2 = 0
-    Z3 = 1
-    Z4 = 2
+    Z2     = 0
+    Z3     = 1
+    Z4     = 2
+    ZCONJ2 = 3
+    ZCONJ3 = 4
+    ZCONJ4 = 5
 
 
 class Mode(Enum):

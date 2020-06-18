@@ -18,13 +18,13 @@ MU_TEST(test_avx_julia)
 
     // Compute the avx result
     __m256 result_real_vec, result_imag_vec;
-    fractal_avxf_julia(&result_real_vec, &result_imag_vec, &z_real_vec, &z_imag_vec, &c_real_vec, &c_imag_vec);
+    fractal_avxf_z2(&result_real_vec, &result_imag_vec, &z_real_vec, &z_imag_vec, &c_real_vec, &c_imag_vec);
 
     for (int i=0; i<VECFSIZE; ++i) {
         // Compute the reference result
         float _Complex z = z_real_array[i] + z_imag_array[i] * I;
         float _Complex c = c_real_array[i] + c_imag_array[i] * I;
-        float _Complex result = fractal_julia(z, c);
+        float _Complex result = fractal_z2(z, c);
 
         // Compare the reference result with the avx result
         MU_CHECK(crealf(result) == ((float *)&result_real_vec)[i]);

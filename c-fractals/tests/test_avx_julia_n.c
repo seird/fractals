@@ -23,11 +23,11 @@ MU_TEST(test_avx_julia_n)
 
     // Compute the reference julia result
     __m256 result_real_vec, result_imag_vec;
-    fractal_avxf_julia(&result_real_vec, &result_imag_vec, &z_real_vec, &z_imag_vec, &c_real_vec, &c_imag_vec);
+    fractal_avxf_z2(&result_real_vec, &result_imag_vec, &z_real_vec, &z_imag_vec, &c_real_vec, &c_imag_vec);
 
     // Compute the julia_n result for n = 2
     __m256 result_real_n_vec, result_imag_n_vec;
-    fractal_avxf_julia_n(&result_real_n_vec, &result_imag_n_vec, &z_real_n_vec, &z_imag_n_vec, &c_real_n_vec, &c_imag_n_vec, 2);
+    fractal_avxf_zn(&result_real_n_vec, &result_imag_n_vec, &z_real_n_vec, &z_imag_n_vec, &c_real_n_vec, &c_imag_n_vec, 2);
 
     for (int i=0; i<VECFSIZE; ++i) {
         // Compare the reference julia result with the julia_n result

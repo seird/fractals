@@ -97,10 +97,10 @@ fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
                     );
 
                     fractal_avxf_get_vector_color(&hc->cmatrix[row][col], 
-                                                &x_vec, &y_vec,
-                                                &c_real, &c_imag,
-                                                &RR, fp->max_iterations,
-                                                fractal);
+                                                  &x_vec, &y_vec,
+                                                  &c_real, &c_imag,
+                                                  &RR, fp->max_iterations,
+                                                  fractal);
 
                     x += VECFSIZE * x_step;
                 }
