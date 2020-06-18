@@ -50,6 +50,23 @@ void fractal_avxf_zconj4(__m256 * result_real, __m256 * result_imag,
                          __m256 * c_real, __m256 * c_imag);
 
 
+void fractal_avxf_zabs2(__m256 * result_real, __m256 * result_imag, 
+                        __m256 * z_real, __m256 * z_imag, 
+                        __m256 * c_real, __m256 * c_imag);
+
+void fractal_avxf_zabsn(__m256 * result_real, __m256 * result_imag, 
+                         __m256 * z_real, __m256 * z_imag, 
+                         __m256 * c_real, __m256 * c_imag,
+                         int n);
+
+void fractal_avxf_zabs3(__m256 * result_real, __m256 * result_imag, 
+                         __m256 * z_real, __m256 * z_imag, 
+                         __m256 * c_real, __m256 * c_imag);
+
+void fractal_avxf_zabs4(__m256 * result_real, __m256 * result_imag, 
+                         __m256 * z_real, __m256 * z_imag, 
+                         __m256 * c_real, __m256 * c_imag);
+
 void (*fractal_avx_get(enum Fractal frac))(__m256 * result_real, __m256 * result_imag, 
                                            __m256 * z_real, __m256 * z_imag, 
                                            __m256 * c_real, __m256 * c_imag);

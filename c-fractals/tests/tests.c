@@ -15,6 +15,8 @@ ALL_TESTS()
     MU_RUN_TEST(test_avx_julia_n);
     MU_RUN_TEST(test_avx_escape);
     MU_RUN_TEST(test_avx_vector_color);
+    MU_RUN_TEST(test_avx_conj_n);
+    MU_RUN_TEST(test_avx_abs_n);
 }
 
 int
