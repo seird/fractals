@@ -106,6 +106,9 @@ enum Fractal {
     FRAC_ZCONJ2, // (conj(z))^2 + c
     FRAC_ZCONJ3, // (conj(z))^3 + c
     FRAC_ZCONJ4, // (conj(z))^4 + c
+    FRAC_ZABS2, // (abs(z_real) + abs(c_real)*j)^2 + c
+    FRAC_ZABS3, // (abs(z_real) + abs(c_real)*j)^3 + c
+    FRAC_ZABS4, // (abs(z_real) + abs(c_real)*j)^4 + c
 };
 ```
 

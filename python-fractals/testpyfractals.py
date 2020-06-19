@@ -19,7 +19,7 @@ if __name__ == "__main__":
         c_imag = 0.7885 * math.sin(counter / (2 * math.pi))
         counter += 0.1
 
-        properties = pf.FractalProperties(x_size=COLS, y_size=ROWS, fractal=pf.Fractal.Z2, mode=pf.Mode.MANDELBROT, c_real=c_real, c_imag=c_imag)
+        properties = pf.FractalProperties(x_size=COLS, y_size=ROWS, fractal=pf.Fractal.Z2, mode=pf.Mode.JULIA, c_real=c_real, c_imag=c_imag)
 
         #pf.fractal_avxf_get_colors(hCmatrix, properties)
         pf.fractal_avxf_get_colors_th(hCmatrix, properties, 12)
