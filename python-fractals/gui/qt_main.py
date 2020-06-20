@@ -16,6 +16,7 @@ import pyfractals as pf
 
 from .designs.main_design import Ui_MainWindow
 
+
 ROWS = 1000
 COLS = 1000
 
@@ -24,6 +25,9 @@ C_IMAG_RANGE = 4
 
 X_RANGE = 4
 Y_RANGE = 4
+
+ZOOM_STEP = 0.05
+ZOOM_LIMIT = 40
 
 
 class Window(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -55,10 +59,11 @@ class Window(QtWidgets.QMainWindow, Ui_MainWindow):
     def reset(self):
         self.c_real = 0
         self.c_imag = 0
-        self.x_start = -2
-        self.x_end = 2
-        self.y_start = -2
-        self.y_end = 2
+        self.x_start = -X_RANGE/2
+        self.x_end = X_RANGE/2
+        self.y_start = -Y_RANGE/2
+        self.y_end = Y_RANGE/2
+        self.zoom_level = 0
         self.iterations = 500
 
         self.slider_real.setValue(self.c_real)
@@ -96,6 +101,35 @@ class Window(QtWidgets.QMainWindow, Ui_MainWindow):
     def update_iterations(self, spinbox: QtWidgets.QSpinBox):
         self.iterations = spinbox.value()
         self.compute()
+
+    def handle_image_zoom(self, event: QtGui.QWheelEvent):
+        # zoom in is True when scrolling upwards
+        self.zoom_level += ZOOM_STEP if event.angleDelta().y() > 0 else -ZOOM_STEP
+
+        # make sure zoom_level is within the limits
+        self.zoom_level = min(self.zoom_level, ZOOM_LIMIT*ZOOM_STEP)
+        self.zoom_level = max(self.zoom_level, -ZOOM_LIMIT*ZOOM_STEP)
+
+        # the event position is relative to the top left of the widget
+        zoom_pos_x = event.x()
+        zoom_pos_y = event.y()
+        width = self.label_display.size().width()
+        height = self.label_display.size().height()
+
+        # compute the new center position based on zoom_level and the event position
+        # TODO
+        center_x = zoom_pos_x/width  - X_RANGE/4
+        center_y = zoom_pos_y/height - Y_RANGE/4
+        center_x = center_y = 0
+
+        # update x/y ranges
+        self.x_start = center_x - X_RANGE / 2 + self.zoom_level
+        self.x_end   = center_x + X_RANGE / 2 - self.zoom_level
+        self.y_start = center_y - Y_RANGE / 2 + self.zoom_level
+        self.y_end   = center_y + Y_RANGE / 2 - self.zoom_level
+
+        self.compute()
+        event.accept()
         
     def compute(self):
         fractal_properties = pf.FractalProperties(
@@ -119,6 +153,7 @@ class Window(QtWidgets.QMainWindow, Ui_MainWindow):
         self.radio_color_monochrome.clicked.connect(lambda: self.update_color(pf.Color.MONOCHROME))
         self.radio_color_ultra.clicked.connect(lambda: self.update_color(pf.Color.ULTRA))
         self.radio_color_tri.clicked.connect(lambda: self.update_color(pf.Color.TRI))
+        self.radio_color_jet.clicked.connect(lambda: self.update_color(pf.Color.JET))
 
         self.radio_mode_julia.clicked.connect(lambda: self.update_mode(pf.Mode.JULIA))
         self.radio_mode_mandelbrot.clicked.connect(lambda: self.update_mode(pf.Mode.MANDELBROT))
@@ -140,6 +175,8 @@ class Window(QtWidgets.QMainWindow, Ui_MainWindow):
         self.spin_iterations.valueChanged.connect(lambda: self.update_iterations(self.spin_iterations))
 
         self.pb_reset.clicked.connect(self.reset)
+
+        self.label_display.wheelEvent = self.handle_image_zoom
 
     def closeEvent(self, event):
         event.accept()

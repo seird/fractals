@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>772</width>
-    <height>795</height>
+    <height>1003</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -310,6 +310,19 @@
            </property>
            <property name="text">
             <string>Tri</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QRadioButton" name="radio_color_jet">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Jet</string>
            </property>
           </widget>
          </item>

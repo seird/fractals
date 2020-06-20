@@ -36,6 +36,7 @@ enum Color {
     COLOR_ULTRA,
     COLOR_MONOCHROME,
     COLOR_TRI,
+    COLOR_JET,
 };
 
 /* types */

@@ -30,6 +30,7 @@ class Color(Enum):
     ULTRA      = 0
     MONOCHROME = 1
     TRI        = 2
+    JET        = 3
 
 
 class FractalProperties(Structure):

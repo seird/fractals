@@ -15,6 +15,9 @@ void (*colorfunc_get(enum Color color))(float * r, float * g, float * b, int val
         case COLOR_TRI:
             fptr = &value_to_rgb_tri;
             break;
+        case COLOR_JET:
+            fptr = &value_to_rgb_jet;
+            break;
         default:
             fptr = &value_to_rgb_ultra;
     }
