@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS_DEBUG = -g -Wall -pedantic -pthread -mavx2 #-shared
-CFLAGS_RELEASE = -O3 -Wall -pedantic -pthread -ffast-math -mavx2 #-shared
+CFLAGS_RELEASE = -O3 -Wall -pedantic -pthread -mavx2 #-shared
 CFLAGS_RELEASE_LIB = -O3 -Wall -pedantic -shared -DSHARED -pthread -ffast-math -mavx2 
 
 library:
