@@ -8,7 +8,9 @@ To use:
 Note that any code in qt_main_design.py will be overwritten upon recompiling
 """
 
+import os
 import sys
+import tempfile
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -36,10 +38,12 @@ class Window(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         self.hCmatrix = pf.fractal_cmatrix_create(ROWS, COLS)
+        self.temp_png_file_id, self.temp_png_file = tempfile.mkstemp(suffix="_fractal.png")
 
         self.initUI()
         self.reset()
         self.link_callbacks()
+
         self.show()
         
     def initUI(self):
@@ -146,8 +150,8 @@ class Window(QtWidgets.QMainWindow, Ui_MainWindow):
             max_iterations = self.iterations,
         )
         pf.fractal_avxf_get_colors_th(self.hCmatrix, fractal_properties, 12)
-        pf.fractal_cmatrix_save(self.hCmatrix, "fractal_temp.png", self.color)
-        self.label_display.setPixmap(QtGui.QPixmap("fractal_temp.png"))
+        pf.fractal_cmatrix_save(self.hCmatrix, self.temp_png_file, self.color)
+        self.label_display.setPixmap(QtGui.QPixmap(self.temp_png_file))
         
     def link_callbacks(self):
         self.radio_color_monochrome.clicked.connect(lambda: self.update_color(pf.Color.MONOCHROME))
@@ -168,6 +172,8 @@ class Window(QtWidgets.QMainWindow, Ui_MainWindow):
         self.radio_fractal_zburn2.clicked.connect(lambda: self.update_fractal(pf.Fractal.ZABS2))
         self.radio_fractal_zburn3.clicked.connect(lambda: self.update_fractal(pf.Fractal.ZABS3))
         self.radio_fractal_zburn4.clicked.connect(lambda: self.update_fractal(pf.Fractal.ZABS4))
+        self.radio_fractal_magnet.clicked.connect(lambda: self.update_fractal(pf.Fractal.ZMAGNET))
+        self.radio_fractal_juliavariant.clicked.connect(lambda: self.update_fractal(pf.Fractal.Z2_Z))
 
         self.slider_real.valueChanged.connect(lambda: self.update_c_real(self.slider_real))
         self.slider_imag.valueChanged.connect(lambda: self.update_c_imag(self.slider_imag))
@@ -179,6 +185,9 @@ class Window(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_display.wheelEvent = self.handle_image_zoom
 
     def closeEvent(self, event):
+        # close and clean up the temporary file
+        os.close(self.temp_png_file_id)
+        os.remove(self.temp_png_file)
         event.accept()
 
 

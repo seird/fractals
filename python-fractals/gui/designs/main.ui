@@ -47,7 +47,7 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
+          <width>200</width>
           <height>16777215</height>
          </size>
         </property>
@@ -179,6 +179,32 @@
            </property>
           </widget>
          </item>
+         <item row="9" column="0">
+          <widget class="QRadioButton" name="radio_fractal_magnet">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>[(z^2+c-1)/(2z+c-2)]^2</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="0">
+          <widget class="QRadioButton" name="radio_fractal_juliavariant">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>z^2 + c/z</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
@@ -192,7 +218,7 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
+          <width>200</width>
           <height>16777215</height>
          </size>
         </property>
@@ -259,7 +285,7 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
+          <width>200</width>
           <height>16777215</height>
          </size>
         </property>
@@ -333,7 +359,7 @@
        <widget class="QGroupBox" name="groupBox">
         <property name="maximumSize">
          <size>
-          <width>150</width>
+          <width>200</width>
           <height>16777215</height>
          </size>
         </property>
@@ -380,7 +406,7 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
+          <width>200</width>
           <height>16777215</height>
          </size>
         </property>
@@ -495,7 +521,7 @@
        <widget class="QPushButton" name="pb_reset">
         <property name="maximumSize">
          <size>
-          <width>150</width>
+          <width>200</width>
           <height>16777215</height>
          </size>
         </property>

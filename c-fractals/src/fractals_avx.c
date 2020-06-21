@@ -1,62 +1,6 @@
 #include "fractals_avx.h"
 
 
-void
-_mm256_autocmul_ps(__m256 * result_real, __m256 * result_imag,
-                   __m256 * X_real, __m256 * X_imag)
-{
-    // multiply a complex number with itself
-    // x = a + bj
-    //
-    // x * x = (a+bj)*(a+bj) = a*a - b*b + 2(a*b)j
-
-    // X_real*X_real
-    __m256 X_real_sq = _mm256_mul_ps(*X_real, *X_real);
-
-    // X_imag*X_imag
-    __m256 X_imag_sq = _mm256_mul_ps(*X_imag, *X_imag);
-
-    // 2*X_real*X_imag
-    *result_imag = _mm256_mul_ps(
-        _mm256_mul_ps(*X_real, *X_imag),
-        _mm256_set1_ps(2)
-    );
-
-    // X_real*X_real - X_imag*X_imag
-    *result_real = _mm256_sub_ps(X_real_sq, X_imag_sq);
-}
-
-void
-_mm256_cmul_ps(__m256 * result_real, __m256 * result_imag,
-               __m256 * X_real, __m256 * X_imag,
-               __m256 * Y_real, __m256 * Y_imag)
-{
-    // multiply two complex number
-    // x = a + bj
-    // y = c + dj
-    //
-    // x * y = (a+bj)*(c+dj) = a*c - b*d + [a*d + b*c]j
-
-    // X_real*Y_real
-    __m256 AC = _mm256_mul_ps(*X_real, *Y_real);
-
-    // X_imag*Y_imag
-    __m256 BD = _mm256_mul_ps(*X_imag, *Y_imag);
-
-    // X_real*Y_imag
-    __m256 AD = _mm256_mul_ps(*X_real, *Y_imag);
-
-    // X_imag*Y_real
-    __m256 BC = _mm256_mul_ps(*X_imag, *Y_real);
-
-    // X_real*X_real - X_imag*X_imag
-    *result_real = _mm256_sub_ps(AC, BD);
-
-    // X_real*Y_imag + X_imag*Y_real
-    *result_imag = _mm256_add_ps(AD, BC);
-}
-
-
 // Regular fractals
 
 void
@@ -239,6 +183,73 @@ fractal_avxf_zabs4(__m256 * result_real, __m256 * result_imag,
 }
 
 
+// Magnet fractals
+
+void
+fractal_avxf_magnet(__m256 * result_real, __m256 * result_imag, 
+                    __m256 * z_real, __m256 * z_imag, 
+                    __m256 * c_real, __m256 * c_imag)
+{
+    /* NUMERATOR */
+    // z^2
+    __m256 z_sq_real, z_sq_imag;
+    _mm256_autocmul_ps(&z_sq_real, &z_sq_imag, z_real, z_imag);
+
+    // z^2 + c - 1 = numerator
+    __m256 numerator_real = _mm256_add_ps(
+        _mm256_add_ps(z_sq_real, *c_real),
+        _mm256_set1_ps(-1.0f)
+    );
+    __m256 numerator_imag = _mm256_add_ps(z_sq_imag, *c_imag);
+
+    /* DENOMINATOR */
+    // 2z
+    __m256 two = _mm256_set1_ps(2.0f);
+    __m256 _2z_real = _mm256_mul_ps(*z_real, two);
+    __m256 _2z_imag = _mm256_mul_ps(*z_imag, two);
+
+    // 2z + c - 2
+    __m256 denominator_real = _mm256_add_ps(
+        _mm256_add_ps(_2z_real, *c_real),
+        _mm256_set1_ps(-2.0f)
+    );
+    __m256 denominator_imag = _mm256_add_ps(_2z_imag, *c_imag);
+
+    /* FRACTION */
+    // (a+bj)/(c+dj) = [(a+bj)*(c-dj)]/[(c+dj)*(c-dj)]
+    __m256 fraction_real, fraction_imag;
+    _mm256_cdiv_ps(&fraction_real, &fraction_imag,
+                   &numerator_real, &numerator_imag,
+                   &denominator_real, &denominator_imag);
+
+    /* SQUARED FRACTION */
+    _mm256_autocmul_ps(result_real, result_imag, &fraction_real, &fraction_imag);
+}
+
+// Julia variant z^2 + c/z
+
+void
+fractal_avxf_z2_z(__m256 * result_real, __m256 * result_imag, 
+                  __m256 * z_real, __m256 * z_imag, 
+                  __m256 * c_real, __m256 * c_imag)
+{
+    // z * z = (a+bj)*(a+bj) = a*a - b*b + 2(a*b)j
+    _mm256_autocmul_ps(result_real, result_imag, z_real, z_imag);
+
+    // c / z
+    __m256 fraction_real, fraction_imag;
+    _mm256_cdiv_ps(&fraction_real, &fraction_imag,
+                   c_real, c_imag,
+                   z_real, z_imag);
+
+    // z_real*z_real + c_real/z
+    *result_real = _mm256_add_ps(*result_real, fraction_real);
+
+    // z_imag*z_imag + c_imag
+    *result_imag = _mm256_add_ps(*result_imag, fraction_imag);
+}
+
+
 void (*fractal_avx_get(enum Fractal frac))(__m256 * result_real, __m256 * result_imag, 
                                         __m256 * z_real, __m256 * z_imag, 
                                         __m256 * c_real, __m256 * c_imag)
@@ -273,6 +284,12 @@ void (*fractal_avx_get(enum Fractal frac))(__m256 * result_real, __m256 * result
             break;
         case FRAC_ZABS4:
             fptr = &fractal_avxf_zabs4;
+            break;
+        case FRAC_MAGNET:
+            fptr = &fractal_avxf_magnet;
+            break;
+        case FRAC_Z2_Z:
+            fptr = &fractal_avxf_z2_z;
             break;
         default:
             fptr = &fractal_avxf_z2;
