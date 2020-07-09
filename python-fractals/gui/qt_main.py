@@ -193,6 +193,7 @@ class Window(QtWidgets.QMainWindow, Ui_MainWindow):
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
+    app.setStyle("fusion")
 
     with open("gui/styles/dark.css", "r") as f:
         stylesheet = f.read()

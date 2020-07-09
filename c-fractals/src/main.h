@@ -41,7 +41,7 @@ bool fractal_escape_magnitude_check(FRACDTYPE _Complex z, FRACDTYPE R);
 void fractal_get_single_color(FRACDTYPE * color, FRACDTYPE x, FRACDTYPE y, FRACDTYPE _Complex (*fractal)(FRACDTYPE complex, FRACDTYPE _Complex), FRACDTYPE _Complex c, FRACDTYPE R, int max_iterations);
 
 #if (!defined(TEST) && !defined(SHARED) && !defined(BENCHMARK))
-int main(int argc, char * argv[]);
+int main(void);
 #endif
 
 

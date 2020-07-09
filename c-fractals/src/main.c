@@ -3,7 +3,7 @@
 
 #if (!defined(TEST) && !defined(SHARED) && !defined(BENCHMARK))
 int
-main(int argc, char * argv[])
+main(void)
 {    
     FRACDTYPE c_real = -0.7835f;
 	FRACDTYPE c_imag = -0.2321f;

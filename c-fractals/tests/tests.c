@@ -20,7 +20,7 @@ ALL_TESTS()
 }
 
 int
-main(int argc, char ** argv)
+main(void)
 {
     ALL_TESTS();
 
