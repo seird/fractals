@@ -4,7 +4,7 @@
 
 ### Requirements
 
-- "libfractals_OS.dll" from [c-fractals](c-fractals)
+- "[libfractals_Windows.dll](https://gitlab.com/kdries/opengl-fractals/builds/artifacts/master/raw/c-fractals/libfractal_Windows.dll?job=build_gui)" or "[libfractal_Linux.dll](https://gitlab.com/kdries/opengl-fractals/builds/artifacts/master/raw/c-fractals/libfractal_Linux.dll?job=build)" from [c-fractals](c-fractals)
 - "libwinpthread-1.dll"
 
 
