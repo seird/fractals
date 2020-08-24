@@ -5,7 +5,7 @@
 - [C Fractal implementations](c-fractals)
 - [OpenGL rendering](opengl-fractals)
 - [Python wrapper and PyQt gui](python-fractals)
-        [Download Windows GUI](https://gitlab.com/kdries/opengl-fractals/builds/artifacts/master/raw/python-fractals/PyFractals.zip?job=build).
+        - [Download Windows GUI](https://gitlab.com/kdries/opengl-fractals/builds/artifacts/master/raw/python-fractals/PyFractals.zip?job=build).
 
 
 ## Performance

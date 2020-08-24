@@ -29,7 +29,7 @@ build_gui:
     - C:/Python38/python.exe --version
     - C:/Python38/Scripts/pip.exe install PyQt5
     - C:/Python38/Scripts/pip.exe install pyinstaller
-    - C:/Python38/Scripts/pyinstaller fractals.spec
+    - powershell -File build-win.ps1
   artifacts:
     paths:
       - python-fractals/PyFractals.zip
