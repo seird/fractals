@@ -32,4 +32,4 @@ build_gui:
     - C:/Python38/Scripts/pyinstaller fractals.spec
   artifacts:
     paths:
-      - PyFractals.zip
+      - python-fractals/PyFractals.zip
