@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS_DEBUG = -g -Wall -Wextra -pthread -mavx2 #-shared
 CFLAGS_RELEASE = -O3 -Wall -Wextra -pthread -mavx2 #-shared
-CFLAGS_RELEASE_LIB = -O3 -Wall -Wextra -shared -DSHARED -pthread -ffast-math -mavx2 
+CFLAGS_RELEASE_LIB = -O3 -Wall -Wextra -shared -DSHARED -pthread -ffast-math -mavx2 -fPIC
 
 library:
 	$(CC) $(CFLAGS_RELEASE_LIB) src/*.c -o libfractal.dll
