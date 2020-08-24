@@ -1,6 +1,13 @@
-image: gcc
-
+test:
+  image: gcc
+  before_script:
+      - cd c-fractals/ 
+  stage: test
+  script:
+    - make test
+    
 build:
+  image: gcc
   before_script:
       - cd c-fractals/ 
   stage: build
@@ -9,9 +16,20 @@ build:
     paths:
       - a_release.exe
 
-test:
+build_gui:
+  tags:
+    - shared-windows
+    - windows
+  stage: build
   before_script:
-      - cd c-fractals/ 
-  stage: test
+    - cd python-fractals/
+    - choco install python --version=3.8.3 -y
+    - refreshenv
   script:
-    - make test
+    - C:/Python38/python.exe --version
+    - C:/Python38/Scripts/pip.exe install PyQt5
+    - C:/Python38/Scripts/pip.exe install pyinstaller
+    - C:/Python38/Scripts/pyinstaller fractals.spec
+  artifacts:
+    paths:
+      - PyFractals.zip

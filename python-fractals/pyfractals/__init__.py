@@ -1,19 +1,17 @@
 import errno
 import os
 import platform
+import sys
 from ctypes import (CDLL, POINTER, Structure, byref, c_char_p, c_float, c_int,
                     c_void_p, cast)
 from typing import List, Tuple
 
-
 from .datatypes import *
 
-lib_path = os.path.join(os.path.dirname(__file__), f"resources/libfractal_{platform.system()}.dll")
+p = os.path.dirname(os.path.abspath(__file__)) + "/resources"
+os.environ["PATH"] = p + os.pathsep + os.environ["PATH"]
 
-if not os.path.exists(lib_path):
-    raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), lib_path)
-
-lib = CDLL(lib_path)
+lib = CDLL(f"libfractal_{platform.system()}.dll")
 
 
 def wrap_lib_function(fname, argtypes: List = [], restype=None):

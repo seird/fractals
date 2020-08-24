@@ -198,6 +198,8 @@ def main():
     with open("gui/styles/dark.css", "r") as f:
         stylesheet = f.read()
         app.setStyleSheet(stylesheet)
+
+    app.setWindowIcon(QtGui.QIcon("gui/logo.ico"))
     
     window = Window()
     
