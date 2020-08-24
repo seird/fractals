@@ -1,3 +1,8 @@
+stages:
+  - test
+  - build
+  - dist
+
 test:
   image: gcc
   before_script:
@@ -20,7 +25,7 @@ build_gui:
   tags:
     - shared-windows
     - windows
-  stage: build
+  stage: dist
   before_script:
     - cd python-fractals/
     - choco install python --version=3.8.3 -y

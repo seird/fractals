@@ -10,8 +10,7 @@ from .datatypes import *
 
 p = os.path.dirname(os.path.abspath(__file__)) + "/resources"
 os.environ["PATH"] = p + os.pathsep + os.environ["PATH"]
-
-lib = CDLL(f"libfractal_{platform.system()}.dll")
+lib = CDLL(f"pyfractals/resources/libfractal_{platform.system()}.dll")
 
 
 def wrap_lib_function(fname, argtypes: List = [], restype=None):

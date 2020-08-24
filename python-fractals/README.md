@@ -12,7 +12,7 @@
 
 [PyQt GUI](gui) that displays the different fractal modes.
 
-[Download Windows GUI.](https://gitlab.com/kdries/opengl-fractals/builds/artifacts/master/raw/python-fractals/PyFractals.zip?job=build).
+[Download Windows GUI.](https://gitlab.com/kdries/opengl-fractals/builds/artifacts/master/raw/python-fractals/PyFractals.zip?job=build_gui).
 
 
 ### Requirements
