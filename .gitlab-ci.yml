@@ -16,10 +16,12 @@ build:
   before_script:
       - cd c-fractals/ 
   stage: build
-  script: make build
+  script: 
+    - make library
+    - mv libfractal.dll libfractal_Linux.dll
   artifacts:
     paths:
-      - a_release.exe
+      - c-fractals/libfractal_Linux.dll
 
 build_gui:
   tags:
@@ -27,14 +29,16 @@ build_gui:
     - windows
   stage: dist
   before_script:
-    - cd python-fractals/
     - choco install python --version=3.8.3 -y
+    - choco install mingw -y
     - refreshenv
   script:
     - C:/Python38/python.exe --version
     - C:/Python38/Scripts/pip.exe install PyQt5
     - C:/Python38/Scripts/pip.exe install pyinstaller
+    
     - powershell -File build-win.ps1
   artifacts:
     paths:
+      - c-fractals/libfractal_Windows.dll
       - python-fractals/PyFractals.zip
