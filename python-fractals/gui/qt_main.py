@@ -145,8 +145,8 @@ class Window(QtWidgets.QMainWindow, Ui_MainWindow):
             x_end          = self.x_end,
             y_start        = self.y_start,
             y_end          = self.y_end,
-            x_size         = COLS,
-            y_size         = ROWS,
+            width          = COLS,
+            height         = ROWS,
             max_iterations = self.iterations,
         )
         pf.fractal_avxf_get_colors_th(self.hCmatrix, fractal_properties, 12)

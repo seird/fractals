@@ -27,6 +27,9 @@ fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
 {
     HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
 
+    fp->_x_step = (fp->x_end - fp->x_start) / fp->width;
+    fp->_y_step = (fp->y_end - fp->y_start) / fp->height;
+
     float _Complex c = fp->c_real + fp->c_imag * I;
     fractal_t fractal = fractal_get(fp->frac);
 
@@ -35,8 +38,8 @@ fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
         float x = fp->x_start;
         for (int col=0; col<hc->COLS; ++col) {
             fractal_get_single_color(&hc->cmatrix[row][col], x, y, fractal, c, fp->R, fp->max_iterations);
-            x += fp->x_step;
+            x += fp->_x_step;
         }
-        y += fp->y_step;
+        y += fp->_y_step;
     }
 }

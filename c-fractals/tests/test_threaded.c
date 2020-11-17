@@ -20,19 +20,18 @@ MU_TEST(test_threaded_result)
     float y_start = -R;
     float y_end = R;
 
-    float x_step = (x_end - x_start) / ROWS;
-    float y_step = (y_end - y_start) / COLS;
-
     int max_iterations = 100;
 
     HCMATRIX hCmatrix_nc = fractal_cmatrix_create(ROWS, COLS);
     HCMATRIX hCmatrix_th = fractal_cmatrix_create(ROWS, COLS);
 
     struct FractalProperties fp = {
-        .x_start = -R,
-        .x_step = x_step,
+        .x_start = x_start,
+        .x_end = x_end,
         .y_start = y_start,
-        .y_step = y_step,
+        .y_end = y_end,
+        .height = ROWS,
+        .width = COLS,
         .frac = FRAC_Z2,
         .mode = MODE_JULIA,
         .c_real = c_real,

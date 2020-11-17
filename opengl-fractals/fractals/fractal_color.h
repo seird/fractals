@@ -6,7 +6,6 @@
 #define __FRACTAL_COLOR_H__
 
 
-
 /* Fractal functions */
 enum Fractal {
     FRAC_Z2,     // z^2 + c
@@ -20,13 +19,15 @@ enum Fractal {
     FRAC_ZABS4,  // (abs(z_real) + abs(c_real)*j)^4 + c
     FRAC_MAGNET, // [(z^2 + c - 1)/(2z + c - 2)]^2
     FRAC_Z2_Z,   // z^2 + c/z
+    FRAC_NUM_ENTRIES,
 };
 
 /* Fractal modes */
 enum Mode {
     MODE_MANDELBROT,
     MODE_JULIA,
-    MODE_BUDDHABROT,
+    MODE_NUM_ENTRIES,
+    MODE_BUDDHABROT, // not implemented
 };
 
 /* Color modes to convert CMATRIX values to */
@@ -43,15 +44,19 @@ typedef void * HCMATRIX;
 
 struct FractalProperties {
     float x_start;
-    float x_step;
+    float x_end;
     float y_start;
-    float y_step;
+    float y_end;
+    float width;
+    float height;
     enum Fractal frac;
     enum Mode mode;
     float c_real;
     float c_imag;
     float R;
     int max_iterations;
+    float _x_step;
+    float _y_step;
 };
 
 
@@ -67,7 +72,7 @@ void fractal_cmatrix_free(HCMATRIX hCmatrix);
 /* get a matrix value */
 float * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
 
-/* get fractal colors without complex data type */
+/* get fractal colors */
 void fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
 
 /* get fractal colors with threading */

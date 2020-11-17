@@ -122,11 +122,13 @@ main(int argc, char * argv[])
 
 	struct FractalProperties fp = {
 		.x_start = x_start,
-		.x_step = x_step,
+		.x_end = x_end,
 		.y_start = y_start,
-		.y_step = y_step,
+		.y_end = y_end,
+		.width = WIDTH,
+		.height = HEIGHT,
 		.frac = FRAC_Z2,
-		.mode = MODE_MANDELBROT,
+		.mode = MODE_JULIA,
 		.c_real = 0,
 		.c_imag = 0,
 		.R = R_escape,
@@ -134,12 +136,26 @@ main(int argc, char * argv[])
 	};
 
 	enum ColorFunction cf = CF_AVX;
-	enum Color color = COLOR_MONOCHROME;
+	enum Color color = COLOR_JET;
 
 	float r, g, b;
 
 	bool first_run = true;
 	clock_t time_since_color_change = 0;
+	clock_t time_since_frac_change = 0;
+	clock_t time_since_mode_change = 0;
+
+
+	printf("Controls:\n"
+		   "Q:                  Quit\n"
+		   "R:                  Reset view\n"
+		   "W, A, S, D:         Pan around\n"
+		   "Scroll mousewheel:  Zoom in/out\n"
+		   "Left/Right arrow:   Rotate (Julia mode)\n"
+		   "1, 2, 3, 4: 	    Select solver method: Default, Threaded, AVX, AVX Threaded\n"
+		   "C:                  Cycle colors\n"
+		   "F:                  Cycle fractals\n"
+		   "M:                  Cycle modes (Julia/Mandelbrot)\n\n\n");
 
 	float counter = 0;
 	float step = 0.1;
@@ -222,6 +238,23 @@ main(int argc, char * argv[])
 				update = true;
 			}
 		}
+		else if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS) {
+			if ((clock() - time_since_frac_change) > 0.4f * CLOCKS_PER_SEC) {
+				// only cycle the fractal mode if it has been changed at least .4 seconds ago
+				time_since_frac_change = clock();
+				fp.frac = (fp.frac + 1) % FRAC_NUM_ENTRIES;
+				update = true;
+			}
+		}
+		else if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS) {
+			if ((clock() - time_since_mode_change) > 0.4f * CLOCKS_PER_SEC) {
+				// only cycle the mode if it has been changed at least .4 seconds ago
+				time_since_mode_change = clock();
+				fp.mode = (fp.mode + 1) % MODE_NUM_ENTRIES;
+				update = true;
+			}
+		}
+
 
 		//Setup View
 		float ratio;
@@ -238,10 +271,11 @@ main(int argc, char * argv[])
 		//counter = 61.2;
 		fp.c_real = 0.7885 * cosf(counter / (2 * PI));
 		fp.c_imag = 0.7885 * sinf(counter / (2 * PI));
-		fp.x_step = x_step;
-		fp.y_step = y_step;
 		fp.x_start = x_start;
+		fp.x_end = x_end;
 		fp.y_start = y_start;
+		fp.y_end = y_end;
+
 		//counter += 0.2;
 
 		// Compute the color matrix

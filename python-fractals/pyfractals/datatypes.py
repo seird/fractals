@@ -41,9 +41,11 @@ class FractalProperties(Structure):
     """
     _fields_ = [
         ("x_start"        , c_float),
-        ("x_step"         , c_float),
+        ("x_end"          , c_float),
         ("y_start"        , c_float),
-        ("y_step"         , c_float),
+        ("y_end"          , c_float),
+        ("width"          , c_float),
+        ("height"         , c_float),
         ("frac"           , c_int),
         ("mode"           , c_int),
         ("c_real"         , c_float),
@@ -55,10 +57,10 @@ class FractalProperties(Structure):
     def __init__(self,
                  x_start        : Optional[float]   = -2.0,
                  x_end          : Optional[float]   = 2.0,
-                 x_size         : Optional[int]     = 1000,
                  y_start        : Optional[float]   = -2.0,
                  y_end          : Optional[float]   = 2.0,
-                 y_size         : Optional[int]     = 1000,
+                 width          : Optional[int]     = 1000,
+                 height         : Optional[int]     = 1000,
                  fractal        : Optional[Fractal] = Fractal.Z2,
                  mode           : Optional[Mode]    = Mode.JULIA,
                  c_real         : Optional[float]   = -0.7835,
@@ -66,9 +68,11 @@ class FractalProperties(Structure):
                  R              : Optional[float]   = 2,
                  max_iterations : Optional[int]     = 1000):
         self.x_start        = c_float(x_start)
-        self.x_step         = c_float((x_end-x_start)/x_size)
+        self.x_end          = c_float(x_end)
         self.y_start        = c_float(y_start)
-        self.y_step         = c_float((y_end-y_start)/y_size)
+        self.y_end          = c_float(y_end)
+        self.width          = c_float(width)
+        self.height         = c_float(height)
         self.frac           = fractal.value
         self.mode           = mode.value
         self.c_real         = c_float(c_real)

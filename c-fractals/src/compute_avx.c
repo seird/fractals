@@ -74,7 +74,10 @@ fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
 {
     HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
 
-   fractal_avx_t fractal = fractal_avx_get(fp->frac);
+    fp->_x_step = (fp->x_end - fp->x_start) / fp->width;
+    fp->_y_step = (fp->y_end - fp->y_start) / fp->height;
+
+    fractal_avx_t fractal = fractal_avx_get(fp->frac);
 
     switch (fp->mode)
     {
@@ -84,7 +87,7 @@ fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
             __m256 c_real = _mm256_set1_ps(fp->c_real);
             __m256 c_imag = _mm256_set1_ps(fp->c_imag);
 
-            float x_step = fp->y_step;
+            float x_step = fp->_x_step;
             float y = fp->y_start;
             for (int row=0; row<hc->ROWS; ++row) {
                 float x = fp->x_start;
@@ -104,7 +107,7 @@ fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
 
                     x += VECFSIZE * x_step;
                 }
-                y += fp->y_step;
+                y += fp->_y_step;
             }
             break;
         }
@@ -112,7 +115,7 @@ fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
         {
             __m256 RR = _mm256_set1_ps(fp->R*fp->R);
 
-            float x_step = fp->y_step;
+            float x_step = fp->_y_step;
             float y = fp->y_start;
             for (int row=0; row<hc->ROWS; ++row) {
                 float x = fp->x_start;
@@ -136,7 +139,7 @@ fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
 
                     x += VECFSIZE * x_step;
                 }
-                y += fp->y_step;
+                y += fp->_y_step;
             }
             break;
         }

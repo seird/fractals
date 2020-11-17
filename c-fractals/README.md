@@ -84,9 +84,11 @@ Include the library interface **fracal_color.h** in the project. Add the source 
     ```c
     struct FractalProperties {
         float x_start;
-        float x_step;
+        float x_end;
         float y_start;
-        float y_step;
+        float y_end;
+        float width;
+        float height;
         enum Fractal frac;
         enum Mode mode;
         float c_real;
