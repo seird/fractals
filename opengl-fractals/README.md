@@ -7,14 +7,14 @@
 
 ## Keyboard shortcuts
 
-| Shortcut           | Description            |
-| ------------------ |:----------------------:|
-| **q**              | Quit                   |
-| **r**              | Reset the view         |
-| **W,A,S,D**        | Move around the plane  |
-| **scroll up/down** | zoom in/out            |
-| **left/right**     | rotate the fractal     |
-| **1**              | Default                |
-| **2**              | Threaded               |
-| **3**              | AVX                    |
-| **4**              | AVX Threaded           |
+| Shortcut           | Description                                                |
+| ------------------ |:----------------------------------------------------------:|
+| **Q**              | Quit                                                       |
+| **R**              | Reset the view                                             |
+| **W,A,S,D**        | Move around the plane                                      |
+| **scroll up/down** | zoom in/out                                                |
+| **left/right**     | rotate the fractal                                         |
+| **1, 2, 3, 4**     | Select solver method: Default, Threaded, AVX, AVX Threaded |
+| **C**              | Cycle colors                                               |
+| **F**              | Cycle fractals                                             |
+| **M**              | Cycle modes (Julia/Mandelbrot)                             |
