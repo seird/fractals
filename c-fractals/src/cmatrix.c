@@ -11,20 +11,20 @@ fractal_cmatrix_create(int ROWS, int COLS)
 
     #ifdef __AVX2__
         #if defined(_WIN64) || defined(_WIN32)
-            hc->cmatrix = _aligned_malloc(sizeof(FRACDTYPE *) * ROWS, AVX_ALIGNMENT);
+            hc->cmatrix = _aligned_malloc(sizeof(float *) * ROWS, AVX_ALIGNMENT);
             for (int i = 0; i < ROWS; ++i) {
-                hc->cmatrix[i] = _aligned_malloc(sizeof(FRACDTYPE) * COLS, AVX_ALIGNMENT);
+                hc->cmatrix[i] = _aligned_malloc(sizeof(float) * COLS, AVX_ALIGNMENT);
             } 
         #else // Linux
-            hc->cmatrix = aligned_alloc(AVX_ALIGNMENT, sizeof(FRACDTYPE *) * ROWS);
+            hc->cmatrix = aligned_alloc(AVX_ALIGNMENT, sizeof(float *) * ROWS);
             for (int i = 0; i < ROWS; ++i) {
-                hc->cmatrix[i] = aligned_alloc(AVX_ALIGNMENT, sizeof(FRACDTYPE) * COLS);
+                hc->cmatrix[i] = aligned_alloc(AVX_ALIGNMENT, sizeof(float) * COLS);
             } 
         #endif
     #else
-        hc->cmatrix = malloc(sizeof(FRACDTYPE *) * ROWS);
+        hc->cmatrix = malloc(sizeof(float *) * ROWS);
         for (int i = 0; i < ROWS; ++i) {
-            hc->cmatrix[i] = malloc(sizeof(FRACDTYPE) * COLS);
+            hc->cmatrix[i] = malloc(sizeof(float) * COLS);
         }   
     #endif
 
@@ -44,9 +44,9 @@ fractal_cmatrix_reshape(HCMATRIX hCmatrix, int ROWS_new, int COLS_new)
             for (int i = 0; i < hc->ROWS; ++i) {
                 _aligned_free(hc->cmatrix[i]);
             }
-            hc->cmatrix = _aligned_realloc(hc->cmatrix, sizeof(FRACDTYPE *) * ROWS_new, AVX_ALIGNMENT);
+            hc->cmatrix = _aligned_realloc(hc->cmatrix, sizeof(float *) * ROWS_new, AVX_ALIGNMENT);
             for (int i = 0; i < ROWS_new; ++i) {
-                hc->cmatrix[i] = _aligned_malloc(sizeof(FRACDTYPE) * COLS_new, AVX_ALIGNMENT);
+                hc->cmatrix[i] = _aligned_malloc(sizeof(float) * COLS_new, AVX_ALIGNMENT);
             }
         #else
             // Linux
@@ -60,9 +60,9 @@ fractal_cmatrix_reshape(HCMATRIX hCmatrix, int ROWS_new, int COLS_new)
         for (int i = 0; i < hc->ROWS; ++i) {
             free(hc->cmatrix[i]);
         }
-        hc->cmatrix = realloc(hc->cmatrix, sizeof(FRACDTYPE *) * ROWS_new);
+        hc->cmatrix = realloc(hc->cmatrix, sizeof(float *) * ROWS_new);
         for (int i = 0; i < ROWS_new; ++i) {
-            hc->cmatrix[i] = malloc(sizeof(FRACDTYPE) * COLS_new);
+            hc->cmatrix[i] = malloc(sizeof(float) * COLS_new);
         }
     #endif
 
@@ -91,18 +91,18 @@ fractal_cmatrix_free(HCMATRIX hCmatrix)
     free(hc);
 }
 
-FRACDTYPE *
+float *
 fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col)
 {
     return &((HS_CMATRIX) hCmatrix)->cmatrix[row][col];
 }
 
-FRACDTYPE
+float
 fractal_cmatrix_max(HCMATRIX hCmatrix)
 {
     HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
 
-    FRACDTYPE max_color = 0.0;
+    float max_color = 0.0;
     for (int row=0; row<hc->ROWS; ++row) {
         for (int col=0; col<hc->COLS; ++col) {
             if (hc->cmatrix[row][col] > max_color) {

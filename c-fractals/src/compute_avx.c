@@ -31,11 +31,11 @@ fractal_avxf_escape_magnitude_check(__m256 * escaped_mask,
 }
 
 void
-fractal_avxf_get_vector_color(FRACDTYPE * color_array, 
+fractal_avxf_get_vector_color(float * color_array, 
                               __m256 * z_real, __m256 * z_imag,
                               __m256 * c_real, __m256 * c_imag,
                               __m256 * RR, int max_iterations,
-                              void (*fractal)(__m256 *, __m256 *, __m256 *, __m256 *, __m256 * , __m256 *))
+                              fractal_avx_t fractal)
 {
     __m256 colors_vec = _mm256_set1_ps(0);
     __m256 escaped_so_far_mask = _mm256_set1_ps(0);
@@ -74,7 +74,7 @@ fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
 {
     HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
 
-    void (*fractal)(__m256 *, __m256 *, __m256 *, __m256 *, __m256 * , __m256 *) = fractal_avx_get(fp->frac);
+   fractal_avx_t fractal = fractal_avx_get(fp->frac);
 
     switch (fp->mode)
     {
@@ -85,9 +85,9 @@ fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
             __m256 c_imag = _mm256_set1_ps(fp->c_imag);
 
             float x_step = fp->y_step;
-            FRACDTYPE y = fp->y_start;
+            float y = fp->y_start;
             for (int row=0; row<hc->ROWS; ++row) {
-                FRACDTYPE x = fp->x_start;
+                float x = fp->x_start;
                 for (int col=0; col<hc->COLS; col+=VECFSIZE) {
                     __m256 y_vec = _mm256_set1_ps(y);
                     __m256 x_vec = _mm256_add_ps(
@@ -113,9 +113,9 @@ fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
             __m256 RR = _mm256_set1_ps(fp->R*fp->R);
 
             float x_step = fp->y_step;
-            FRACDTYPE y = fp->y_start;
+            float y = fp->y_start;
             for (int row=0; row<hc->ROWS; ++row) {
-                FRACDTYPE x = fp->x_start;
+                float x = fp->x_start;
                 for (int col=0; col<hc->COLS; col+=VECFSIZE) {
                     // Start at z=0
                     __m256 z_real = _mm256_set1_ps(0);

@@ -250,11 +250,9 @@ fractal_avxf_z2_z(__m256 * result_real, __m256 * result_imag,
 }
 
 
-void (*fractal_avx_get(enum Fractal frac))(__m256 * result_real, __m256 * result_imag, 
-                                        __m256 * z_real, __m256 * z_imag, 
-                                        __m256 * c_real, __m256 * c_imag)
+fractal_avx_t fractal_avx_get(enum Fractal frac)
 {
-    void (*fptr)(__m256 * , __m256 *, __m256 *, __m256 *, __m256 *, __m256 *) = &fractal_avxf_z2;
+    fractal_avx_t fptr = &fractal_avxf_z2;
 
     switch (frac) 
     {

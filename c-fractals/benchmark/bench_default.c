@@ -2,22 +2,22 @@
 
 
 BENCH_FUNC(bench_default) {
-    FRACDTYPE c_real = C_REAL;
-	FRACDTYPE c_imag = C_IMAG;
+    float c_real = C_REAL;
+	float c_imag = C_IMAG;
 
-    FRACDTYPE _Complex c = c_real + c_imag*I;
-    FRACDTYPE R = ceilf(cabs(c)) + 1;
+    float _Complex c = c_real + c_imag*I;
+    float R = ceilf(cabs(c)) + 1;
 
     HCMATRIX hCmatrix = fractal_cmatrix_create(ROWS, COLS);
 
-    FRACDTYPE x_start = -R;
-    FRACDTYPE x_end = R;
+    float x_start = -R;
+    float x_end = R;
 
-    FRACDTYPE y_start = -R;
-    FRACDTYPE y_end = R;
+    float y_start = -R;
+    float y_end = R;
 
-    FRACDTYPE x_step = (x_end - x_start) / ROWS;
-    FRACDTYPE y_step = (y_end - y_start) / COLS;
+    float x_step = (x_end - x_start) / ROWS;
+    float y_step = (y_end - y_start) / COLS;
     
     struct FractalProperties fp = {
         .x_start = -R,

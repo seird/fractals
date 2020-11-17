@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include <math.h>
 
 #include <GLFW\glfw3.h>
@@ -13,15 +14,17 @@
 #define PI 3.14159
 #define R_escape 2.0
 
-#define HEIGHT 1000
-#define WIDTH 1024
-#define MAX_ITERATIONS 1000
+#define HEIGHT 800
+#define WIDTH 800
+#define MAX_ITERATIONS 250
 
 #define PAN_STEP 15
 
 #define ZOOMLIMIT 1e-5 // 1e-12
 
-FRACDTYPE x_start, x_end, x_step, y_start, y_end, y_step;
+float x_start, x_end, x_step, y_start, y_end, y_step;
+
+bool update;
 
 enum ColorFunction {
 	CF_DEFAULT = 1,
@@ -46,8 +49,8 @@ view_reset()
 void
 scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
 {
-	FRACDTYPE x_delta = x_end - x_start;
-	FRACDTYPE y_delta = y_end - y_start;
+	float x_delta = x_end - x_start;
+	float y_delta = y_end - y_start;
 
 	if (yoffset > 0 && (x_delta < ZOOMLIMIT || y_delta < ZOOMLIMIT)) return;
 
@@ -76,6 +79,8 @@ scroll_callback(GLFWwindow * window, double xoffset, double yoffset)
 	//double xpos, ypos;
 	//glfwGetCursorPos(window, &xpos, &ypos);
 	//printf("[%f, %f] %f, %f\n", xpos, ypos, xoffset, yoffset);
+
+	update = true;
 }
 
 int
@@ -91,9 +96,9 @@ main(int argc, char * argv[])
 	void(__cdecl * fractal_get_colors_th) (HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads) = GetProcAddress(hLib, "fractal_get_colors_th");
 	void(__cdecl * fractal_avxf_get_colors_th) (HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads) = GetProcAddress(hLib, "fractal_avxf_get_colors_th");
 	void(__cdecl * fractal_avxf_get_colors) (HCMATRIX hCmatrix, struct FractalProperties * fp) = GetProcAddress(hLib, "fractal_avxf_get_colors");
-	FRACDTYPE(__cdecl * fractal_cmatrix_max) (HCMATRIX hCmatrix) = GetProcAddress(hLib, "fractal_cmatrix_max");
+	float(__cdecl * fractal_cmatrix_max) (HCMATRIX hCmatrix) = GetProcAddress(hLib, "fractal_cmatrix_max");
 	HCMATRIX(__cdecl * fractal_cmatrix_create) (int ROWS, int COLS) = GetProcAddress(hLib, "fractal_cmatrix_create");
-	FRACDTYPE * (__cdecl * fractal_cmatrix_value) (HCMATRIX hCmatrix, int row, int col) = GetProcAddress(hLib, "fractal_cmatrix_value");
+	float * (__cdecl * fractal_cmatrix_value) (HCMATRIX hCmatrix, int row, int col) = GetProcAddress(hLib, "fractal_cmatrix_value");
 	void(__cdecl * fractal_value_to_color) (float * r, float * g, float * b, enum Color color) = GetProcAddress(hLib, "fractal_value_to_color");
 
 	if (!glfwInit()) {
@@ -129,39 +134,60 @@ main(int argc, char * argv[])
 	};
 
 	enum ColorFunction cf = CF_AVX;
+	enum Color color = COLOR_MONOCHROME;
 
 	float r, g, b;
 
-	FRACDTYPE counter = 0;
-	FRACDTYPE step = 0.1;
+	bool first_run = true;
+	clock_t time_since_color_change = 0;
+
+	float counter = 0;
+	float step = 0.1;
 	while (!glfwWindowShouldClose(window)) {
+		if (first_run) {
+			update = true;
+			first_run = false;
+		}
+		else {
+			update = false;
+		}
+
+		glfwPollEvents();
+
 		// PAN KEYS
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 			x_start += x_step * PAN_STEP;
 			x_end += x_step * PAN_STEP;
+			update = true;
 		}
 		else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
 			x_start -= x_step * PAN_STEP;
 			x_end -= x_step * PAN_STEP;
+			update = true;
 		}
 		else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
 			y_start -= y_step * PAN_STEP;
 			y_end -= y_step * PAN_STEP;
+			update = true;
 		}
 		else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
 			y_start += y_step * PAN_STEP;
 			y_end += y_step * PAN_STEP;
+			update = true;
 		}
 		// ROTATE KEYS
 		else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 			counter += 0.1;
+			update = true;
 		}
 		else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
 			counter -= 0.1;
+			update = true;
 		}
 		// RESET KEY
 		else if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
 			view_reset();
+			update = true;
 		}
 		// QUIT KEY
 		else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
@@ -171,18 +197,30 @@ main(int argc, char * argv[])
 		else if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
 			cf = CF_DEFAULT;
 			printf("Switching to CF_DEFAULT\n");
+			update = true;
 		}
 		else if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
 			cf = CF_THREADED;
 			printf("Switching to CF_THREADED\n");
+			update = true;
 		}
 		else if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
 			cf = CF_AVX;
 			printf("Switching to CF_AVX\n");
+			update = true;
 		}
 		else if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
 			cf = CF_AVX_THREADED;
 			printf("Switching to avx CF_AVX_THREADED\n");
+			update = true;
+		}
+		else if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS) {
+			if ((clock() - time_since_color_change) > 0.4f * CLOCKS_PER_SEC) {
+				// only cycle the color mode if it has been changed at least .4 seconds ago
+				time_since_color_change = clock();
+				color = (color + 1) % COLOR_NUM_ENTRIES;
+				update = true;
+			}
 		}
 
 		//Setup View
@@ -211,34 +249,35 @@ main(int argc, char * argv[])
 		case CF_DEFAULT:
 			fractal_get_colors(hCmatrix, &fp); break;
 		case CF_THREADED:
-			fractal_get_colors_th(hCmatrix, &fp, 12);  break;
+			fractal_get_colors_th(hCmatrix, &fp, 8);  break;
 		case CF_AVX:
 			fractal_avxf_get_colors(hCmatrix, &fp); break;
 		case CF_AVX_THREADED:
-			fractal_avxf_get_colors_th(hCmatrix, &fp, 12); break;
+			fractal_avxf_get_colors_th(hCmatrix, &fp, 8); break;
 		}
 
 		// Find the maximum color value in the matrix
-		//FRACDTYPE max_color = fractal_cmatrix_max(hCmatrix);
+		//float max_color = fractal_cmatrix_max(hCmatrix);
 
-		// Draw the fractal
-		glBegin(GL_POINTS);
-		for (int row = 0; row < WIDTH; ++row) {
-			for (int col = 0; col < HEIGHT; ++col) {
-				fractal_value_to_color(&r, &g, &b, (int)*fractal_cmatrix_value(hCmatrix, row, col), COLOR_ULTRA);
+		if (update) {
+			// Draw the fractal
+			glBegin(GL_POINTS);
+			for (int row = 0; row < WIDTH; ++row) {
+				for (int col = 0; col < HEIGHT; ++col) {
+					fractal_value_to_color(&r, &g, &b, (int)*fractal_cmatrix_value(hCmatrix, row, col), color);
 
-				glColor3f(r, g, b);
-				glVertex2f(
-					(((FRACDTYPE)row) / WIDTH - 0.5) * 2,
-					(((FRACDTYPE)col) / HEIGHT - 0.5) * 2
-				);
+					glColor3f(r, g, b);
+					glVertex2f(
+						(((float)row) / WIDTH - 0.5) * 2,
+						(((float)col) / HEIGHT - 0.5) * 2
+					);
+				}
 			}
-		}
-		glEnd();
+			glEnd();
 
-		//Swap buffer and check for events
-		glfwSwapBuffers(window);
-		glfwPollEvents();
+			//Swap buffer and check for events
+			glfwSwapBuffers(window);
+		}
 	}
 
 	glfwDestroyWindow(window);

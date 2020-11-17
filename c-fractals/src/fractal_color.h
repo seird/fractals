@@ -6,11 +6,6 @@
 #define __FRACTAL_COLOR_H__
 
 
-#ifndef FRACDTYPE
-#define FRACDTYPE float
-#endif
-
-
 /* Fractal functions */
 enum Fractal {
     FRAC_Z2,     // z^2 + c
@@ -39,21 +34,22 @@ enum Color {
     COLOR_MONOCHROME,
     COLOR_TRI,
     COLOR_JET,
+    COLOR_NUM_ENTRIES
 };
 
 /* types */
 typedef void * HCMATRIX;
 
 struct FractalProperties {
-    FRACDTYPE x_start;
-    FRACDTYPE x_step;
-    FRACDTYPE y_start;
-    FRACDTYPE y_step;
+    float x_start;
+    float x_step;
+    float y_start;
+    float y_step;
     enum Fractal frac;
     enum Mode mode;
-    FRACDTYPE c_real;
-    FRACDTYPE c_imag;
-    FRACDTYPE R;
+    float c_real;
+    float c_imag;
+    float R;
     int max_iterations;
 };
 
@@ -68,9 +64,9 @@ HCMATRIX fractal_cmatrix_reshape(HCMATRIX hCmatrix, int ROWS_new, int COLS_new);
 void fractal_cmatrix_free(HCMATRIX hCmatrix);
 
 /* get a matrix value */
-FRACDTYPE * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
+float * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
 
-/* get fractal colors without complex data type */
+/* get fractal colors */
 void fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
 
 /* get fractal colors with threading */
@@ -83,7 +79,7 @@ void fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
 void fractal_avxf_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads);
 
 /* get the maximum color value */
-FRACDTYPE fractal_cmatrix_max(HCMATRIX hCmatrix);
+float fractal_cmatrix_max(HCMATRIX hCmatrix);
 
 /* save a color matrix as png */
 void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum Color color);

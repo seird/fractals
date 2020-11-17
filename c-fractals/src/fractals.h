@@ -8,16 +8,18 @@
 #include "fractal_color.h"
 
 
-
-FRACDTYPE _Complex fractal_z2(FRACDTYPE _Complex z, FRACDTYPE _Complex c);
-
-FRACDTYPE _Complex fractal_zn(FRACDTYPE _Complex z, FRACDTYPE _Complex c, int n);
-
-FRACDTYPE _Complex fractal_z3(FRACDTYPE _Complex z, FRACDTYPE _Complex c);
-
-FRACDTYPE _Complex fractal_z4(FRACDTYPE _Complex z, FRACDTYPE _Complex c);
+typedef float _Complex (*fractal_t)(float _Complex, float _Complex);
 
 
-FRACDTYPE _Complex (*fractal_get(enum Fractal frac))(FRACDTYPE _Complex, FRACDTYPE _Complex);
+float _Complex fractal_z2(float _Complex z, float _Complex c);
+
+float _Complex fractal_zn(float _Complex z, float _Complex c, int n);
+
+float _Complex fractal_z3(float _Complex z, float _Complex c);
+
+float _Complex fractal_z4(float _Complex z, float _Complex c);
+
+
+fractal_t fractal_get(enum Fractal frac);
 
 #endif

@@ -18,11 +18,10 @@
 #include "compute_avx.h"
 
 
-#define COLORMAP_SIZE 16
 #define BLACK 0.0
 
 
-typedef FRACDTYPE ** CMATRIX;
+typedef float ** CMATRIX;
 typedef struct S_CMATRIX {
     CMATRIX cmatrix;
     int ROWS;
@@ -37,8 +36,8 @@ struct ThreadArg {
 };
 
 
-bool fractal_escape_magnitude_check(FRACDTYPE _Complex z, FRACDTYPE R);
-void fractal_get_single_color(FRACDTYPE * color, FRACDTYPE x, FRACDTYPE y, FRACDTYPE _Complex (*fractal)(FRACDTYPE complex, FRACDTYPE _Complex), FRACDTYPE _Complex c, FRACDTYPE R, int max_iterations);
+bool fractal_escape_magnitude_check(float _Complex z, float R);
+void fractal_get_single_color(float * color, float x, float y, fractal_t fractal, float _Complex c, float R, int max_iterations);
 
 #if (!defined(TEST) && !defined(SHARED) && !defined(BENCHMARK))
 int main(void);

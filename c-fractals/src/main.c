@@ -5,11 +5,11 @@
 int
 main(void)
 {    
-    FRACDTYPE c_real = -0.7835f;
-	FRACDTYPE c_imag = -0.2321f;
+    float c_real = -0.7835f;
+	float c_imag = -0.2321f;
 
-    FRACDTYPE _Complex c = c_real + c_imag*I;
-    FRACDTYPE R = ceilf(cabs(c)) + 1;
+    float _Complex c = c_real + c_imag*I;
+    float R = ceilf(cabs(c)) + 1;
 
     int ROWS = 16*100;
     int COLS = 16*100;
@@ -17,14 +17,14 @@ main(void)
     HCMATRIX hCmatrix = fractal_cmatrix_create(1, 1);
     hCmatrix = fractal_cmatrix_reshape(hCmatrix, ROWS, COLS);
 
-    FRACDTYPE x_start = -R;
-    FRACDTYPE x_end = R;
+    float x_start = -R;
+    float x_end = R;
 
-    FRACDTYPE y_start = -R;
-    FRACDTYPE y_end = R;
+    float y_start = -R;
+    float y_end = R;
 
-    FRACDTYPE x_step = (x_end - x_start) / ROWS;
-    FRACDTYPE y_step = (y_end - y_start) / COLS;
+    float x_step = (x_end - x_start) / ROWS;
+    float y_step = (y_end - y_start) / COLS;
 
     int max_iterations = 1000;
     
@@ -46,7 +46,7 @@ main(void)
     //fractal_avxf_get_colors(hCmatrix, &fp);
     fractal_avxf_get_colors_th(hCmatrix, &fp, 6);
 
-    //FRACDTYPE max_color = fractal_cmatrix_max(hCmatrix);
+    //float max_color = fractal_cmatrix_max(hCmatrix);
 
     fractal_cmatrix_save(hCmatrix, "fractal.png", COLOR_ULTRA);
 

@@ -2,16 +2,16 @@
 
 
 bool
-fractal_escape_magnitude_check(FRACDTYPE _Complex z, FRACDTYPE R)
+fractal_escape_magnitude_check(float _Complex z, float R)
 {
 	return (crealf(z) * crealf(z) + cimagf(z) * cimagf(z)) > (R * R);
 }
 
 void
-fractal_get_single_color(FRACDTYPE * color, FRACDTYPE x, FRACDTYPE y, FRACDTYPE _Complex (*fractal)(FRACDTYPE complex, FRACDTYPE _Complex), FRACDTYPE _Complex c, FRACDTYPE R, int max_iterations)
+fractal_get_single_color(float * color, float x, float y, fractal_t fractal, float _Complex c, float R, int max_iterations)
 {
 	int num_iterations = 0;
-	FRACDTYPE _Complex z = x + y*I;
+	float _Complex z = x + y*I;
 
 	for (; num_iterations < max_iterations; ++num_iterations) {
 		if (fractal_escape_magnitude_check(z, R))
@@ -27,12 +27,12 @@ fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
 {
     HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
 
-    FRACDTYPE _Complex c = fp->c_real + fp->c_imag * I;
-    FRACDTYPE _Complex (*fractal)(FRACDTYPE complex, FRACDTYPE _Complex) = fractal_get(fp->frac);
+    float _Complex c = fp->c_real + fp->c_imag * I;
+    fractal_t fractal = fractal_get(fp->frac);
 
-    FRACDTYPE y = fp->y_start;
+    float y = fp->y_start;
     for (int row=0; row<hc->ROWS; ++row) {
-        FRACDTYPE x = fp->x_start;
+        float x = fp->x_start;
         for (int col=0; col<hc->COLS; ++col) {
             fractal_get_single_color(&hc->cmatrix[row][col], x, y, fractal, c, fp->R, fp->max_iterations);
             x += fp->x_step;

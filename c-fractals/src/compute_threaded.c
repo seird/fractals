@@ -8,12 +8,12 @@ get_colors_thread_worker(void * arg)
     HS_CMATRIX hc = targ->hc;
     struct FractalProperties * fp = targ->fp;
 
-    FRACDTYPE _Complex c = fp->c_real + fp->c_imag * I;
-    FRACDTYPE _Complex (*fractal)(FRACDTYPE complex, FRACDTYPE _Complex) = fractal_get(fp->frac);
+    float _Complex c = fp->c_real + fp->c_imag * I;
+    fractal_t fractal = fractal_get(fp->frac);
 
-    FRACDTYPE y = fp->y_start;
+    float y = fp->y_start;
     for (int row=targ->row_start; row<targ->row_end; ++row) {
-        FRACDTYPE x = fp->x_start;
+        float x = fp->x_start;
         for (int col=0; col<hc->COLS; ++col) {
             fractal_get_single_color(&hc->cmatrix[row][col], x, y, fractal, c, fp->R, fp->max_iterations);
             x += fp->x_step;
@@ -36,7 +36,7 @@ fractal_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int num_
         args[i].row_end = (i+1)*hc->ROWS/num_threads;
         args[i].fp = malloc(sizeof(struct FractalProperties));
         memcpy(args[i].fp, fp, sizeof(struct FractalProperties));
-        args[i].fp->y_start = fp->y_start + fp->y_step*i*(FRACDTYPE)hc->ROWS/num_threads;
+        args[i].fp->y_start = fp->y_start + fp->y_step*i*(float)hc->ROWS/num_threads;
 
         if (pthread_create(&threads[i], NULL, get_colors_thread_worker, &args[i]) != 0) {
             printf("Thread %d could not be created.\n", i);

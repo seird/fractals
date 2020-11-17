@@ -32,7 +32,7 @@ Include the library interface **fracal_color.h** in the project. Add the source 
 - Retrieve a pointer to a value in the color matrix
 
     ```c
-    FRACDTYPE * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
+    float * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
     ```
 
 - Compute the fractal colors
@@ -62,7 +62,7 @@ Include the library interface **fracal_color.h** in the project. Add the source 
 - Retrieve the maximum color value in the color matrix
 
     ```c
-    FRACDTYPE fractal_cmatrix_max(HCMATRIX hCmatrix);
+    float fractal_cmatrix_max(HCMATRIX hCmatrix);
     ```
 
 - Convert a cmatrix value to rgb
@@ -83,15 +83,15 @@ Include the library interface **fracal_color.h** in the project. Add the source 
 
     ```c
     struct FractalProperties {
-        FRACDTYPE x_start;
-        FRACDTYPE x_step;
-        FRACDTYPE y_start;
-        FRACDTYPE y_step;
+        float x_start;
+        float x_step;
+        float y_start;
+        float y_step;
         enum Fractal frac;
         enum Mode mode;
-        FRACDTYPE c_real;
-        FRACDTYPE c_imag;
-        FRACDTYPE R;
+        float c_real;
+        float c_imag;
+        float R;
         int max_iterations;
     };
     ```

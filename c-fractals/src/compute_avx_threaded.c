@@ -8,7 +8,7 @@ fractal_avxf_get_colors_thread_worker(void * arg)
     HS_CMATRIX hc = targ->hc;
     struct FractalProperties * fp = targ->fp;
 
-    void (*fractal)(__m256 *, __m256 *, __m256 *, __m256 *, __m256 * , __m256 *) = fractal_avx_get(fp->frac);
+    fractal_avx_t fractal = fractal_avx_get(fp->frac);
 
     switch (fp->mode)
     {
@@ -19,9 +19,9 @@ fractal_avxf_get_colors_thread_worker(void * arg)
             __m256 c_imag = _mm256_set1_ps(fp->c_imag);
 
             float x_step = fp->y_step;
-            FRACDTYPE y = fp->y_start;
+            float y = fp->y_start;
             for (int row=targ->row_start; row<targ->row_end; ++row) {
-                FRACDTYPE x = fp->x_start;
+                float x = fp->x_start;
                 for (int col=0; col<hc->COLS; col+=VECFSIZE) {
                     __m256 y_vec = _mm256_set1_ps(y);
                     __m256 x_vec = _mm256_add_ps(
@@ -47,9 +47,9 @@ fractal_avxf_get_colors_thread_worker(void * arg)
             __m256 RR = _mm256_set1_ps(fp->R*fp->R);
 
             float x_step = fp->y_step;
-            FRACDTYPE y = fp->y_start;
+            float y = fp->y_start;
             for (int row=targ->row_start; row<targ->row_end; ++row) {
-                FRACDTYPE x = fp->x_start;
+                float x = fp->x_start;
                 for (int col=0; col<hc->COLS; col+=VECFSIZE) {
                     // Start at z=0
                     __m256 z_real = _mm256_set1_ps(0);
@@ -92,7 +92,7 @@ fractal_avxf_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int
         args[i].row_end = (i+1)*hc->ROWS/num_threads;
         args[i].fp = malloc(sizeof(struct FractalProperties));
         memcpy(args[i].fp, fp, sizeof(struct FractalProperties));
-        args[i].fp->y_start = fp->y_start + fp->y_step*i*(FRACDTYPE)hc->ROWS/num_threads;
+        args[i].fp->y_start = fp->y_start + fp->y_step*i*(float)hc->ROWS/num_threads;
 
         if (pthread_create(&threads[i], NULL, fractal_avxf_get_colors_thread_worker, &args[i]) != 0) {
             printf("Thread %d could not be created.\n", i);

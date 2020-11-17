@@ -2,7 +2,15 @@
 #define __GRADIENTS_H__
 
 
+#include <stdio.h>
+
 #include "fractal_color.h"
+
+
+#define COLORMAP_SIZE 16
+
+
+typedef void (* colorfunc_t)(float * r, float * g, float * b, int value);
 
 
 /* convert a fractal value to rgb - ultra */
@@ -18,7 +26,7 @@ void value_to_rgb_tri(float * r, float * g, float * b, int value);
 void value_to_rgb_jet(float * r, float * g, float * b, int value);
 
 /* get a color function */
-void (*colorfunc_get(enum Color color))(float * r, float * g, float * b, int value);
+colorfunc_t colorfunc_get(enum Color color);
 
 
 #endif

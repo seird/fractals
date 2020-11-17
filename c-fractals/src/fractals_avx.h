@@ -7,6 +7,15 @@
 #include <immintrin.h>
 
 
+typedef void (* fractal_avx_t)(__m256 * result_real, __m256 * result_imag, 
+                            __m256 * z_real, __m256 * z_imag, 
+                            __m256 * c_real, __m256 * c_imag);
+
+typedef void (* fractal_avx_n_t)(__m256 * result_real, __m256 * result_imag, 
+                             __m256 * z_real, __m256 * z_imag, 
+                             __m256 * c_real, __m256 * c_imag);
+
+
 // Regular fractals
 
 void fractal_avxf_z2(__m256 * result_real, __m256 * result_imag, 
@@ -73,16 +82,15 @@ void fractal_avxf_magnet(__m256 * result_real, __m256 * result_imag,
                          __m256 * z_real, __m256 * z_imag, 
                          __m256 * c_real, __m256 * c_imag);
 
-void (*fractal_avx_get(enum Fractal frac))(__m256 * result_real, __m256 * result_imag, 
-                                           __m256 * z_real, __m256 * z_imag, 
-                                           __m256 * c_real, __m256 * c_imag);
-
-
 // Julia variant
 
 void fractal_avxf_z2_z(__m256 * result_real, __m256 * result_imag, 
                        __m256 * z_real, __m256 * z_imag, 
                        __m256 * c_real, __m256 * c_imag);
+
+
+
+fractal_avx_t fractal_avx_get(enum Fractal frac);
 
 
 #endif
