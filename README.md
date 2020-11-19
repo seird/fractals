@@ -9,7 +9,7 @@
 
 ## Downloads
 
-- [Download Windows GUI](https://gitlab.com/kdries/opengl-fractals/builds/artifacts/master/raw/python-fractals/PyFractals.zip?job=build_gui)
+- [Windows GUI](https://gitlab.com/kdries/opengl-fractals/builds/artifacts/master/raw/python-fractals/PyFractals.zip?job=build_gui)
 - [libfractal_Windows.dll](https://gitlab.com/kdries/opengl-fractals/builds/artifacts/master/raw/c-fractals/libfractal_Windows.dll?job=build_gui)
 - [libfractal_Linux.dll](https://gitlab.com/kdries/opengl-fractals/builds/artifacts/master/raw/c-fractals/libfractal_Linux.dll?job=build)
 
@@ -30,8 +30,7 @@ MODE               =           MODE_JULIA
 FRACTAL            =              FRAC_Z2
 ```
 
-### Time per run
-
+**Time per run**
 |                 |  Linux (5.4.0-54)  |  Windows  |
 |-----------------|:------------------:|:---------:|
 |**Default**      | 1901 ms            | 721 ms    |
@@ -42,16 +41,17 @@ FRACTAL            =              FRAC_Z2
 
 ## Examples
 
-![](python-fractals/images/gui_example.gif)
 
-![](images/example_iteration_1.gif)
+<p float="left">
+  <img src="python-fractals/images/gui_example.gif" width="800" />
+</p>
 
-![](images/example_iteration_2.gif)
+<p float="left">
+  <img src="images/example_iteration_1.gif" width="400" />
+  <img src="images/example_iteration_2.gif" width="400" /> 
+</p>
+
 
 ![](images/example_ultra.png)
 
-![](images/example_zoom_ultra.gif)
-
 ![](images/example_rotate_ultra.gif)
-
-![](images/example_gradients.png)

@@ -1,24 +1,32 @@
-## Python wrapper - pyfractals
+# Python wrapper - pyfractals
 
 [Python wrapper](pyfractals) for [c-fractals](c-fractals)
 
+
+See `testpyfractals.py` for an example.
+
+
 ### Requirements
 
-- "[libfractals_Windows.dll](https://gitlab.com/kdries/opengl-fractals/builds/artifacts/master/raw/c-fractals/libfractal_Windows.dll?job=build_gui)" or "[libfractal_Linux.dll](https://gitlab.com/kdries/opengl-fractals/builds/artifacts/master/raw/c-fractals/libfractal_Linux.dll?job=build)" from [c-fractals](c-fractals)
-- "libwinpthread-1.dll"
+- Compiled [c-fractals library](c-fractals) in `pyfractals/resources/libfractals_{OS}.dll`:
+    - `pyfractals/resources/libfractals_Windows.dll`
+    - `pyfractals/resources/libfractals_Linux.dll`
+- pthreads library in your system path:
+    - "libwinpthread-1.dll" on windows
+    - "libpthread.so.0" on linux
 
 
-## PyQt5 GUI
+
+# PyQt5 GUI
 
 [PyQt GUI](gui) that displays the different fractal modes.
 
-[Download Windows GUI.](https://gitlab.com/kdries/opengl-fractals/builds/artifacts/master/raw/python-fractals/PyFractals.zip?job=build_gui).
-
 
 ### Requirements
 
+- pyfractals (wrapper)
+- Python 3.7.9 (tested)
 - PyQt5
-- pyfractals
 
 ### Launch
 
@@ -32,4 +40,7 @@ $ python start_gui.py
 $ pyinstaller fractals.spec
 ```
 
-![gui example](images/gui_example.gif)
+<p float="left">
+  <img src="images/gui_example.gif" width="800" />
+</p>
+
