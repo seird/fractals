@@ -33,9 +33,9 @@ build_gui:
     - choco install mingw -y
     - refreshenv
   script:
-    - C:/Python38/python.exe --version
-    - C:/Python38/Scripts/pip.exe install PyQt5
-    - C:/Python38/Scripts/pip.exe install pyinstaller
+    - C:/Python37/python.exe --version
+    - C:/Python37/Scripts/pip.exe install PyQt5
+    - C:/Python37/Scripts/pip.exe install pyinstaller
     
     - powershell -File build-win.ps1
   artifacts:
