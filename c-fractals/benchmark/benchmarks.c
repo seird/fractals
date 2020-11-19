@@ -29,8 +29,11 @@ main(void)
 
     BENCH_RUN(bench_default, num_runs);
     BENCH_RUN(bench_threaded, num_runs);
+
+    #ifdef __AVX2__
     BENCH_RUN(bench_avx, num_runs);
     BENCH_RUN(bench_avx_threaded, num_runs);
+    #endif // __AVX2__
 
     return 0;
 }

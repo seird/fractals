@@ -2,6 +2,8 @@
 #define __COMPUTE_AVX_H__
 
 
+#ifdef __AVX2__
+
 #include <stdio.h>
 #include <immintrin.h>
 
@@ -25,5 +27,7 @@ void fractal_avxf_get_vector_color(float * color_array,
                                    __m256 * c_real, __m256 * c_imag,
                                    __m256 * RR, int max_iterations,
                                    fractal_avx_t fractal);
+
+#endif // __AVX2__
 
 #endif

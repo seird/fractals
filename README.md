@@ -16,33 +16,75 @@
 
 ## Performance
 
+cpu = 8700k @ 4.9GHz
+
 ```
-./benchmark.exe
-
-=================================================
-Benchmarking ...
-        Number of runs     =                   10
-        Fractal iterations =                 1000
-        Number of threads  =                    6
-        ROWS               =                 1000
-        COLUMNS            =                 1000
-        C_REAL             =            -0.788485
-        C_IMAG             =             0.004913
-        MODE               =                    1
-        FRACTAL            =                    0
-
-bench_default
-          1.173700 seconds per run [11.737000 seconds total]
-
-bench_threaded
-          0.581400 seconds per run [5.814001 seconds total]
-
-bench_avx
-          0.086600 seconds per run [0.865999 seconds total]
-
-bench_avx_threaded
-          0.043200 seconds per run [0.431999 seconds total]
+Number of runs     =                   10
+Fractal iterations =                 1000
+Number of threads  =                    6
+ROWS               =                 1000
+COLUMNS            =                 1000
+C_REAL             =            -0.788485
+C_IMAG             =             0.004913
+MODE               =           MODE_JULIA
+FRACTAL            =              FRAC_Z2
 ```
+
+### Linux (5.4.0-54)
+
+```
+--------- bench_default ---------
+
+1901 ms per run 
+19019 ms total
+
+
+--------- bench_threaded ---------
+
+321 ms per run 
+3219 ms total
+
+
+--------- bench_avx ---------
+
+90 ms per run 
+909 ms total
+
+
+--------- bench_avx_threaded ---------
+
+18 ms per run 
+181 ms total
+```
+
+
+### Windows
+
+```
+--------- bench_default ---------
+
+721 ms per run 
+7213 ms total
+
+
+--------- bench_threaded ---------
+
+137 ms per run 
+1371 ms total
+
+
+--------- bench_avx ---------
+
+91 ms per run 
+914 ms total
+
+
+--------- bench_avx_threaded ---------
+
+21 ms per run 
+214 ms total
+```
+
 
 ## Examples
 

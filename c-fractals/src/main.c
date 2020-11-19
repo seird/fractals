@@ -44,8 +44,7 @@ main(void)
         .max_iterations = max_iterations,
     };
 
-    HCMATRIX hCmatrix = fractal_cmatrix_create(1, 1);
-    hCmatrix = fractal_cmatrix_reshape(hCmatrix, height, width);
+    HCMATRIX hCmatrix = fractal_cmatrix_create(height, width);
 
     //fractal_get_colors(hCmatrix, &fp);
     //fractal_get_colors_th(hCmatrix, &fp, 6);

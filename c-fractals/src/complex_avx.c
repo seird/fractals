@@ -1,6 +1,8 @@
 #include "complex_avx.h"
 
 
+#ifdef __AVX2__
+
 void
 _mm256_autocmul_ps(__m256 * result_real, __m256 * result_imag,
                    __m256 * X_real, __m256 * X_imag)
@@ -81,3 +83,5 @@ _mm256_cdiv_ps(__m256 * result_real, __m256 * result_imag,
     *result_real = _mm256_div_ps(temp_num_real, temp_den_real);
     *result_imag = _mm256_div_ps(temp_num_imag, temp_den_real);
 }
+
+#endif //__AVX2__

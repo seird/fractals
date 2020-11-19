@@ -1,6 +1,7 @@
 #ifndef __FRACTALS_AVX_H__
 #define __FRACTALS_AVX_H__
 
+#ifdef __AVX2__
 
 #include "complex_avx.h"
 #include "fractal_color.h"
@@ -92,5 +93,6 @@ void fractal_avxf_z2_z(__m256 * result_real, __m256 * result_imag,
 
 fractal_avx_t fractal_avx_get(enum Fractal frac);
 
+#endif // __AVX2__
 
 #endif

@@ -29,9 +29,9 @@ typedef struct S_CMATRIX {
 } * HS_CMATRIX;
 
 struct ThreadArg {
+    int thread_id;
+    int num_threads;
     HS_CMATRIX hc;
-    int row_start;
-    int row_end;
     struct FractalProperties * fp;
 };
 

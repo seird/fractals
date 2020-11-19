@@ -1,6 +1,8 @@
 #include "tests.h"
 
 
+#ifdef __AVX2__
+
 MU_TEST(test_avx_vector_color)
 {
     float __attribute__((aligned(AVX_ALIGNMENT))) colors_avx[VECFSIZE] = {0};
@@ -38,3 +40,5 @@ MU_TEST(test_avx_vector_color)
         MU_CHECK(colors[i] == colors_avx[i]);
     }
 }
+
+#endif // __AVX2__

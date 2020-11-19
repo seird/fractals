@@ -1,5 +1,6 @@
 #include "compute_avx.h"
 
+#ifdef __AVX2__
 
 static void *
 fractal_avxf_get_colors_thread_worker(void * arg)
@@ -19,9 +20,9 @@ fractal_avxf_get_colors_thread_worker(void * arg)
             __m256 c_imag = _mm256_set1_ps(fp->c_imag);
 
             float x_step = fp->_x_step;
-            float y = fp->y_start;
-            for (int row=targ->row_start; row<targ->row_end; ++row) {
+            for (int row=targ->thread_id; row<hc->ROWS; row+=targ->num_threads) {
                 float x = fp->x_start;
+                float y = fp->y_start + fp->_y_step*row;
                 for (int col=0; col<hc->COLS; col+=VECFSIZE) {
                     __m256 y_vec = _mm256_set1_ps(y);
                     __m256 x_vec = _mm256_add_ps(
@@ -38,7 +39,6 @@ fractal_avxf_get_colors_thread_worker(void * arg)
 
                     x += VECFSIZE * x_step;
                 }
-                y += fp->_y_step;
             }
             break;
         }
@@ -46,10 +46,10 @@ fractal_avxf_get_colors_thread_worker(void * arg)
         {
             __m256 RR = _mm256_set1_ps(fp->R*fp->R);
 
-            float x_step = fp->_y_step;
-            float y = fp->y_start;
-            for (int row=targ->row_start; row<targ->row_end; ++row) {
+            float x_step = fp->_x_step;
+            for (int row=targ->thread_id; row<hc->ROWS; row+=targ->num_threads) {
                 float x = fp->x_start;
+                float y = fp->y_start + fp->_y_step*row;
                 for (int col=0; col<hc->COLS; col+=VECFSIZE) {
                     // Start at z=0
                     __m256 z_real = _mm256_set1_ps(0);
@@ -70,7 +70,6 @@ fractal_avxf_get_colors_thread_worker(void * arg)
 
                     x += VECFSIZE * x_step;
                 }
-                y += fp->_y_step;
             }
             break;
         }
@@ -91,11 +90,11 @@ fractal_avxf_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int
     struct ThreadArg args[num_threads];
     for (int i=0; i<num_threads; ++i) {
         args[i].hc = hc;
-        args[i].row_start = i*hc->ROWS/num_threads;
-        args[i].row_end = (i+1)*hc->ROWS/num_threads;
+        args[i].thread_id = i;
+        args[i].num_threads = num_threads;
         args[i].fp = malloc(sizeof(struct FractalProperties));
         memcpy(args[i].fp, fp, sizeof(struct FractalProperties));
-        args[i].fp->y_start = fp->y_start + fp->_y_step*i*(float)hc->ROWS/num_threads;
+        // args[i].fp->y_start = fp->y_start + fp->_y_step*i*(float)hc->ROWS/num_threads;
 
         if (pthread_create(&threads[i], NULL, fractal_avxf_get_colors_thread_worker, &args[i]) != 0) {
             printf("Thread %d could not be created.\n", i);
@@ -109,3 +108,5 @@ fractal_avxf_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int
         free(args[i].fp);
     }
 }
+
+#endif // __AVX2__

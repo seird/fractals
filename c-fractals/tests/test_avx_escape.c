@@ -1,6 +1,8 @@
 #include "tests.h"
 
 
+#ifdef __AVX2__
+
 MU_TEST(test_avx_escape)
 {
     // Test vectors
@@ -28,3 +30,5 @@ MU_TEST(test_avx_escape)
         escaped_avx >>= 1;
     }
 }
+
+#endif // __AVX2__

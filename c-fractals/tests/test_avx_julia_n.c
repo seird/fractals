@@ -1,6 +1,8 @@
 #include "tests.h"
 
 
+#ifdef __AVX2__
+
 MU_TEST(test_avx_julia_n)
 {   
     // Test vectors
@@ -35,3 +37,5 @@ MU_TEST(test_avx_julia_n)
         MU_CHECK(((float *)&result_imag_n_vec)[i] == ((float *)&result_imag_vec)[i]);
     }
 }
+
+#endif // __AVX2__

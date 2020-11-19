@@ -1,6 +1,8 @@
 #include "tests.h"
 
 
+#ifdef __AVX2__
+
 MU_TEST(test_avx_julia)
 {   
     // Test vectors
@@ -27,7 +29,9 @@ MU_TEST(test_avx_julia)
         float _Complex result = fractal_z2(z, c);
 
         // Compare the reference result with the avx result
-        MU_CHECK(crealf(result) == ((float *)&result_real_vec)[i]);
-        MU_CHECK(cimagf(result) == ((float *)&result_imag_vec)[i]);
+        MU_CHECK_FLT_EQ_ERROR(crealf(result), ((float *)&result_real_vec)[i], 0.00001);
+        MU_CHECK_FLT_EQ_ERROR(cimagf(result), ((float *)&result_imag_vec)[i], 0.00001);
     }
 }
+
+#endif // __AVX2__

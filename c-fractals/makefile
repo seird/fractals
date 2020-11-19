@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS_DEBUG = -g -Wall -Wextra -pthread -mavx2 #-shared
-CFLAGS_RELEASE = -O3 -Wall -Wextra -pthread -mavx2 #-shared
+CFLAGS_RELEASE = -O3 -Wall -Wextra -pthread -ffast-math -mavx2 #-shared
 CFLAGS_RELEASE_LIB = -O3 -Wall -Wextra -shared -DSHARED -pthread -ffast-math -mavx2 -fPIC
 
 library:
@@ -19,7 +19,7 @@ profile: debug
 	valgrind --tool=callgrind ./a_debug.exe
 
 memcheck: debug
-	valgrind --leak-check=yes ./a_debug.exe
+	valgrind --leak-check=full ./a_debug.exe
 
 cache: build
 	valgrind --tool=cachegrind ./a_release.exe

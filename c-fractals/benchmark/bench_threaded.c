@@ -15,16 +15,14 @@ BENCH_FUNC(bench_threaded) {
 
     float y_start = -R;
     float y_end = R;
-
-    float x_step = (x_end - x_start) / ROWS;
-    float y_step = (y_end - y_start) / COLS;
     
-
     struct FractalProperties fp = {
-        .x_start = -R,
-        .x_step = x_step,
+        .x_start = x_start,
+        .x_end = x_end,
         .y_start = y_start,
-        .y_step = y_step,
+        .y_end = y_end,
+        .height = ROWS,
+        .width = COLS,
         .frac = FRACTAL,
         .mode = MODE,
         .c_real = c_real,

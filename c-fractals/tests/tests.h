@@ -16,11 +16,13 @@
 
 MU_TEST(test_threaded_result);
 
+#ifdef __AVX2__
 MU_TEST(test_avx_julia);
 MU_TEST(test_avx_julia_n);
 MU_TEST(test_avx_escape);
 MU_TEST(test_avx_vector_color);
 MU_TEST(test_avx_conj_n);
 MU_TEST(test_avx_abs_n);
+#endif // __AVX2__
 
 #endif

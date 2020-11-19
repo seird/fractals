@@ -1,6 +1,8 @@
 #include "compute_avx.h"
 
 
+#ifdef __AVX2__
+
 void
 fractal_avxf_print_vec(__m256 * v)
 {
@@ -146,3 +148,5 @@ fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
         default: printf("Unsupported mode.\n");
     }
 }
+
+#endif // __AVX2__

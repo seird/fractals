@@ -1,6 +1,6 @@
 #include "fractals_avx.h"
 
-
+#ifdef __AVX2__
 // Regular fractals
 
 void
@@ -294,3 +294,5 @@ fractal_avx_t fractal_avx_get(enum Fractal frac)
     }
     return fptr;
 }
+
+#endif //__AVX2__
