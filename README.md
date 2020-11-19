@@ -30,60 +30,14 @@ MODE               =           MODE_JULIA
 FRACTAL            =              FRAC_Z2
 ```
 
-### Linux (5.4.0-54)
+### Time per run
 
-```
---------- bench_default ---------
-
-1901 ms per run 
-19019 ms total
-
-
---------- bench_threaded ---------
-
-321 ms per run 
-3219 ms total
-
-
---------- bench_avx ---------
-
-90 ms per run 
-909 ms total
-
-
---------- bench_avx_threaded ---------
-
-18 ms per run 
-181 ms total
-```
-
-
-### Windows
-
-```
---------- bench_default ---------
-
-721 ms per run 
-7213 ms total
-
-
---------- bench_threaded ---------
-
-137 ms per run 
-1371 ms total
-
-
---------- bench_avx ---------
-
-91 ms per run 
-914 ms total
-
-
---------- bench_avx_threaded ---------
-
-21 ms per run 
-214 ms total
-```
+|                 |  Linux (5.4.0-54)  |  Windows  |
+|-----------------|:------------------:|:---------:|
+|**Default**      | 1901 ms            | 721 ms    |
+|**Threaded**     | 321  ms            | 137 ms    |
+|**AVX2**         | 90   ms            | 91  ms    |
+|**AVX2 Threaded**| 18   ms            | 21  ms    |
 
 
 ## Examples
