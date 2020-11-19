@@ -14,7 +14,7 @@ echo "Creating executable"
 
 cd ../python-fractals
 
-try {C:/Python38/Scripts/pyinstaller fractals.spec}
+try {C:/Python37/Scripts/pyinstaller fractals.spec}
 catch {pyinstaller fractals.spec}
 
 try {Remove-Item "dist/PyFractals/d3dcompiler_47.dll"} catch {}
