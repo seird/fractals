@@ -7,36 +7,36 @@
 
 
 /* Fractal functions */
-enum Fractal {
-    FRAC_Z2,     // z^2 + c
-    FRAC_Z3,     // z^3 + c
-    FRAC_Z4,     // z^4 + c
-    FRAC_ZCONJ2, // (conj(z))^2 + c
-    FRAC_ZCONJ3, // (conj(z))^3 + c
-    FRAC_ZCONJ4, // (conj(z))^4 + c
-    FRAC_ZABS2,  // (abs(z_real) + abs(c_real)*j)^2 + c
-    FRAC_ZABS3,  // (abs(z_real) + abs(c_real)*j)^3 + c
-    FRAC_ZABS4,  // (abs(z_real) + abs(c_real)*j)^4 + c
-    FRAC_MAGNET, // [(z^2 + c - 1)/(2z + c - 2)]^2
-    FRAC_Z2_Z,   // z^2 + c/z
-    FRAC_NUM_ENTRIES,
+enum FC_Fractal {
+    FC_FRAC_Z2,     // z^2 + c
+    FC_FRAC_Z3,     // z^3 + c
+    FC_FRAC_Z4,     // z^4 + c
+    FC_FRAC_ZCONJ2, // (conj(z))^2 + c
+    FC_FRAC_ZCONJ3, // (conj(z))^3 + c
+    FC_FRAC_ZCONJ4, // (conj(z))^4 + c
+    FC_FRAC_ZABS2,  // (abs(z_real) + abs(c_real)*j)^2 + c
+    FC_FRAC_ZABS3,  // (abs(z_real) + abs(c_real)*j)^3 + c
+    FC_FRAC_ZABS4,  // (abs(z_real) + abs(c_real)*j)^4 + c
+    FC_FRAC_MAGNET, // [(z^2 + c - 1)/(2z + c - 2)]^2
+    FC_FRAC_Z2_Z,   // z^2 + c/z
+    FC_FRAC_NUM_ENTRIES,
 };
 
 /* Fractal modes */
-enum Mode {
-    MODE_MANDELBROT,
-    MODE_JULIA,
-    MODE_NUM_ENTRIES,
-    MODE_BUDDHABROT, // not implemented
+enum FC_Mode {
+    FC_MODE_MANDELBROT,
+    FC_MODE_JULIA,
+    FC_MODE_NUM_ENTRIES,
+    FC_MODE_BUDDHABROT, // not implemented
 };
 
 /* Color modes to convert CMATRIX values to */
-enum Color {
-    COLOR_ULTRA,
-    COLOR_MONOCHROME,
-    COLOR_TRI,
-    COLOR_JET,
-    COLOR_NUM_ENTRIES
+enum FC_Color {
+    FC_COLOR_ULTRA,
+    FC_COLOR_MONOCHROME,
+    FC_COLOR_TRI,
+    FC_COLOR_JET,
+    FC_COLOR_NUM_ENTRIES
 };
 
 /* types */
@@ -49,8 +49,8 @@ struct FractalProperties {
     float y_end;
     float width;
     float height;
-    enum Fractal frac;
-    enum Mode mode;
+    enum FC_Fractal frac;
+    enum FC_Mode mode;
     float c_real;
     float c_imag;
     float R;
@@ -88,10 +88,10 @@ void fractal_avxf_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp
 float fractal_cmatrix_max(HCMATRIX hCmatrix);
 
 /* save a color matrix as png */
-void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum Color color);
+void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum FC_Color color);
 
 /* convert a cmatrix value to rgb */
-void fractal_value_to_color(float * r, float * g, float * b, int value, enum Color color);
+void fractal_value_to_color(float * r, float * g, float * b, int value, enum FC_Color color);
 
 
 #endif

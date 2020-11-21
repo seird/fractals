@@ -99,7 +99,7 @@ main(int argc, char * argv[])
 	float(__cdecl * fractal_cmatrix_max) (HCMATRIX hCmatrix) = GetProcAddress(hLib, "fractal_cmatrix_max");
 	HCMATRIX(__cdecl * fractal_cmatrix_create) (int ROWS, int COLS) = GetProcAddress(hLib, "fractal_cmatrix_create");
 	float * (__cdecl * fractal_cmatrix_value) (HCMATRIX hCmatrix, int row, int col) = GetProcAddress(hLib, "fractal_cmatrix_value");
-	void(__cdecl * fractal_value_to_color) (float * r, float * g, float * b, enum Color color) = GetProcAddress(hLib, "fractal_value_to_color");
+	void(__cdecl * fractal_value_to_color) (float * r, float * g, float * b, enum FC_Color color) = GetProcAddress(hLib, "fractal_value_to_color");
 
 	if (!glfwInit()) {
 		exit(EXIT_FAILURE);
@@ -127,8 +127,8 @@ main(int argc, char * argv[])
 		.y_end = y_end,
 		.width = WIDTH,
 		.height = HEIGHT,
-		.frac = FRAC_Z2,
-		.mode = MODE_JULIA,
+		.frac = FC_FRAC_Z2,
+		.mode = FC_MODE_JULIA,
 		.c_real = 0,
 		.c_imag = 0,
 		.R = R_escape,
@@ -136,7 +136,7 @@ main(int argc, char * argv[])
 	};
 
 	enum ColorFunction cf = CF_AVX;
-	enum Color color = COLOR_JET;
+	enum FC_Color color = FC_COLOR_JET;
 
 	float r, g, b;
 
@@ -234,7 +234,7 @@ main(int argc, char * argv[])
 			if ((clock() - time_since_color_change) > 0.4f * CLOCKS_PER_SEC) {
 				// only cycle the color mode if it has been changed at least .4 seconds ago
 				time_since_color_change = clock();
-				color = (color + 1) % COLOR_NUM_ENTRIES;
+				color = (color + 1) % FC_COLOR_NUM_ENTRIES;
 				update = true;
 			}
 		}
@@ -242,7 +242,7 @@ main(int argc, char * argv[])
 			if ((clock() - time_since_frac_change) > 0.4f * CLOCKS_PER_SEC) {
 				// only cycle the fractal mode if it has been changed at least .4 seconds ago
 				time_since_frac_change = clock();
-				fp.frac = (fp.frac + 1) % FRAC_NUM_ENTRIES;
+				fp.frac = (fp.frac + 1) % FC_FRAC_NUM_ENTRIES;
 				update = true;
 			}
 		}
@@ -250,7 +250,7 @@ main(int argc, char * argv[])
 			if ((clock() - time_since_mode_change) > 0.4f * CLOCKS_PER_SEC) {
 				// only cycle the mode if it has been changed at least .4 seconds ago
 				time_since_mode_change = clock();
-				fp.mode = (fp.mode + 1) % MODE_NUM_ENTRIES;
+				fp.mode = (fp.mode + 1) % FC_MODE_NUM_ENTRIES;
 				update = true;
 			}
 		}

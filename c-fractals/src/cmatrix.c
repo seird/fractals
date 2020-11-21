@@ -114,7 +114,7 @@ fractal_cmatrix_max(HCMATRIX hCmatrix)
 }
 
 void
-fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum Color color)
+fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum FC_Color color)
 {
     HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
 

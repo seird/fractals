@@ -25,11 +25,11 @@ MU_TEST(test_avx_vector_color)
 
     __m256 RR = _mm256_set1_ps(R*R);
 
-    void (*fractal_avx)(__m256 *, __m256 *, __m256 *, __m256 *, __m256 * , __m256 *) = fractal_avx_get(FRAC_Z2);
+    void (*fractal_avx)(__m256 *, __m256 *, __m256 *, __m256 *, __m256 * , __m256 *) = fractal_avx_get(FC_FRAC_Z2);
 
     fractal_avxf_get_vector_color(colors_avx, &x_vec, &y_vec, &c_real_vec, &c_imag_vec, &RR, max_iterations, fractal_avx);
     
-    float _Complex (*fractal)(float complex, float _Complex) = fractal_get(FRAC_Z2);
+    float _Complex (*fractal)(float complex, float _Complex) = fractal_get(FC_FRAC_Z2);
 
     for (int i=0; i<VECFSIZE; ++i) {
         // Compute the reference result

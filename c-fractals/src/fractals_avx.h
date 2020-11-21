@@ -91,7 +91,7 @@ void fractal_avxf_z2_z(__m256 * result_real, __m256 * result_imag,
 
 
 
-fractal_avx_t fractal_avx_get(enum Fractal frac);
+fractal_avx_t fractal_avx_get(enum FC_Fractal frac);
 
 #endif // __AVX2__
 

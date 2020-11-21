@@ -31,18 +31,18 @@ fractal_z4(float _Complex z, float _Complex c)
     return fractal_zn(z, c, 4);
 }
 
-fractal_t fractal_get(enum Fractal frac)
+fractal_t fractal_get(enum FC_Fractal frac)
 {
     fractal_t fptr = &fractal_z2;
     switch (frac) 
     {
-        case FRAC_Z2: 
+        case FC_FRAC_Z2: 
             fptr = &fractal_z2;
             break;
-        case FRAC_Z3:
+        case FC_FRAC_Z3:
             fptr = &fractal_z3;
             break;
-        case FRAC_Z4:
+        case FC_FRAC_Z4:
             fptr = &fractal_z4;
             break;
         default:

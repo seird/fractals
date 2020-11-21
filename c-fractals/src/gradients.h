@@ -26,7 +26,7 @@ void value_to_rgb_tri(float * r, float * g, float * b, int value);
 void value_to_rgb_jet(float * r, float * g, float * b, int value);
 
 /* get a color function */
-colorfunc_t colorfunc_get(enum Color color);
+colorfunc_t colorfunc_get(enum FC_Color color);
 
 
 #endif

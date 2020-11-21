@@ -250,43 +250,43 @@ fractal_avxf_z2_z(__m256 * result_real, __m256 * result_imag,
 }
 
 
-fractal_avx_t fractal_avx_get(enum Fractal frac)
+fractal_avx_t fractal_avx_get(enum FC_Fractal frac)
 {
     fractal_avx_t fptr = &fractal_avxf_z2;
 
     switch (frac) 
     {
-        case FRAC_Z2: 
+        case FC_FRAC_Z2: 
             fptr = &fractal_avxf_z2;
             break;
-        case FRAC_Z3:
+        case FC_FRAC_Z3:
             fptr = &fractal_avxf_z3;
             break;
-        case FRAC_Z4:
+        case FC_FRAC_Z4:
             fptr = &fractal_avxf_z4;
             break;
-        case FRAC_ZCONJ2: 
+        case FC_FRAC_ZCONJ2: 
             fptr = &fractal_avxf_zconj2;
             break;
-        case FRAC_ZCONJ3:
+        case FC_FRAC_ZCONJ3:
             fptr = &fractal_avxf_zconj3;
             break;
-        case FRAC_ZCONJ4:
+        case FC_FRAC_ZCONJ4:
             fptr = &fractal_avxf_zconj4;
             break;
-        case FRAC_ZABS2: 
+        case FC_FRAC_ZABS2: 
             fptr = &fractal_avxf_zabs2;
             break;
-        case FRAC_ZABS3:
+        case FC_FRAC_ZABS3:
             fptr = &fractal_avxf_zabs3;
             break;
-        case FRAC_ZABS4:
+        case FC_FRAC_ZABS4:
             fptr = &fractal_avxf_zabs4;
             break;
-        case FRAC_MAGNET:
+        case FC_FRAC_MAGNET:
             fptr = &fractal_avxf_magnet;
             break;
-        case FRAC_Z2_Z:
+        case FC_FRAC_Z2_Z:
             fptr = &fractal_avxf_z2_z;
             break;
         default:

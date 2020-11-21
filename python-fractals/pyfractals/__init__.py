@@ -85,14 +85,14 @@ _fractal_cmatrix_max_wrapped = wrap_lib_function(
     restype  = c_float
 )
 
-# void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum Color color);
+# void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum FC_Color color);
 _fractal_cmatrix_save_wrapped = wrap_lib_function(
     "fractal_cmatrix_save",
     argtypes = [HCMATRIX, c_char_p, c_int],
     restype  = None
 )
 
-# void fractal_value_to_color(float * r, float * g, float * b, int value, enum Color color);
+# void fractal_value_to_color(float * r, float * g, float * b, int value, enum FC_Color color);
 _fractal_value_to_color_wrapped = wrap_lib_function(
     "fractal_value_to_color",
     argtypes = [c_float_p, c_float_p, c_float_p, c_int, c_int],

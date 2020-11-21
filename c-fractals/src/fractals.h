@@ -20,6 +20,6 @@ float _Complex fractal_z3(float _Complex z, float _Complex c);
 float _Complex fractal_z4(float _Complex z, float _Complex c);
 
 
-fractal_t fractal_get(enum Fractal frac);
+fractal_t fractal_get(enum FC_Fractal frac);
 
 #endif

@@ -13,7 +13,7 @@ fractal_avxf_get_colors_thread_worker(void * arg)
 
     switch (fp->mode)
     {
-        case MODE_JULIA:
+        case FC_MODE_JULIA:
         {
             __m256 RR = _mm256_set1_ps(fp->R*fp->R);
             __m256 c_real = _mm256_set1_ps(fp->c_real);
@@ -42,7 +42,7 @@ fractal_avxf_get_colors_thread_worker(void * arg)
             }
             break;
         }
-        case MODE_MANDELBROT:
+        case FC_MODE_MANDELBROT:
         {
             __m256 RR = _mm256_set1_ps(fp->R*fp->R);
 

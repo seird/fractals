@@ -13,8 +13,8 @@ extern int COLS;
 extern float C_REAL;
 extern float C_IMAG;
 extern int NUM_THREADS;
-extern enum Mode MODE;
-extern enum Fractal FRACTAL;
+extern enum FC_Mode MODE;
+extern enum FC_Fractal FRACTAL;
 
 
 BENCH_FUNC(bench_default);
