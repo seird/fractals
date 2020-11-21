@@ -3,6 +3,7 @@
 # Fractals
 
 - [C Fractal implementations](c-fractals)
+- [Raylib rendering](raylib-fractals)
 - [OpenGL rendering](opengl-fractals)
 - [Python wrapper and PyQt gui](python-fractals)
 
