@@ -18,10 +18,12 @@ build:
   stage: build
   script: 
     - make library
-    - mv libfractal.dll libfractal_Linux.dll
+    - cp libfractal.dll libfractal_Linux.dll
+    - cp libfractal.dll libfractal.so
   artifacts:
     paths:
       - c-fractals/libfractal_Linux.dll
+      - c-fractals/libfractal.so
 
 build_gui:
   tags:
