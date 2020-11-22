@@ -8,7 +8,7 @@
 
 #define NUM_THREADS 12
 #define VECSIZE 8
-#define WIDTH (VECSIZE*130)
+#define WIDTH (VECSIZE*100)
 #define HEIGHT WIDTH
 
 
@@ -18,6 +18,7 @@ float animation_speed;
 bool animate;
 bool update;
 bool show_info;
+bool show_position;
 int counter;
 
 
@@ -46,6 +47,7 @@ reset(bool view_only)
     animate = true;
     update = true;
     show_info = true;
+    show_position = false;
 }
 
 
@@ -136,6 +138,10 @@ handle_user_input()
     if (IsKeyPressed(KEY_F1)){
         show_info = !show_info;
     }
+    /* Toggle position */
+    if (IsKeyPressed(KEY_F2)){
+        show_position = !show_position;
+    }
 }
 
 
@@ -197,7 +203,8 @@ main(void)
         }
 
 		BeginDrawing();
-		if ( update ) UpdateTexture(texture, image);
+
+		if (update) UpdateTexture(texture, image);
 		DrawTexture(texture, 0, 0, WHITE);
 		
         if (show_info) {
@@ -211,6 +218,7 @@ main(void)
                          "2: Fractals\n"
                          "3: Modes\n"
                          "R: Reset\n"
+                         "F2: Toggle position\n"
                          "F1: Toggle OSD\n");
             DrawText(buf, 10, 5, 20, PURPLE);
 
@@ -219,6 +227,17 @@ main(void)
                 DrawText(buf, WIDTH-200, 0, 20, GREEN);
             }
         }
+
+        if (show_position){
+            sprintf(buf, "%.4f, %.4f",
+                    fp.x_start + GetMouseX()/fp.width*(fp.x_end-fp.x_start),
+                    fp.y_start + GetMouseY()/fp.height*(fp.y_end-fp.y_start));
+            DrawText(buf, 10, HEIGHT-30, 20, PINK);
+
+            DrawLine(0, GetMouseY(), WIDTH, GetMouseY(), PINK);
+            DrawLine(GetMouseX(), 0, GetMouseX(), HEIGHT, PINK);
+        }
+
         EndDrawing();
     }
 
