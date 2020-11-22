@@ -1,35 +1,14 @@
 #include "fractal_color.h"
-#include <raylib.h>
+#include "raylib.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <time.h>
 #include <complex.h>
 
 
 #define NUM_THREADS 10
-#define WIDTH (NUM_THREADS*8*16)
-#define HEIGHT (NUM_THREADS*8*16)
-
-
-// call this function to start a nanosecond-resolution timer
-struct timespec
-timer_start()
-{
-    struct timespec start_time;
-    clock_gettime(CLOCK_MONOTONIC, &start_time);
-    return start_time;
-}
-
-// call this function to end a timer, returning nanoseconds elapsed as a long
-long
-timer_end(struct timespec start_time)
-{
-    struct timespec end_time;
-    clock_gettime(CLOCK_MONOTONIC, &end_time);
-    long diffInNanos = (end_time.tv_sec - start_time.tv_sec) * (long)1e9 + (end_time.tv_nsec - start_time.tv_nsec);
-    return diffInNanos;
-}
+#define WIDTH (NUM_THREADS*8*8)
+#define HEIGHT (NUM_THREADS*8*8)
 
 
 int
@@ -138,11 +117,10 @@ main(void)
             show_info = !show_info;
         }
 
-        struct timespec t = timer_start();
         if (update) {
-            fractal_avxf_get_colors_th(hc, &fp, NUM_THREADS);
+            // fractal_avxf_get_colors_th(hc, &fp, NUM_THREADS);
             // fractal_get_colors_th(hc, &fp, NUM_THREADS);
-            // fractal_avxf_get_colors(hc, &fp);
+            fractal_avxf_get_colors(hc, &fp);
 
             for (int row=0; row<HEIGHT; ++row) {
                 for (int col=0; col<WIDTH; ++col) {
@@ -158,18 +136,15 @@ main(void)
             }
         }
 
-        long ns = timer_end(t);
-        long ms = ns / 1000000;
-
 		BeginDrawing();
 		if ( update ) UpdateTexture(texture, image);
 		DrawTexture(texture, 0, 0, WHITE);
 		
         if (show_info) {
-            sprintf(buf, "FPS: %d Render: %ld ms", GetFPS(), ms);
-            DrawText(buf, 0, 0, 20, PURPLE);
+            sprintf(buf, "FPS: %d", GetFPS());
+            DrawText(buf, 0, 0, 18, PURPLE);
             sprintf(buf, "\nWASD: Pan around\nSpace: Pause\nF1: Toggle OSD");
-            DrawText(buf, 0, 0, 20, PURPLE);
+            DrawText(buf, 0, 0, 18, PURPLE);
         }
 		
         EndDrawing();

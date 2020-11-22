@@ -46,7 +46,8 @@ FRACTAL            =              FRAC_Z2
 
 
 <p float="left">
-  <img src="python-fractals/images/gui_example.gif" width="800" />
+  <img src="python-fractals/images/gui_example.gif" width="400" />
+  <img src="raylib-fractals/images/example.gif" width="340" />
 </p>
 
 <p float="left">
