@@ -8,8 +8,8 @@
 
 #define NUM_THREADS 12
 #define VECSIZE 8
-#define WIDTH (VECSIZE*100)
-#define HEIGHT WIDTH
+#define WIDTH 1280 // (VECSIZE*100)
+#define HEIGHT 720 // WIDTH
 
 
 struct FractalProperties fp;
@@ -19,19 +19,23 @@ bool animate;
 bool update;
 bool show_info;
 bool show_position;
+float aspect_ratio;
 int counter;
 
 
 void
 reset(bool view_only)
 {
+    aspect_ratio = (float)WIDTH/HEIGHT;
+    animation_speed = 1;
+
     fp.x_start=-2;
     fp.x_end=2;
-    fp.y_start=-2;
-    fp.y_end=2;
+    fp.y_start=-2/aspect_ratio;
+    fp.y_end=2/aspect_ratio;
     fp.width=WIDTH;
     fp.height=HEIGHT;
-    animation_speed = 1;
+    
 
     if (view_only) return;
 
@@ -76,17 +80,17 @@ handle_user_input()
     if (GetMouseWheelMove() == 1) {
         if ((fp.x_end-fp.x_start > 0.01) && (fp.y_end-fp.y_start>0.01)) {
             fp.x_start += 0.05 * !shift_pressed + 0.01 * shift_pressed;
-            fp.y_start += 0.05 * !shift_pressed + 0.01 * shift_pressed;
+            fp.y_start += (0.05 * !shift_pressed + 0.01 * shift_pressed)/aspect_ratio;
             fp.x_end -= 0.05 * !shift_pressed + 0.01 * shift_pressed;
-            fp.y_end -= 0.05 * !shift_pressed + 0.01 * shift_pressed;
+            fp.y_end -= (0.05 * !shift_pressed + 0.01 * shift_pressed)/aspect_ratio;
             update = true;
         }
     }
     if (GetMouseWheelMove() == -1) {
         fp.x_start -= 0.05 * !shift_pressed + 0.01 * shift_pressed;
-        fp.y_start -= 0.05 * !shift_pressed + 0.01 * shift_pressed;
+        fp.y_start -= (0.05 * !shift_pressed + 0.01 * shift_pressed)/aspect_ratio;
         fp.x_end += 0.05 * !shift_pressed + 0.01 * shift_pressed;
-        fp.y_end += 0.05 * !shift_pressed + 0.01 * shift_pressed;
+        fp.y_end += (0.05 * !shift_pressed + 0.01 * shift_pressed)/aspect_ratio;
         update = true;
     }
 
@@ -150,7 +154,7 @@ main(void)
 {
     reset(false);
 
-    HCMATRIX hc = fractal_cmatrix_create(WIDTH, HEIGHT);
+    HCMATRIX hc = fractal_cmatrix_create(HEIGHT, WIDTH);
 
     Color * image;
 	image = malloc(WIDTH*HEIGHT*sizeof(Color));
