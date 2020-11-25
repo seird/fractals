@@ -132,6 +132,7 @@ enum FC_Color {
     FC_COLOR_MONOCHROME,
     FC_COLOR_TRI,
     FC_COLOR_JET,
+    FC_COLOR_LAVENDER,
 };
 ```
 

@@ -33,6 +33,14 @@ bench:
 	$(CC) $(CFLAGS_RELEASE) -DBENCHMARK benchmark/*.c src/*.c -o benchmark.exe -lm
 	./benchmark.exe
 
+install: library
+ifneq ($(OS),Windows_NT)
+ifeq ($(shell uname),Linux)
+	cp libfractal.dll /usr/local/lib/libfractal.so
+	cp src/fractal_color.h /usr/local/include/fractal_color.h
+endif
+endif
+
 clean:
 	rm --force *.exe
 	rm --force *.out.*

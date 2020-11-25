@@ -18,6 +18,9 @@ colorfunc_t colorfunc_get(enum FC_Color color)
         case FC_COLOR_JET:
             fptr = &value_to_rgb_jet;
             break;
+        case FC_COLOR_LAVENDER:
+            fptr = &value_to_rgb_lavender;
+            break;
         case FC_COLOR_NUM_ENTRIES:
         default:
             printf("Unsupported color mode, using FC_COLOR_ULTRA instead.\n");
@@ -147,6 +150,54 @@ value_to_rgb_ultra(float * r, float * g, float * b, int value)
         *b = colormap[value % COLORMAP_SIZE][2]/255;
     }
     else {
+        *r = *g = *b = 0;
+    }
+}
+
+
+void value_to_rgb_lavender(float * r, float * g, float * b, int value) {
+    static const float colormap[][3] = {
+       { 69, 147, 254},
+       {101, 154, 214},
+       {108, 122, 211},
+       {114,  89, 203},
+       {119,  80, 183},
+       {123, 134, 163},
+       {128,  51, 186},
+       {132,  88, 151},
+       {136, 116, 153},
+       {140, 126, 130},
+       {144, 145, 111},
+       {149,  56, 151},
+       {153, 105, 124},
+       {158,  23, 131},
+       {162, 112, 117},
+       {167,  60,  93},
+       {172,  42,  83},
+       {177,  44, 111},
+       {182,  49,  86},
+       {187, 163,   7},
+       {193,  33,  57},
+       {198, 188,  29},
+       {204,  75,  91},
+       {210,  48,  73},
+       {216,  32,  85},
+       {221, 118, 128},
+       {226, 207,   0},
+       {231,  68,  85},
+       {235, 169, 169},
+       {239, 147, 159},
+       {243,  67,  93},
+       {246, 179, 193},
+       {250,  83, 103},
+       {253, 224, 226}
+    };
+
+    if (value > 0) {
+        *r = colormap[value % sizeof(colormap)/3][0]/255;
+        *g = colormap[value % sizeof(colormap)/3][1]/255;
+        *b = colormap[value % sizeof(colormap)/3][2]/255;
+    } else {
         *r = *g = *b = 0;
     }
 }

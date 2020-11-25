@@ -58,8 +58,6 @@ reset(bool view_only)
 void
 handle_user_input()
 {
-    if (fp.mode == FC_MODE_MANDELBROT) animate = false;
-
     if (animate) {
         if (IsKeyPressed(KEY_LEFT_CONTROL)){
             animation_speed -= 0.1;
@@ -68,10 +66,6 @@ handle_user_input()
         if (IsKeyPressed(KEY_RIGHT_CONTROL)){
             animation_speed += 0.1;
         }
-        
-        fp.c_real = 0.7885 * cosf(counter / (2 * PI) / 20 * animation_speed);
-        fp.c_imag = 0.7885 * sinf(counter / (2 * PI) / 10 * animation_speed);
-        counter++;
         update = true;
     }
 
@@ -79,40 +73,40 @@ handle_user_input()
 
     if (GetMouseWheelMove() == 1) {
         if ((fp.x_end-fp.x_start > 0.01) && (fp.y_end-fp.y_start>0.01)) {
-            fp.x_start += 0.05 * !shift_pressed + 0.01 * shift_pressed;
-            fp.y_start += (0.05 * !shift_pressed + 0.01 * shift_pressed)/aspect_ratio;
-            fp.x_end -= 0.05 * !shift_pressed + 0.01 * shift_pressed;
-            fp.y_end -= (0.05 * !shift_pressed + 0.01 * shift_pressed)/aspect_ratio;
+            fp.x_start += shift_pressed ?  0.01 : 0.05;
+            fp.y_start += (shift_pressed ?  0.01 : 0.05)/aspect_ratio;
+            fp.x_end -= shift_pressed ?  0.01 : 0.05;
+            fp.y_end -= (shift_pressed ?  0.01 : 0.05)/aspect_ratio;
             update = true;
         }
     }
     if (GetMouseWheelMove() == -1) {
-        fp.x_start -= 0.05 * !shift_pressed + 0.01 * shift_pressed;
-        fp.y_start -= (0.05 * !shift_pressed + 0.01 * shift_pressed)/aspect_ratio;
-        fp.x_end += 0.05 * !shift_pressed + 0.01 * shift_pressed;
-        fp.y_end += (0.05 * !shift_pressed + 0.01 * shift_pressed)/aspect_ratio;
+        fp.x_start -= shift_pressed ?  0.01 : 0.05;
+        fp.y_start -= (shift_pressed ?  0.01 : 0.05)/aspect_ratio;
+        fp.x_end += shift_pressed ?  0.01 : 0.05;
+        fp.y_end += (shift_pressed ?  0.01 : 0.05)/aspect_ratio;
         update = true;
     }
 
     /* Pan around with WASD keys */
     if (IsKeyDown(KEY_S)){
-        fp.y_start += 0.01 * !shift_pressed + 0.001 * shift_pressed;
-        fp.y_end += 0.01 * !shift_pressed + 0.001 * shift_pressed;
+        fp.y_start += shift_pressed ?  0.001 : 0.01;
+        fp.y_end += shift_pressed ?  0.001 : 0.01;
         update = true;
     }
     if (IsKeyDown(KEY_W)){
-        fp.y_start -= 0.01 * !shift_pressed + 0.001 * shift_pressed;
-        fp.y_end -= 0.01 * !shift_pressed + 0.001 * shift_pressed;
+        fp.y_start -= shift_pressed ?  0.001 : 0.01;
+        fp.y_end -= shift_pressed ?  0.001 : 0.01;
         update = true;
     }
     if (IsKeyDown(KEY_A)){
-        fp.x_start -= 0.01 * !shift_pressed + 0.001 * shift_pressed;
-        fp.x_end -= 0.01 * !shift_pressed + 0.001 * shift_pressed;
+        fp.x_start -= shift_pressed ?  0.001 : 0.01;
+        fp.x_end -= shift_pressed ?  0.001 : 0.01;
         update = true;
     }
     if (IsKeyDown(KEY_D)){
-        fp.x_start += 0.01 * !shift_pressed + 0.001 * shift_pressed;
-        fp.x_end += 0.01 * !shift_pressed + 0.001 * shift_pressed;
+        fp.x_start += shift_pressed ?  0.001 : 0.01;
+        fp.x_end += shift_pressed ?  0.001 : 0.01;
         update = true;
     }
     /* Cycle colors */
@@ -187,6 +181,15 @@ main(void)
 
         handle_user_input();
 
+        if (fp.mode == FC_MODE_MANDELBROT) animate = false;
+
+        if (animate) {
+            fp.c_real = 0.7885 * cosf(counter / (2 * PI) / 20 * animation_speed);
+            fp.c_imag = 0.7885 * sinf(counter / (2 * PI) / 10 * animation_speed);
+            counter++;
+            update = true;
+        }
+
         if (update) {
             // Do the actual fractal computation
             fractal_avxf_get_colors_th(hc, &fp, NUM_THREADS);
@@ -228,7 +231,7 @@ main(void)
 
             if (fp.mode == FC_MODE_JULIA) {
                 sprintf(buf, "c = %5.02f + %5.02f j", fp.c_real,fp.c_imag);
-                DrawText(buf, WIDTH-200, 0, 20, GREEN);
+                DrawText(buf, WIDTH-200, 5, 20, GREEN);
             }
         }
 

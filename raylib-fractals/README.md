@@ -40,7 +40,6 @@ Toy example using raylib with zooming and panning.
 
 ## Examples
 
-<p float="left">
-  <img src="images/example.gif" width="325" />
-  <img src="images/example.png" width="340" /> 
-</p>
+![images/example.png](images/example.png)
+
+![images/example.gif](images/example.gif)

@@ -1,7 +1,6 @@
 stages:
   - test
   - build
-  - dist
 
 test:
   image: gcc
@@ -24,23 +23,3 @@ build:
     paths:
       - c-fractals/libfractal_Linux.dll
       - c-fractals/libfractal.so
-
-build_gui:
-  tags:
-    - shared-windows
-    - windows
-  stage: dist
-  before_script:
-    - choco install python --version=3.7.9 -y
-    - choco install mingw -y
-    - refreshenv
-  script:
-    - C:/Python37/python.exe --version
-    - C:/Python37/Scripts/pip.exe install PyQt5
-    - C:/Python37/Scripts/pip.exe install pyinstaller
-    
-    - powershell -File build-win.ps1
-  artifacts:
-    paths:
-      - c-fractals/libfractal_Windows.dll
-      - python-fractals/PyFractals.zip
