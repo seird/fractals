@@ -1,7 +1,7 @@
 #include "main.h"
 
 
-#if (!defined(TEST) && !defined(SHARED) && !defined(BENCHMARK))
+#if (!defined(TEST) && !defined(SHARED) && !defined(STATIC) && !defined(BENCHMARK))
 int
 main(void)
 {    
@@ -55,7 +55,7 @@ main(void)
 
     //float max_color = fractal_cmatrix_max(hCmatrix);
 
-    fractal_cmatrix_save(hCmatrix, "fractal.png", FC_COLOR_MONOCHROME);
+    fractal_cmatrix_save(hCmatrix, "fractal.png", FC_COLOR_ULTRA);
 
     fractal_cmatrix_free(hCmatrix);
 

@@ -2,9 +2,42 @@ CC = gcc
 CFLAGS_DEBUG = -g -Wall -Wextra -pthread -mavx2 #-shared
 CFLAGS_RELEASE = -O3 -Wall -Wextra -pthread -ffast-math -mavx2 #-shared
 CFLAGS_RELEASE_LIB = -O3 -Wall -Wextra -shared -DSHARED -pthread -ffast-math -mavx2 -fPIC
+CFLAGS_RELEASE_LIB_STATIC = -O3 -Wall -Wextra -pthread -DSTATIC -ffast-math -mavx2 -fPIC -c
+
+
+
+ifeq ($(OS),Windows_NT)
+	PLATFORM_OS = WINDOWS
+else
+	UNAMEOS = $(shell uname)
+	ifeq ($(UNAMEOS),Linux)
+		PLATFORM_OS = LINUX
+	endif
+	ifeq ($(UNAMEOS),FreeBSD)
+		PLATFORM_OS = BSD
+	endif
+	ifeq ($(UNAMEOS),OpenBSD)
+		PLATFORM_OS = BSD
+	endif
+	ifeq ($(UNAMEOS),NetBSD)
+		PLATFORM_OS = BSD
+	endif
+	ifeq ($(UNAMEOS),DragonFly)
+		PLATFORM_OS = BSD
+	endif
+	ifeq ($(UNAMEOS),Darwin)
+		PLATFORM_OS = OSX
+	endif
+endif
+
+
 
 library:
 	$(CC) $(CFLAGS_RELEASE_LIB) src/*.c -o libfractal.dll
+
+static:
+	$(CC) $(CFLAGS_RELEASE_LIB_STATIC) src/*.c
+	ar -rc libfractal.a *.o
 
 build: 
 	$(CC) $(CFLAGS_RELEASE) src/*.c -o a_release.exe
@@ -42,5 +75,13 @@ endif
 endif
 
 clean:
-	rm --force *.exe
-	rm --force *.out.*
+ifeq ($(PLATFORM_OS),WINDOWS)
+	del *.o /s
+	del *.exe /s
+	del *.dll /s
+	del *.out.* /s
+	del *.so /s
+	del *.a /s
+else
+	rm -fv *.o *.exe *.dll *.so *.out.* *.a
+endif

@@ -5,3 +5,5 @@ Release
 
 *.exe
 *.zip
+*.o
+*.a

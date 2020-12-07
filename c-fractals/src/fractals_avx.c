@@ -249,50 +249,23 @@ fractal_avxf_z2_z(__m256 * result_real, __m256 * result_imag,
     *result_imag = _mm256_add_ps(*result_imag, fraction_imag);
 }
 
+static fractal_avx_t fractalfuncs[FC_FRAC_NUM_ENTRIES] = {
+    fractal_avxf_z2,     // z^2 + c
+    fractal_avxf_z3,     // z^3 + c
+    fractal_avxf_z4,     // z^4 + c
+    fractal_avxf_zconj2, // (conj(z))^2 + c
+    fractal_avxf_zconj3, // (conj(z))^3 + c
+    fractal_avxf_zconj4, // (conj(z))^4 + c
+    fractal_avxf_zabs2,  // (abs(z_real) + abs(c_real)*j)^2 + c
+    fractal_avxf_zabs3,  // (abs(z_real) + abs(c_real)*j)^3 + c
+    fractal_avxf_zabs4,  // (abs(z_real) + abs(c_real)*j)^4 + c
+    fractal_avxf_magnet, // [(z^2 + c - 1)/(2z + c - 2)]^2
+    fractal_avxf_z2_z,
+};
 
 fractal_avx_t fractal_avx_get(enum FC_Fractal frac)
 {
-    fractal_avx_t fptr = &fractal_avxf_z2;
-
-    switch (frac) 
-    {
-        case FC_FRAC_Z2: 
-            fptr = &fractal_avxf_z2;
-            break;
-        case FC_FRAC_Z3:
-            fptr = &fractal_avxf_z3;
-            break;
-        case FC_FRAC_Z4:
-            fptr = &fractal_avxf_z4;
-            break;
-        case FC_FRAC_ZCONJ2: 
-            fptr = &fractal_avxf_zconj2;
-            break;
-        case FC_FRAC_ZCONJ3:
-            fptr = &fractal_avxf_zconj3;
-            break;
-        case FC_FRAC_ZCONJ4:
-            fptr = &fractal_avxf_zconj4;
-            break;
-        case FC_FRAC_ZABS2: 
-            fptr = &fractal_avxf_zabs2;
-            break;
-        case FC_FRAC_ZABS3:
-            fptr = &fractal_avxf_zabs3;
-            break;
-        case FC_FRAC_ZABS4:
-            fptr = &fractal_avxf_zabs4;
-            break;
-        case FC_FRAC_MAGNET:
-            fptr = &fractal_avxf_magnet;
-            break;
-        case FC_FRAC_Z2_Z:
-            fptr = &fractal_avxf_z2_z;
-            break;
-        default:
-            fptr = &fractal_avxf_z2;
-    }
-    return fptr;
+    return fractalfuncs[frac % FC_FRAC_NUM_ENTRIES];
 }
 
 #endif //__AVX2__

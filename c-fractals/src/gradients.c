@@ -1,32 +1,17 @@
 #include "gradients.h"
 
 
+static colorfunc_t colorfuncs[FC_COLOR_NUM_ENTRIES] = {
+    value_to_rgb_ultra,
+    value_to_rgb_monochrome,
+    value_to_rgb_tri,
+    value_to_rgb_jet,
+    value_to_rgb_lavender,
+};
+
 colorfunc_t colorfunc_get(enum FC_Color color)
 {
-    colorfunc_t fptr = &value_to_rgb_ultra;
-    switch (color) 
-    {
-        case FC_COLOR_ULTRA: 
-            fptr = &value_to_rgb_ultra;
-            break;
-        case FC_COLOR_MONOCHROME:
-            fptr = &value_to_rgb_monochrome;
-            break;
-        case FC_COLOR_TRI:
-            fptr = &value_to_rgb_tri;
-            break;
-        case FC_COLOR_JET:
-            fptr = &value_to_rgb_jet;
-            break;
-        case FC_COLOR_LAVENDER:
-            fptr = &value_to_rgb_lavender;
-            break;
-        case FC_COLOR_NUM_ENTRIES:
-        default:
-            printf("Unsupported color mode, using FC_COLOR_ULTRA instead.\n");
-            fptr = &value_to_rgb_ultra;
-    }
-    return fptr;
+    return colorfuncs[color % FC_COLOR_NUM_ENTRIES];
 }
 
 void
