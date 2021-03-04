@@ -1,9 +1,39 @@
 CC = gcc
 CFLAGS_DEBUG = -g -Wall -Wextra -pthread -mavx2 #-shared
 CFLAGS_RELEASE = -O3 -Wall -Wextra -pthread -ffast-math -mavx2 #-shared
-CFLAGS_RELEASE_LIB = -O3 -Wall -Wextra -shared -DSHARED -pthread -ffast-math -mavx2 -fPIC
-CFLAGS_RELEASE_LIB_STATIC = -O3 -Wall -Wextra -pthread -DSTATIC -ffast-math -mavx2 -fPIC -c
+CFLAGS_RELEASE_LIB = -O3 -Wall -Wextra -shared -DSHARED -pthread -ffast-math -march=native -mavx2 -fPIC
+CFLAGS_RELEASE_LIB_STATIC = -O3 -Wall -Wextra -pthread -DSTATIC -ffast-math -march=native -mavx2 -fPIC -c
 
+FILES = \
+	src/cmatrix.c \
+	src/compute_avx.c \
+	src/compute.c \
+	src/fractals_avx.c \
+	src/gradients.c \
+	src/complex_avx.c \
+	src/compute_avx_threaded.c \
+	src/compute_threaded.c \
+	src/fractals.c \
+	src/main.c \
+
+FILES_TEST = \
+	$(FILES) \
+	tests/test_avx_abs.c \
+	tests/test_avx_escape.c \
+	tests/test_avx_julia_n.c \
+	tests/tests.c \
+	tests/test_avx_conj.c \
+	tests/test_avx_julia.c \
+	tests/test_avx_vector_color.c \
+	tests/test_threaded.c \
+
+FILES_BENCH = \
+	$(FILES) \
+	benchmark/bench_avx.c \
+	benchmark/bench_avx_threaded.c \
+	benchmark/bench_default.c \
+	benchmark/benchmarks.c \
+	benchmark/bench_threaded.c \
 
 
 ifeq ($(OS),Windows_NT)
@@ -33,20 +63,20 @@ endif
 
 
 library:
-	$(CC) $(CFLAGS_RELEASE_LIB) src/*.c -o libfractal.dll
+	$(CC) $(CFLAGS_RELEASE_LIB) $(FILES) -o libfractal.dll
 
 static:
-	$(CC) $(CFLAGS_RELEASE_LIB_STATIC) src/*.c
+	$(CC) $(CFLAGS_RELEASE_LIB_STATIC) $(FILES)
 	ar -rc libfractal.a *.o
 
 build: 
-	$(CC) $(CFLAGS_RELEASE) src/*.c -o a_release.exe
+	$(CC) $(CFLAGS_RELEASE) $(FILES) -o a_release.exe
 
 run: build
 	./a_release.exe
 
 debug:
-	$(CC) $(CFLAGS_DEBUG) src/*.c -o a_debug.exe -lm
+	$(CC) $(CFLAGS_DEBUG) $(FILES) -o a_debug.exe -lm
 
 profile: debug
 	valgrind --tool=callgrind ./a_debug.exe
@@ -59,11 +89,11 @@ cache: build
 	#cg_annotate cachegrind.out.{PID}
 
 test:
-	$(CC) $(CFLAGS_RELEASE) -DTEST tests/*.c src/*.c -o test.exe
+	$(CC) $(CFLAGS_RELEASE) -DTEST $(FILES_TEST) -o test.exe
 	./test.exe
 
 bench:
-	$(CC) $(CFLAGS_RELEASE) -DBENCHMARK benchmark/*.c src/*.c -o benchmark.exe -lm
+	$(CC) $(CFLAGS_RELEASE) -DBENCHMARK $(FILES_BENCH) -o benchmark.exe -lm
 	./benchmark.exe
 
 install: library

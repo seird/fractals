@@ -33,8 +33,8 @@ MU_TEST(test_avx_abs_n)
 
     for (int i=0; i<VECFSIZE; ++i) {
         // Compare the reference julia result with the julia_n result
-        MU_CHECK(((float *)&result_real_n_vec)[i] == ((float *)&result_real_vec)[i]);
-        MU_CHECK(((float *)&result_imag_n_vec)[i] == ((float *)&result_imag_vec)[i]);
+        MU_CHECK_FLT_EQ(((float *)&result_real_n_vec)[i], ((float *)&result_real_vec)[i]);
+        MU_CHECK_FLT_EQ(((float *)&result_imag_n_vec)[i], ((float *)&result_imag_vec)[i]);
     }
 }
 

@@ -46,7 +46,7 @@ MU_TEST(test_threaded_result)
     float max_color_nc = fractal_cmatrix_max(hCmatrix_nc);
     float max_color_th = fractal_cmatrix_max(hCmatrix_th);
 
-    MU_CHECK(max_color_nc == max_color_th);
+    MU_CHECK_FLT_EQ(max_color_nc, max_color_th);
 
     fractal_cmatrix_free(hCmatrix_nc);
     fractal_cmatrix_free(hCmatrix_th);

@@ -37,7 +37,7 @@ MU_TEST(test_avx_vector_color)
         fractal_get_single_color(&colors[i], x_array[i], y_array[i], fractal, c, R, max_iterations);
 
         // Compare the reference result with the avx result
-        MU_CHECK(colors[i] == colors_avx[i]);
+        MU_CHECK_FLT_EQ(colors[i], colors_avx[i]);
     }
 }
 
