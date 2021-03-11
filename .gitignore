@@ -4,6 +4,7 @@ Debug
 Release
 
 *.exe
+*.dll
 *.zip
 *.o
 *.a

@@ -34,6 +34,7 @@ FILES_BENCH = \
 	benchmark/bench_default.c \
 	benchmark/benchmarks.c \
 	benchmark/bench_threaded.c \
+	benchmark/bench_cuda.c \
 
 
 ifeq ($(OS),Windows_NT)
@@ -94,6 +95,10 @@ test:
 
 bench:
 	$(CC) $(CFLAGS_RELEASE) -DBENCHMARK $(FILES_BENCH) -o benchmark.exe -lm
+	./benchmark.exe
+
+bench_cuda:
+	$(CC) $(CFLAGS_RELEASE) -DBENCHMARK -DCUDA -lcudafractals -L. $(FILES_BENCH) -o benchmark.exe -lm
 	./benchmark.exe
 
 install: library

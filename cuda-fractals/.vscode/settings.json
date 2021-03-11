@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+      "*.s": "asm",
+      "*.nasm": "asm",
+      "*.cu": "cpp",
+      "*.cuh": "cpp",
+      "string.h": "c",
+      "stdio.h": "c",
+      "array": "cpp",
+      "string_view": "cpp",
+      "benchmarks.h": "c"
+    }
+}

@@ -6,6 +6,10 @@
 #include "../src/main.h"
 #include "../src/fractal_color.h"
 
+#ifdef CUDA
+#include "fractal_cuda.h"
+#endif
+
 
 extern int MAX_ITERATIONS;
 extern int ROWS;
@@ -21,6 +25,7 @@ BENCH_FUNC(bench_default);
 BENCH_FUNC(bench_threaded);
 BENCH_FUNC(bench_avx);
 BENCH_FUNC(bench_avx_threaded);
+BENCH_FUNC(bench_cuda);
 
 
 #endif

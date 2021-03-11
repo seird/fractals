@@ -8,7 +8,13 @@ FILES = src/main.c
 build: 
 	$(CC) $(FILES) -o a_release.exe $(CFLAGS_RELEASE)
 
+build_cuda:
+	$(CC) $(FILES) -DCUDA -o a_release.exe -lcudafractals $(CFLAGS_RELEASE)
+
 run: build
+	./a_release.exe
+
+run_cuda: build_cuda
 	./a_release.exe
 
 debug:

@@ -1,4 +1,5 @@
 #include "fractal_color.h"
+#include "fractal_cuda.h"
 #include "raylib.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,9 +9,14 @@
 
 #define NUM_THREADS 12
 #define VECSIZE 8
+
+#ifdef CUDA
+#define WIDTH 1920 // (VECSIZE*100)
+#define HEIGHT 1080 // WIDTH
+#else
 #define WIDTH 1280 // (VECSIZE*100)
 #define HEIGHT 720 // WIDTH
-
+#endif
 
 struct FractalProperties fp;
 enum FC_Color f_color;
@@ -148,7 +154,12 @@ main(void)
 {
     reset(false);
 
-    HCMATRIX hc = fractal_cmatrix_create(HEIGHT, WIDTH);
+    #ifdef CUDA
+        int * cuda_image = (int *) malloc(sizeof(int)*WIDTH*HEIGHT);
+        fractal_cuda_init(WIDTH, HEIGHT);
+    #else
+        HCMATRIX hc = fractal_cmatrix_create(HEIGHT, WIDTH);
+    #endif
 
     Color * image;
 	image = malloc(WIDTH*HEIGHT*sizeof(Color));
@@ -192,13 +203,21 @@ main(void)
 
         if (update) {
             // Do the actual fractal computation
-            fractal_avxf_get_colors_th(hc, &fp, NUM_THREADS);
+            #ifdef CUDA
+                fractal_cuda_get_colors(cuda_image, &fp);
+            #else
+                fractal_avxf_get_colors_th(hc, &fp, NUM_THREADS);
+            #endif
 
             // Convert the values to a color image
             for (int row=0; row<HEIGHT; ++row) {
                 for (int col=0; col<WIDTH; ++col) {
                     float r, g, b;
-                    fractal_value_to_color(&r, &g, &b, (int)*fractal_cmatrix_value(hc, row, col), f_color);
+                    #ifdef CUDA
+                        fractal_value_to_color(&r, &g, &b, cuda_image[row*WIDTH+col], f_color);
+                    #else
+                        fractal_value_to_color(&r, &g, &b, (int)*fractal_cmatrix_value(hc, row, col), f_color);
+                    #endif
                     Color c;
                     c.a = 255;
                     c.r = r*255;
@@ -250,7 +269,12 @@ main(void)
 
     CloseWindow();        // Close window and OpenGL context
 
-    fractal_cmatrix_free(hc);
+    #ifdef CUDA
+        free(cuda_image);
+        fractal_cuda_clean();
+    #else
+        fractal_cmatrix_free(hc);
+    #endif
     
     return 0;
 }

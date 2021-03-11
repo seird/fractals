@@ -35,5 +35,11 @@ main(void)
     BENCH_RUN(bench_avx_threaded, num_runs);
     #endif // __AVX2__
 
+    #ifdef CUDA
+    fractal_cuda_init(COLS, ROWS);
+    BENCH_RUN(bench_cuda, num_runs);
+    fractal_cuda_clean();
+    #endif
+
     return 0;
 }
