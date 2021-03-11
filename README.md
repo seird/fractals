@@ -34,7 +34,7 @@ FRACTAL            =              FRAC_Z2
 |**Threaded**     | 321  ms            | 137 ms    |
 |**AVX2**         | 90   ms            | 91  ms    |
 |**AVX2 Threaded**| 18   ms            | 21  ms    |
-|**CUDA**         | -    ms            | 2   ms    |
+|**CUDA**         | 1    ms            | 2   ms    |
 
 
 ## Examples

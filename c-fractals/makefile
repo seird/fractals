@@ -98,7 +98,7 @@ bench:
 	./benchmark.exe
 
 bench_cuda:
-	$(CC) $(CFLAGS_RELEASE) -DBENCHMARK -DCUDA -lcudafractals -L. $(FILES_BENCH) -o benchmark.exe -lm
+	$(CC) $(CFLAGS_RELEASE) -DBENCHMARK -DCUDA  -L. $(FILES_BENCH) -o benchmark.exe -lm -lcudafractals
 	./benchmark.exe
 
 install: library

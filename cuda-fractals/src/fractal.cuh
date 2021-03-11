@@ -14,9 +14,15 @@ extern int * d_image;
 #define BLACK 0
 
 
+#ifdef __linux__
+extern "C" bool fractal_cuda_init(int width, int height);
+extern "C" void fractal_cuda_clean();
+extern "C" void fractal_cuda_get_colors(int * image, struct FractalProperties * fp);
+#else
 extern "C" bool __declspec(dllexport) fractal_cuda_init(int width, int height);
 extern "C" void __declspec(dllexport) fractal_cuda_clean();
 extern "C" void __declspec(dllexport) fractal_cuda_get_colors(int * image, struct FractalProperties * fp);
+#endif
 
 
 typedef void (* fractal_cuda_t)(float * result_real, float * result_imag,
