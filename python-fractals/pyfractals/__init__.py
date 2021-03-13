@@ -2,8 +2,8 @@ import errno
 import os
 import platform
 import sys
-from ctypes import (CDLL, POINTER, Structure, byref, c_char_p, c_float, c_int,
-                    c_void_p, cast)
+from ctypes import (CDLL, POINTER, Structure, byref, c_bool, c_char_p, c_float,
+                    c_int, c_void_p, cast, create_string_buffer, sizeof)
 from typing import List, Tuple
 
 from .datatypes import *
@@ -12,9 +12,15 @@ p = os.path.dirname(os.path.abspath(__file__)) + "/resources"
 os.environ["PATH"] = p + os.pathsep + os.environ["PATH"]
 lib = CDLL(os.path.join(p, f"libfractal_{platform.system()}.dll"))
 
+try:
+    lib_cuda = CDLL(os.path.join(p, f"libcudafractals_{platform.system()}.dll"))
+    cuda = True
+except Exception:
+    cuda = False
 
-def wrap_lib_function(fname, argtypes: List = [], restype=None):
-    func = getattr(lib, fname)
+
+def wrap_lib_function(fname, argtypes: List = [], restype=None, cuda=False):
+    func = getattr(lib if not cuda else lib_cuda, fname)
     if not func:
         return None
     func.argtypes = argtypes
@@ -92,12 +98,58 @@ _fractal_cmatrix_save_wrapped = wrap_lib_function(
     restype  = None
 )
 
+# void fractal_image_save(int * image, int width, int height, const char * filename, enum FC_Color color);
+_fractal_image_save_wrapped = wrap_lib_function(
+    "fractal_image_save",
+    argtypes = [c_int_p, c_int, c_int, c_char_p, c_int],
+    restype  = None
+)
+
 # void fractal_value_to_color(float * r, float * g, float * b, int value, enum FC_Color color);
 _fractal_value_to_color_wrapped = wrap_lib_function(
     "fractal_value_to_color",
     argtypes = [c_float_p, c_float_p, c_float_p, c_int, c_int],
     restype  = None
 )
+
+# int * fractal_image_create(int ROWS, int COLS);
+_fractal_image_create_wrapped = wrap_lib_function(
+    "fractal_image_create",
+    argtypes = [c_int, c_int],
+    restype  = c_int_p
+)
+
+# void fractal_image_free(int * image);
+_fractal_image_free_wrapped = wrap_lib_function(
+    "fractal_image_free",
+    argtypes = [c_int_p],
+    restype  = None
+)
+
+# bool fractal_cuda_init(int width, int height);
+if cuda:
+    _fractal_cuda_init_wrapped = wrap_lib_function(
+        "fractal_cuda_init",
+        argtypes = [c_int, c_int],
+        restype  = c_bool,
+        cuda     = cuda
+    )
+
+    # void fractal_cuda_clean();
+    _fractal_cuda_clean_wrapped = wrap_lib_function(
+        "fractal_cuda_clean",
+        argtypes = None,
+        restype  = None,
+        cuda     = cuda
+    )
+
+    # void fractal_cuda_get_colors(int * image, struct FractalProperties * fp);
+    _fractal_cuda_get_colors_wrapped = wrap_lib_function(
+        "fractal_cuda_get_colors",
+        argtypes = [c_int_p, POINTER(FractalProperties)],
+        restype  = None,
+        cuda     = cuda
+    )
 
 
 
@@ -162,6 +214,12 @@ def fractal_cmatrix_save(hCmatrix: HCMATRIX, filename: str, color: Color) -> Non
     """
     return _fractal_cmatrix_save_wrapped(hCmatrix, filename.encode('utf-8'), c_int(color.value))
 
+def fractal_image_save(image: c_int_p, width: int, height: int, filename: str, color: Color) -> None:
+    """
+    Save an image array as png
+    """
+    return _fractal_image_save_wrapped(image, c_int(width), c_int(height), filename.encode('utf-8'), c_int(color.value))
+
 def fractal_value_to_color(value: int, color: Color) -> Tuple[float, float, float]:
     """
     Convert a cmatrix value to rgb
@@ -171,3 +229,33 @@ def fractal_value_to_color(value: int, color: Color) -> Tuple[float, float, floa
     b = c_float(0.0)
     _fractal_value_to_color_wrapped(byref(r), byref(g), byref(b), c_int(int(value)), c_int(color.value))
     return (r.value, g.value, b.value)
+
+def fractal_image_create(width: int, height: int) -> c_int_p:
+    """
+    Create an image array
+    """
+    return _fractal_image_create_wrapped(c_int(height), c_int(width))
+
+def fractal_image_free(image: c_int_p) -> None:
+    """
+    Free an image array
+    """
+    return _fractal_image_free_wrapped(image)
+
+def fractal_cuda_init(width: int, height: int) -> bool:
+    """
+    Allocate the required memory on the CUDA device
+    """
+    return _fractal_cuda_init_wrapped(c_int(width), c_int(height))
+
+def fractal_cuda_clean() -> None:
+    """
+    Free the allocated memory
+    """
+    return _fractal_cuda_clean_wrapped()
+
+def fractal_cuda_get_colors(image: c_int_p, fp: FractalProperties) -> None:
+    """
+    Do the color computation
+    """
+    return _fractal_cuda_get_colors_wrapped(image, byref(fp))

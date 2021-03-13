@@ -91,8 +91,16 @@ float fractal_cmatrix_max(HCMATRIX hCmatrix);
 /* save a color matrix as png */
 void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum FC_Color color);
 
+/* save an image array as png */
+void fractal_image_save(int * image, int width, int height, const char * filename, enum FC_Color color);
+
 /* convert a cmatrix value to rgb */
 void fractal_value_to_color(float * r, float * g, float * b, int value, enum FC_Color color);
 
+/* create an image array */
+int * fractal_image_create(int ROWS, int COLS);
+
+/* free an image array */
+void fractal_image_free(int * image);
 
 #endif

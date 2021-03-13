@@ -76,6 +76,24 @@ Include the library interface **fracal_color.h** in the project. Add the source 
     ```c
     void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename);
     ```
+
+- Save an image array as png
+
+    ```c
+    void fractal_image_save(int * image, int width, int height, const char * filename, enum FC_Color color);
+    ```
+
+- Create an image array
+
+    ```c
+    int * fractal_image_create(int ROWS, int COLS);
+    ```
+
+- Free an image array
+    
+    ```c
+    void fractal_image_free(int * image);
+    ```
     
 ### Structs
 

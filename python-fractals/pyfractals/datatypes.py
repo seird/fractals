@@ -5,6 +5,7 @@ from typing import Optional
 
 
 HCMATRIX = c_void_p
+c_int_p = POINTER(c_int)
 c_float_p = POINTER(c_float)
 
 
