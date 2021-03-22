@@ -146,6 +146,10 @@ handle_user_input()
     if (IsKeyPressed(KEY_F2)){
         show_position = !show_position;
     }
+    /* Toggle Fullscreen */
+    if (IsKeyPressed(KEY_F11)){
+        ToggleFullscreen();
+    }
 }
 
 
@@ -155,7 +159,7 @@ main(void)
     reset(false);
 
     #ifdef CUDA
-        int * cuda_image = (int *) malloc(sizeof(int)*WIDTH*HEIGHT);
+        int * cuda_image = fractal_image_create(HEIGHT, WIDTH);
         fractal_cuda_init(WIDTH, HEIGHT);
     #else
         HCMATRIX hc = fractal_cmatrix_create(HEIGHT, WIDTH);
@@ -173,7 +177,7 @@ main(void)
 
     InitWindow(WIDTH, HEIGHT, "raylib fractals"); 
 
-    SetTargetFPS(100);
+    SetTargetFPS(GetMonitorRefreshRate(0));
     
     Texture2D texture = LoadTextureFromImage(img);
 
@@ -270,7 +274,7 @@ main(void)
     CloseWindow();        // Close window and OpenGL context
 
     #ifdef CUDA
-        free(cuda_image);
+        fractal_image_free(cuda_image);
         fractal_cuda_clean();
     #else
         fractal_cmatrix_free(hc);
