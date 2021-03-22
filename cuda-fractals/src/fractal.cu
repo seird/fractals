@@ -185,8 +185,6 @@ fractal_cuda_magnet(float * result_real, float * result_imag,
     // []^2
     *result_real = frac_real*frac_real - frac_imag*frac_imag;
     *result_imag = 2*frac_real*frac_imag;
-    
-    return;
 }
 
 
@@ -233,12 +231,12 @@ fractal_cuda_kernel_julia(int * colors, const float w_start, const float w_end,
     float z_imag = h_start + (float)h/height * (h_end - h_start);
 
     int num_iterations = 0;
+    float r_real;
+    float r_imag;
     for (; num_iterations<max_iterations; ++num_iterations) {
         if (fractal_cuda_escape_magnitude_check(z_real, z_imag, R)) {
             break;
         }
-        float r_real = z_real;
-        float r_imag = z_imag;
         fractal(&r_real, &r_imag, z_real, z_imag, c_real, c_imag);
         z_real = r_real;
         z_imag = r_imag;
@@ -433,12 +431,12 @@ fractal_cuda_kernel_mandelbrot(int * colors, const float w_start, const float w_
     float z_imag = 0;
 
     int num_iterations = 0;
+    float r_real;
+    float r_imag;
     for (; num_iterations<max_iterations; ++num_iterations) {
         if (fractal_cuda_escape_magnitude_check(z_real, z_imag, R)) {
             break;
         }
-        float r_real = z_real;
-        float r_imag = z_imag;
         fractal(&r_real, &r_imag, z_real, z_imag, c_real, c_imag);
         z_real = r_real;
         z_imag = r_imag;
