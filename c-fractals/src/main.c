@@ -1,5 +1,8 @@
 #include "main.h"
 
+#ifdef CUDA
+#include "../../cuda-fractals/include/fractal_cuda.h"
+#endif
 
 #if (!defined(TEST) && !defined(SHARED) && !defined(STATIC) && !defined(BENCHMARK))
 int
@@ -46,18 +49,29 @@ main(void)
         .max_iterations = max_iterations,
     };
 
-    HCMATRIX hCmatrix = fractal_cmatrix_create(height, width);
+    #ifdef CUDA
+        int * image = fractal_image_create(height, width);
+        fractal_cuda_init(width, height);
+        
+        fractal_cuda_get_colors(image, &fp);
+        // fractal_image_save(image, width, height, "fractal.png", FC_COLOR_ULTRA);
 
-    //fractal_get_colors(hCmatrix, &fp);
-    //fractal_get_colors_th(hCmatrix, &fp, 10);
-    //fractal_avxf_get_colors(hCmatrix, &fp);
-    fractal_avxf_get_colors_th(hCmatrix, &fp, 10);
+        fractal_cuda_clean();
+        fractal_image_free(image);
+    #else
+        HCMATRIX hCmatrix = fractal_cmatrix_create(height, width);
 
-    //float max_color = fractal_cmatrix_max(hCmatrix);
+        //fractal_get_colors(hCmatrix, &fp);
+        //fractal_get_colors_th(hCmatrix, &fp, 10);
+        //fractal_avxf_get_colors(hCmatrix, &fp);
+        fractal_avxf_get_colors_th(hCmatrix, &fp, 10);
 
-    fractal_cmatrix_save(hCmatrix, "fractal.png", FC_COLOR_ULTRA);
+        //float max_color = fractal_cmatrix_max(hCmatrix);
 
-    fractal_cmatrix_free(hCmatrix);
+        fractal_cmatrix_save(hCmatrix, "fractal.png", FC_COLOR_ULTRA);
+
+        fractal_cmatrix_free(hCmatrix);
+    #endif
 
 	return 0;
 }

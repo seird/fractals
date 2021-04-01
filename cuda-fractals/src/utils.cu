@@ -17,6 +17,8 @@ fractal_cuda_init(int width, int height)
 extern "C" void
 fractal_cuda_clean()
 {
-    cudaFree(&d_image);
-    d_image = NULL;
+    if (d_image != NULL) {
+        cudaFree(&d_image);
+        d_image = NULL;
+    }
 }

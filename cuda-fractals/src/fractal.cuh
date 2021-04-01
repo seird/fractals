@@ -37,6 +37,8 @@ typedef void (* fractal_cuda_kernel_t)(int * colors, const float w_start, const 
                                        int max_iterations, float R);
 
 
+/* FRACTALS */
+
 __device__ void fractal_cuda_z2(float * result_real, float * result_imag,
                                 const float z_real, const float z_imag,
                                 const float c_real, const float c_imag);
@@ -85,6 +87,8 @@ __device__ void fractal_cuda_z2_z(float * result_real, float * result_imag,
 
 __device__ bool fractal_cuda_escape_magnitude_check(float z_real, float z_imag, float R);
 
+
+/* Julia kernels */
 
 __device__ void fractal_cuda_kernel_julia(int * colors, const float w_start, const float w_end,
                                                     const float h_start, const float h_end,
@@ -159,6 +163,8 @@ __global__ void fractal_cuda_kernel_julia_z2_z(int * colors, const float w_start
                                                          int width, int height,
                                                          int max_iterations, float R);
 
+
+/* Mandelbrot kernels */
 
 __device__ void fractal_cuda_kernel_mandelbrot(int * colors, const float w_start, const float w_end,
                                                     const float h_start, const float h_end,

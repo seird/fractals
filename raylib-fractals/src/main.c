@@ -182,6 +182,8 @@ main(void)
     Texture2D texture = LoadTextureFromImage(img);
 
     bool firstrun = true;
+    int fps = 0;
+    float frametime = 0;
     counter = 0;
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
@@ -232,16 +234,27 @@ main(void)
             }
         }
 
+        // Update fps and frametime less frequently to improve readability
+        if (counter % 10 == 0) {
+            fps = GetFPS();
+            frametime = GetFrameTime()*1000;
+        } else {
+            GetFPS(); // otherwise values will take more time to converge
+        }
+
 		BeginDrawing();
 
 		if (update) UpdateTexture(texture, image);
 		DrawTexture(texture, 0, 0, WHITE);
 		
         if (show_info) {
-            sprintf(buf, "FPS: %d\nAnimation speed: %.1f", GetFPS(), animation_speed);
+            sprintf(buf, "FPS: %d\n"
+                         "Frametime: %3.1f ms\n"
+                         "Animation speed: %.1f",
+                         fps, frametime, animation_speed);
             DrawText(buf, 10, 5, 19, RED);
 
-            sprintf(buf, "\n\n"
+            sprintf(buf, "\n\n\n"
                          "WASD: Pan around\n"
                          "Space: Pause\n"
                          "1: Colors\n"

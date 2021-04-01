@@ -8,6 +8,7 @@
       "stdio.h": "c",
       "array": "cpp",
       "string_view": "cpp",
-      "benchmarks.h": "c"
+      "benchmarks.h": "c",
+      "fractal_cuda.h": "c"
     }
 }

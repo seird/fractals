@@ -37,22 +37,22 @@ endif
 
 
 build: cuda_shared
-	gcc -DCUDA -o $(name) -L. $(FILES) -lm -l$(name_cuda)
+	$(CC) -DCUDA -o $(name) -L. $(FILES) -lm -l$(name_cuda)
 
 run: build
 	./$(name)
 
 debug: cuda_shared
-	gcc -DCUDA -g -o $(name) -L. -l$(name_cuda) $(FILES)
+	$(CC) -DCUDA -g -o $(name) -L. -l$(name_cuda) $(FILES)
 
 
 cuda_shared:
 ifeq ($(PLATFORM_OS),WINDOWS)
-	nvcc -o lib$(name_cuda).dll --shared $(FILES_CUDA)
+	$(CC_CUDA) -o lib$(name_cuda).dll --shared $(FILES_CUDA)
 	del lib$(name_cuda).exp /s
 	del lib$(name_cuda).lib /s
 else
-	nvcc -o lib$(name_cuda).so --shared $(FILES_CUDA) --compiler-options '-fPIC'
+	$(CC_CUDA) -o lib$(name_cuda).so --shared $(FILES_CUDA) --compiler-options '-fPIC'
 endif
 
 
