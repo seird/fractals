@@ -7,6 +7,7 @@
 
 
 #include <stdint.h>
+#include <stdlib.h>
 
 
 /* Fractal functions */

@@ -6,6 +6,10 @@
 #define __FRACTAL_COLOR_H__
 
 
+#include <stdint.h>
+#include <stdlib.h>
+
+
 /* Fractal functions */
 enum FC_Fractal {
     FC_FRAC_Z2,     // z^2 + c

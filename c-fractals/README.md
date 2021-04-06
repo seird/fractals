@@ -113,6 +113,8 @@ Include the library interface **fracal_color.h** in the project. Add the source 
         float c_imag;
         float R;
         int max_iterations;
+        char * lyapunov_sequence;
+        size_t sequence_length;
     };
     ```
 
@@ -138,7 +140,7 @@ enum FC_Fractal {
 enum FC_Mode {
     FC_MODE_MANDELBROT,
     FC_MODE_JULIA,
-    FC_MODE_BUDDHABROT,
+    FC_MODE_LYAPUNOV,
 };
 ```
 
