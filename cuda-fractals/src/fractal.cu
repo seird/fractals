@@ -611,6 +611,36 @@ fractal_cuda_kernel_mandelbrot_z2_z(int * colors, const float w_start, const flo
 }
 
 
+// Lyapunov
+
+__global__ void
+fractal_cuda_kernel_lyapunov(int * colors, const float w_start, const float w_end,
+                             const float h_start, const float h_end,
+                             int width, int height,
+                             char * sequence, size_t sequence_length,
+                             int max_iterations)
+{
+    int w = (blockIdx.x*blockDim.x) + threadIdx.x;
+    int h = (blockIdx.y*blockDim.y) + threadIdx.y;
+
+    float a = w_start + (float)w/width * (w_end - w_start);
+    float b = h_start + (float)h/height * (h_end - h_start);
+   
+    float lyapunov_exponent = 0.0f;
+    float x_n = 0.5;
+    // lyapunov_exponent = (1/N) sum_n(log|r_n(1-2x_n|); n = 1..N
+    for (int n=1; n<=max_iterations; ++n) {
+        float r_n = sequence[n%sequence_length] == 'A' ? a : b;
+        x_n = r_n*x_n*(1-x_n);
+        lyapunov_exponent += logf(fabsf(r_n*(1-2*x_n)));
+    }
+
+    // lyapunov_exponent /= max_iterations;
+
+    colors[h*width+w] = lyapunov_exponent > 0.0f ? 1 : 0;
+}
+
+
 fractal_cuda_kernel_t kernels_julia[FC_FRAC_NUM_ENTRIES] = {
     fractal_cuda_kernel_julia_z2,
     fractal_cuda_kernel_julia_z3,
@@ -655,6 +685,19 @@ fractal_cuda_get_colors(int * image, struct FractalProperties * fp)
         case FC_MODE_MANDELBROT:
             kernel = kernels_mandelbrot[fp->frac];
             break;
+        case FC_MODE_LYAPUNOV:
+            char * d_sequence;
+            cudaMalloc(&d_sequence, sizeof(char) * fp->sequence_length);
+            cudaMemcpy(d_sequence, fp->sequence, sizeof(char) * fp->sequence_length, cudaMemcpyHostToDevice);
+
+            fractal_cuda_kernel_lyapunov<<<blocks, threads>>>(d_image,
+                                                              fp->x_start, fp->x_end,
+                                                              fp->y_start, fp->y_end,
+                                                              fp->width, fp->height,
+                                                              d_sequence, fp->sequence_length,
+                                                              fp->max_iterations);
+            cudaFree(&d_sequence);
+            goto finish;
         default:
             kernel = kernels_julia[fp->frac];
     }
@@ -667,6 +710,7 @@ fractal_cuda_get_colors(int * image, struct FractalProperties * fp)
                                 fp->width, fp->height,
                                 fp->max_iterations, fp->R);
 
+    finish:
     cudaThreadSynchronize();
 
     // Copy the result back

@@ -18,6 +18,9 @@
 #define HEIGHT 720 // WIDTH
 #endif
 
+#define LYAPUNOV_SEQUENCE "ABAABBAA"
+
+
 struct FractalProperties fp;
 enum FC_Color f_color;
 float animation_speed;
@@ -51,6 +54,8 @@ reset(bool view_only)
     fp.c_imag=1;
     fp.R=2;
     fp.max_iterations=250;
+    fp.sequence=LYAPUNOV_SEQUENCE;
+    fp.sequence_length=sizeof(LYAPUNOV_SEQUENCE)-1;
 
     f_color = FC_COLOR_ULTRA;
 
@@ -198,7 +203,7 @@ main(void)
 
         handle_user_input();
 
-        if (fp.mode == FC_MODE_MANDELBROT) animate = false;
+        if (fp.mode == FC_MODE_MANDELBROT || fp.mode == FC_MODE_LYAPUNOV) animate = false;
 
         if (animate) {
             fp.c_real = 0.7885 * cosf(counter / (2 * PI) / 20 * animation_speed);

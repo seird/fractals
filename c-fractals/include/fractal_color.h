@@ -26,8 +26,8 @@ enum FC_Fractal {
 enum FC_Mode {
     FC_MODE_MANDELBROT,
     FC_MODE_JULIA,
+    FC_MODE_LYAPUNOV,
     FC_MODE_NUM_ENTRIES,
-    FC_MODE_BUDDHABROT, // not implemented
 };
 
 /* Color modes to convert CMATRIX values to */
@@ -36,6 +36,7 @@ enum FC_Color {
     FC_COLOR_MONOCHROME,
     FC_COLOR_TRI,
     FC_COLOR_JET,
+    FC_COLOR_LAVENDER,
     FC_COLOR_NUM_ENTRIES
 };
 
@@ -55,6 +56,8 @@ struct FractalProperties {
     float c_imag;
     float R;
     int max_iterations;
+    char * sequence;
+    size_t sequence_length;
     float _x_step;
     float _y_step;
 };
@@ -90,8 +93,16 @@ float fractal_cmatrix_max(HCMATRIX hCmatrix);
 /* save a color matrix as png */
 void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum FC_Color color);
 
+/* save an image array as png */
+void fractal_image_save(int * image, int width, int height, const char * filename, enum FC_Color color);
+
 /* convert a cmatrix value to rgb */
 void fractal_value_to_color(float * r, float * g, float * b, int value, enum FC_Color color);
 
+/* create an image array */
+int * fractal_image_create(int ROWS, int COLS);
+
+/* free an image array */
+void fractal_image_free(int * image);
 
 #endif

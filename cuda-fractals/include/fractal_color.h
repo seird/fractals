@@ -6,6 +6,9 @@
 #define __FRACTAL_COLOR_H__
 
 
+#include <stdint.h>
+
+
 /* Fractal functions */
 enum FC_Fractal {
     FC_FRAC_Z2,     // z^2 + c
@@ -26,8 +29,8 @@ enum FC_Fractal {
 enum FC_Mode {
     FC_MODE_MANDELBROT,
     FC_MODE_JULIA,
+    FC_MODE_LYAPUNOV,
     FC_MODE_NUM_ENTRIES,
-    FC_MODE_BUDDHABROT, // not implemented
 };
 
 /* Color modes to convert CMATRIX values to */
@@ -56,6 +59,8 @@ struct FractalProperties {
     float c_imag;
     float R;
     int max_iterations;
+    char * sequence;
+    size_t sequence_length;
     float _x_step;
     float _y_step;
 };

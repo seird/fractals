@@ -23,11 +23,11 @@ main(int argc, char * argv[])
 
     float aspect_ratio = (float)WIDTH/HEIGHT;
 
-    float x_start = -2.0f; // -R/5+0.5;
-    float x_end   = 2.0f; //  R/5+0.5;
+    float x_start = 0.0f; // -R/5+0.5;
+    float x_end   = 4.0f; //  R/5+0.5;
 
-    float y_start = -2.0f; // x_start/aspect_ratio;
-    float y_end = 2.0f; // x_end/aspect_ratio;
+    float y_start = 0.0f; // x_start/aspect_ratio;
+    float y_end = 4.0f; // x_end/aspect_ratio;
 
     struct FractalProperties fp = {
         .x_start = x_start,
@@ -37,15 +37,17 @@ main(int argc, char * argv[])
         .height = HEIGHT,
         .width = WIDTH,
         .frac = FC_FRAC_Z4,
-        .mode = FC_MODE_JULIA, // TODO
+        .mode = FC_MODE_LYAPUNOV, // TODO
         .c_real = c_real,
         .c_imag = c_imag,
         .R = R,
         .max_iterations = 1000,
+        .sequence = "AABAB",
+        .sequence_length = 5,
     };
 
     fractal_cuda_init(WIDTH, HEIGHT);
-    for (int i=0; i<1000; ++i) {
+    for (int i=0; i<1; ++i) {
         fractal_cuda_get_colors(image, &fp);
     }
     fractal_cuda_clean();
