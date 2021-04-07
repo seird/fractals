@@ -71,6 +71,33 @@ def example_cuda():
     pf.fractal_cuda_clean()    
 
 
+def example_lyapunov():
+    ROWS = 1000
+    COLS = 1000
+
+    pf.fractal_cuda_init(COLS, ROWS)
+    cuda_image = pf.fractal_image_create(COLS, ROWS)
+
+    elapsed_total = 0
+    start = time.time()
+
+    properties = pf.FractalProperties(width=COLS, height=ROWS, mode=pf.Mode.LYAPUNOV, x_start=2, x_end=4, y_start=2, y_end=4, lyapunov_sequence="AB")
+
+    pf.fractal_cuda_get_colors(cuda_image, properties)
+
+    elapsed = time.time() - start
+    print(f"{elapsed} seconds.")
+    elapsed_total += elapsed
+
+    pf.fractal_image_save(cuda_image, COLS, ROWS, f"fractal_cuda_ultra_lyapunov.png", pf.Color.TRI)
+
+    print("Total elapsed:", elapsed_total)
+
+    pf.fractal_image_free(cuda_image)
+    pf.fractal_cuda_clean()    
+
+
 if __name__ == "__main__":
     example_avx()
     example_cuda()
+    example_lyapunov()
