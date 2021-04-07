@@ -38,4 +38,33 @@ BENCH_FUNC(bench_cuda) {
     free(image);
 }
 
+
+BENCH_FUNC(bench_cuda_lyapunov) {
+    int * image = (int *) malloc(sizeof(int)*ROWS*COLS);
+
+
+    float x_start = 0;
+    float x_end = 4;
+
+    float y_start = 0;
+    float y_end = 4;
+    
+    struct FractalProperties fp = {
+        .x_start = x_start,
+        .x_end = x_end,
+        .y_start = y_start,
+        .y_end = y_end,
+        .height = ROWS,
+        .width = COLS,
+        .mode = FC_MODE_LYAPUNOV,
+        .sequence = "ABAAB",
+        .sequence_length = 5,
+        .max_iterations = MAX_ITERATIONS,
+    };
+
+    fractal_cuda_get_colors(image, &fp);
+    free(image);
+}
+
+
 #endif // CUDA

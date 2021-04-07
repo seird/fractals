@@ -38,6 +38,7 @@ main(void)
     #ifdef CUDA
     fractal_cuda_init(COLS, ROWS);
     BENCH_RUN(bench_cuda, num_runs);
+    BENCH_RUN(bench_cuda_lyapunov, num_runs);
     fractal_cuda_clean();
     #endif
 

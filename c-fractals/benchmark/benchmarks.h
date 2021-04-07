@@ -26,6 +26,7 @@ BENCH_FUNC(bench_threaded);
 BENCH_FUNC(bench_avx);
 BENCH_FUNC(bench_avx_threaded);
 BENCH_FUNC(bench_cuda);
+BENCH_FUNC(bench_cuda_lyapunov);
 
 
 #endif
