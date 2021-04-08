@@ -33,6 +33,8 @@ class Color(Enum):
     MONOCHROME = 1
     TRI        = 2
     JET        = 3
+    LAVENDER   = 4
+    BINARY     = 5
 
 
 class FractalProperties(Structure):

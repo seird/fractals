@@ -7,6 +7,7 @@ static colorfunc_t colorfuncs[FC_COLOR_NUM_ENTRIES] = {
     value_to_rgb_tri,
     value_to_rgb_jet,
     value_to_rgb_lavender,
+    value_to_rgb_binary,
 };
 
 colorfunc_t colorfunc_get(enum FC_Color color)
@@ -185,4 +186,11 @@ void value_to_rgb_lavender(float * r, float * g, float * b, int value) {
     } else {
         *r = *g = *b = 0;
     }
+}
+
+
+void
+value_to_rgb_binary(float * r, float * g, float * b, int value)
+{
+    *r = *g = *b = value > 0;
 }

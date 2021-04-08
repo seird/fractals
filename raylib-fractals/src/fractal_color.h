@@ -41,6 +41,7 @@ enum FC_Color {
     FC_COLOR_TRI,
     FC_COLOR_JET,
     FC_COLOR_LAVENDER,
+    FC_COLOR_BINARY,
     FC_COLOR_NUM_ENTRIES
 };
 
