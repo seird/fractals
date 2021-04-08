@@ -637,7 +637,7 @@ fractal_cuda_kernel_lyapunov(int * colors, const float w_start, const float w_en
 
     // lyapunov_exponent /= max_iterations;
 
-    colors[h*width+w] = lyapunov_exponent > 0.0f ? 1 : 0;
+    colors[h*width+w] = lyapunov_exponent > 0.0f ? 0 : (int)lyapunov_exponent * -1; // > 0 -> chaos, < 0 -> stable
 }
 
 
