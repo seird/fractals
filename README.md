@@ -40,17 +40,13 @@ FRACTAL            =              FRAC_Z2
 ## Examples
 
 
-<p float="left">
-  <img src="python-fractals/images/gui_example.gif" width="400" />
-  <img src="raylib-fractals/images/example.gif" width="340" />
-</p>
+![images/example.png](raylib-fractals/images/example.png)
+
+![](images/example_ultra.png)
+
+![](images/example_raylib.gif)
 
 <p float="left">
   <img src="images/example_iteration_1.gif" width="400" />
   <img src="images/example_iteration_2.gif" width="400" /> 
 </p>
-
-
-![](images/example_ultra.png)
-
-![](images/example_rotate_ultra.gif)

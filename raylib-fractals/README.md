@@ -42,4 +42,3 @@ Toy example using raylib with zooming and panning.
 
 ![images/example.png](images/example.png)
 
-![images/example.gif](images/example.gif)
