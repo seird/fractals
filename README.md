@@ -44,6 +44,8 @@ FRACTAL            =              FRAC_Z2
 
 ![](images/example_ultra.png)
 
+![](images/example_lyapunov_AABAB.png)
+
 ![](images/example_raylib.gif)
 
 <p float="left">
