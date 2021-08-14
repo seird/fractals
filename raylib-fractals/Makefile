@@ -37,7 +37,7 @@ endif
 build: 
 	$(CC) $(FILES) -o a_release.exe $(CFLAGS_RELEASE)
 
-build_cuda:
+build-cuda:
 	$(CC) $(FILES) -DCUDA -o a_release.exe -lcudafractals $(CFLAGS_RELEASE)
 
 run: build

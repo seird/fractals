@@ -43,19 +43,23 @@ jobs:
         make lib
         cp libcudafractals.so ../libcudafractals.so
         cd ..
+    - name: Get raylib library
+      run: |
+        curl -o raylib.tar.gz -L https://github.com/raysan5/raylib/releases/download/3.7.0/raylib-3.7.0_linux_amd64.tar.gz
+        tar -xf raylib.tar.gz
+        cp raylib-*_linux_amd64/lib/libraylib.a libraylib.a
+    - name: Build raylib-cuda
+      run: |
+        cd raylib-fractals
+        make build-cuda
+        cp a_release.exe ../run_raylib_cuda
+        cd ..
     - name: Build raylib-normal
       run: |
         cd raylib-fractals
-        curl -o raylib.tar.gz -L https://github.com/raysan5/raylib/releases/download/3.7.0/raylib-3.7.0_linux_amd64.tar.gz
-        tar -xf raylib.tar.gz
-        cp raylib-*_linux_amd64/lib/libraylib.a ../libraylib.a
+        make clean
         make build
         cp a_release.exe ../run_raylib
-    - name: Build raylib-cuda
-      run: |
-        pwd
-        make build_cuda
-        cp a_release.exe ../run_raylib_cuda
         cd ..
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
