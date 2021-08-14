@@ -1,5 +1,5 @@
-#include "fractal_color.h"
-#include "fractal_cuda.h"
+#include "../../c-fractals/include/fractal_color.h"
+#include "../../cuda-fractals/include/fractal_cuda.h"
 #include "raylib.h"
 #include <stdio.h>
 #include <stdlib.h>

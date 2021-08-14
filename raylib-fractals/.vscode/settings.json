@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "*.s": "asm",
-        "*.nasm": "asm",
-        "fractal_color.h": "c",
-        "fractal_cuda.h": "c"
-    }
-}

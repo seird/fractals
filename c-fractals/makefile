@@ -5,36 +5,15 @@ CFLAGS_RELEASE_LIB = -O3 -Wall -Wextra -shared -DSHARED -pthread -ffast-math -ma
 CFLAGS_RELEASE_LIB_STATIC = -O3 -Wall -Wextra -pthread -DSTATIC -ffast-math -march=native -mavx2 -fPIC -c
 
 FILES = \
-	src/cmatrix.c \
-	src/compute_avx.c \
-	src/compute.c \
-	src/fractals_avx.c \
-	src/gradients.c \
-	src/complex_avx.c \
-	src/compute_avx_threaded.c \
-	src/compute_threaded.c \
-	src/fractals.c \
-	src/main.c \
+	$(wildcard src/*.c) \
 
 FILES_TEST = \
 	$(FILES) \
-	tests/test_avx_abs.c \
-	tests/test_avx_escape.c \
-	tests/test_avx_julia_n.c \
-	tests/tests.c \
-	tests/test_avx_conj.c \
-	tests/test_avx_julia.c \
-	tests/test_avx_vector_color.c \
-	tests/test_threaded.c \
+	$(wildcard tests/*.c) \
 
 FILES_BENCH = \
 	$(FILES) \
-	benchmark/bench_avx.c \
-	benchmark/bench_avx_threaded.c \
-	benchmark/bench_default.c \
-	benchmark/benchmarks.c \
-	benchmark/bench_threaded.c \
-	benchmark/bench_cuda.c \
+	$(wildcard benchmark/*.c) \
 
 
 ifeq ($(OS),Windows_NT)

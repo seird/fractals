@@ -2,11 +2,8 @@
 
 ## Build dynamic lirary
 
-    $ make
+    $ make lib
 
-## Usage
-
-Include the library interface **fracal_cuda.h** and **fracal_color.h** in the project. Add the source or link the dll and define CUDA.
 
 ### Functions
 

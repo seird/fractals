@@ -5,8 +5,7 @@
 - [C Fractal implementations](c-fractals)
 - [CUDA Fractal implementation](cuda-fractals)
 - [Raylib rendering](raylib-fractals)
-- [OpenGL rendering](opengl-fractals)
-- [Python wrapper and PyQt gui](python-fractals)
+- [Python wrapper](python-fractals)
 
 
 ## Performance

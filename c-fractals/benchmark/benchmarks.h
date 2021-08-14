@@ -7,7 +7,7 @@
 #include "../src/fractal_color.h"
 
 #ifdef CUDA
-#include "fractal_cuda.h"
+#include "../../cuda-fractals/include/fractal_cuda.h"
 #endif
 
 

@@ -2,7 +2,7 @@
 
 
 #include <stdbool.h>
-#include "fractal_color.h"
+#include "../../c-fractals/include/fractal_color.h"
 
 #ifdef CUDA
 extern bool fractal_cuda_init(int width, int height);

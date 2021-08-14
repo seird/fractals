@@ -36,17 +36,17 @@ else
 endif
 
 
-build: cuda_shared
+build: lib
 	$(CC) -DCUDA -o $(name) -L. $(FILES) -lm -l$(name_cuda)
 
 run: build
 	./$(name)
 
-debug: cuda_shared
+debug: lib
 	$(CC) -DCUDA -g -o $(name) -L. -l$(name_cuda) $(FILES)
 
 
-cuda_shared:
+lib:
 ifeq ($(PLATFORM_OS),WINDOWS)
 	$(CC_CUDA) -o lib$(name_cuda).dll --shared $(FILES_CUDA)
 	del lib$(name_cuda).exp /s
