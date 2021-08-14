@@ -1,12 +1,14 @@
 CC = gcc
-CFLAGS_DEBUG = -g -Wall -Wextra -pthread -mavx2 -lfractal -lraylib -lm #-shared
-CFLAGS_RELEASE = -O3 -Wall -Wextra -pthread -ffast-math -mavx2 -lfractal -lraylib -lm  -L. #-shared
+CFLAGS_DEBUG = -g -Wall -Wextra -pthread -mavx2 -lfractal -lraylib -L.
+CFLAGS_RELEASE = -O3 -Wall -Wextra -pthread -ffast-math -mavx2 -lfractal -lraylib -L.
 
 FILES = src/main.c
 
 
 ifeq ($(OS),Windows_NT)
 	PLATFORM_OS = WINDOWS
+	CFLAGS_DEBUG += -lgdi32 -lWinmm
+	CFLAGS_RELEASE += -lgdi32 -lWinmm
 else
 	UNAMEOS = $(shell uname)
 	ifeq ($(UNAMEOS),Linux)
@@ -27,6 +29,8 @@ else
 	ifeq ($(UNAMEOS),Darwin)
 		PLATFORM_OS = OSX
 	endif
+	CFLAGS_DEBUG += -lm -ldl
+	CFLAGS_RELEASE += -lm -ldl
 endif
 
 
@@ -59,4 +63,3 @@ ifeq ($(PLATFORM_OS),WINDOWS)
 else
 	rm -fv *.o *.exe *.dll *.so *.out.* *.a
 endif
-

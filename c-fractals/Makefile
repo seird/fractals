@@ -15,6 +15,8 @@ FILES_BENCH = \
 	$(FILES) \
 	$(wildcard benchmark/*.c) \
 
+OBJS = $(addsuffix .o, $(basename $(notdir $(FILES))))
+
 
 ifeq ($(OS),Windows_NT)
 	PLATFORM_OS = WINDOWS
@@ -47,7 +49,7 @@ library:
 
 static:
 	$(CC) $(CFLAGS_RELEASE_LIB_STATIC) $(FILES)
-	ar -rc libfractal.a *.o
+	ar -rc libfractal.a $(OBJS)
 
 build: 
 	$(CC) $(CFLAGS_RELEASE) $(FILES) -o a_release.exe
