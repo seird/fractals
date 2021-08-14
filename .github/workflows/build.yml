@@ -1,0 +1,66 @@
+name: build
+
+on:
+  push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install gcovr
+      run: |
+        sudo apt -y install gcovr
+    - name: Test
+      run: |
+        gcc --version
+        make test
+    - uses: codecov/codecov-action@v2
+
+  build_ubuntu:
+    strategy:
+      matrix:
+        tag: [focal]
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build c-fractals
+      run: |
+        gcc --version
+        cd c-fractals
+        make static
+        cp libfractal.a ../libfractal.a
+        cd ..
+    - name: Install cuda
+      run: |
+        sudo apt -y install nvidia-cuda-toolkit
+        nvcc --version
+    - name: Build cuda-fractals
+      run: |
+        cd cuda-fractals
+        make lib
+        cp libcudafractals.so ../libcudafractals.so
+        cd ..
+    - name: Build raylib-normal
+      run: |
+        cd raylib-fractals
+        curl -o raylib.tar.gz -L https://github.com/raysan5/raylib/releases/download/3.7.0/raylib-3.7.0_linux_amd64.tar.gz
+        tar -xf raylib.tar.gz
+        cp raylib-*_linux_amd64/lib/libraylib.a ../libraylib.a
+        make build
+        cp a_release.exe ../run_raylib
+    - name: Build raylib-cuda
+      run: |
+        make build_cuda
+        cp a_release.exe ../run_raylib_cuda
+        cd ..
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        path: |
+          libcudafractals.so
+          libfractal.a
+          libraylib.a
+          run_raylib
+          run_raylib_cuda

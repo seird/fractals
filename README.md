@@ -1,4 +1,4 @@
-[![pipeline status](https://gitlab.com/kdries/opengl-fractals/badges/master/pipeline.svg)](https://gitlab.com/kdries/opengl-fractals/commits/master)
+[![build](https://github.com/seird/fractals/actions/workflows/build.yml/badge.svg)](https://github.com/seird/fractals/actions) [![codecov](https://codecov.io/gh/seird/fractals/branch/master/graph/badge.svg)](https://codecov.io/gh/seird/fractals)
 
 # Fractals
 

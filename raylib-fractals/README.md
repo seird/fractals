@@ -6,39 +6,73 @@ Toy example using raylib with zooming and panning.
 
 ## Getting started
 
-- gcc, make
-- Install/build [raylib](https://github.com/raysan5/raylib/releases) (dynamic):
+
+### Requirements
+
+
+- [c-fractals library](../c-fractals)
+
     ```
-    $ git clone https://github.com/raysan5/raylib
-    $ cd raylib/src
+    cd ../c-fractals
+    make static
+    cp libfractal.a ../libfractal.a
     ```
-    - Linux:
-        ```
-        $ make PLATFORM=PLATFORM_DESKTOP RAYLIB_LIBTYPE=SHARED
-        $ sudo make install RAYLIB_LIBTYPE=SHARED
-        ```
-    - Windows:
-        - In "Makefile", comment out the line: "# RAYLIB_RES_FILE      ?= ./raylib.dll.rc.data"
-        ```
-        $ make RAYLIB_LIBTYPE=SHARED
-        ```
-        - Copy `raylib/src/raylib.dll` to `./raylib-fractals/raylib.dll`
 
-- Get the compiled shared library from [c-fractals](../c-fractals)
+- [cuda-fractals library](../cuda-fractals) (optional)
 
-    - Linux:
-        ```
-        $ sudo cp libfractal.so /usr/local/lib/
-        $ LD_LIBRARY_PATH=/usr/local/lib
-        $ export LD_LIBRARY_PATH
-        ```
-    - Windows:
-        - Copy `../c-fractals/libfractal_Windows.dll` to `./raylib-fractals/libfractal.dll`
+    - nvcc compiler:
 
-- `$ make run` to compile and run the example in src/main.c
+        ```
+        $ sudo apt -y install nvidia-cuda-toolkit
+        ```
+
+    ```
+    cd ../cuda-fractals
+    make lib
+    cp libcudafractals.so ../libcudafractals.so
+    cd ..
+    ```
+
+
+### Build Linux
+
+
+- get raylib library
+
+    ```
+    cd raylib-fractals
+    curl -o raylib.tar.gz -L https://github.com/raysan5/raylib/releases/download/3.7.0/raylib-3.7.0_linux_amd64.tar.gz
+    tar -xf raylib.tar.gz
+    cp raylib-*_linux_amd64/lib/libraylib.a ../libraylib.a
+    ```
+
+- build cpu version
+
+    ```
+    make build
+    cp a_release.exe run_raylib
+    ```
+
+    run: `./run_raylib`
+
+
+- build cuda version
+
+    ```
+    make build_cuda
+    cp a_release.exe run_raylib_cuda
+    ```
+
+    before running, add ../libcudafractals.so to your PATH or:
+
+        ```
+        LD_LIBRARY_PATH=..
+        export LD_LIBRARY_PATH
+        ```
+
+    and then run: `./run_raylib_cuda`
 
 
 ## Examples
 
 ![images/example.png](images/example.png)
-

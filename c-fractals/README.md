@@ -4,6 +4,10 @@
 
     $ make library
 
+## Build static lirary
+
+    $ make static
+
 ## Usage
 
 Include the library interface **fracal_color.h** in the project. Add the source or link the dll.

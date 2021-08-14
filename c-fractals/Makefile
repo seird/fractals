@@ -64,15 +64,21 @@ profile: debug
 	valgrind --tool=callgrind ./a_debug.exe
 
 memcheck: debug
-	valgrind --leak-check=full ./a_debug.exe
+	valgrind --leak-check=full ./test.exe
 
 cache: build
 	valgrind --tool=cachegrind ./a_release.exe
 	#cg_annotate cachegrind.out.{PID}
 
 test:
-	$(CC) $(CFLAGS_RELEASE) -DTEST $(FILES_TEST) -o test.exe
+	$(CC) $(CFLAGS_RELEASE) -fprofile-arcs -ftest-coverage -DTEST $(FILES_TEST) -o test.exe
 	./test.exe
+	gcovr -e "tests/*" -e "src/stb_image_write.h" --xml-pretty --exclude-unreachable-branches --print-summary -o coverage.xml
+
+coverage_html:
+	$(CC) $(CFLAGS_RELEASE) -fprofile-arcs -ftest-coverage -DTEST $(FILES_TEST) -o test.exe
+	./test.exe
+	gcovr -e "tests/*" -e "src/stb_image_write.h" --html --html-details --exclude-unreachable-branches --print-summary -o coverage.html
 
 bench:
 	$(CC) $(CFLAGS_RELEASE) -DBENCHMARK $(FILES_BENCH) -o benchmark.exe -lm
@@ -98,6 +104,10 @@ ifeq ($(PLATFORM_OS),WINDOWS)
 	del *.out.* /s
 	del *.so /s
 	del *.a /s
+	del *.xml /s
+	del *.html /s
+	del *.gcno /s
+	del *.gcda /s
 else
-	rm -fv *.o *.exe *.dll *.so *.out.* *.a
+	rm -fv *.o *.exe *.dll *.so *.out.* *.a *.xml *.html *.gcno *.gcda
 endif

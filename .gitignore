@@ -3,6 +3,7 @@ x64
 .vscode
 Debug
 Release
+raylib-*_linux_amd64
 
 *.exe
 *.dll
@@ -10,3 +11,9 @@ Release
 *.o
 *.a
 *.so
+*.gcno
+*.gcda
+*.xml
+*.html
+*.tar.gz
+run_raylib*

@@ -8,7 +8,7 @@ See `testpyfractals.py` for an example.
 
 ## Requirements
 
-- Compiled [c-fractals library](c-fractals) in `pyfractals/resources/libfractals_{OS}.dll`:
+- Compiled [c-fractals shared library](c-fractals) in `pyfractals/resources/libfractals_{OS}.dll`:
     - `pyfractals/resources/libfractals_Windows.dll`
     - `pyfractals/resources/libfractals_Linux.dll`
 - pthreads library in your system path:

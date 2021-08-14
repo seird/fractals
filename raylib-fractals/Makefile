@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS_DEBUG = -g -Wall -Wextra -pthread -mavx2 -lfractal -lraylib -L.
-CFLAGS_RELEASE = -O3 -Wall -Wextra -pthread -ffast-math -mavx2 -lfractal -lraylib -L.
+CFLAGS_DEBUG = -g -Wall -Wextra -pthread -mavx2 -lfractal -lraylib -L..
+CFLAGS_RELEASE = -O3 -Wall -Wextra -pthread -ffast-math -mavx2 -lfractal -lraylib -L..
 
 FILES = src/main.c
 
