@@ -9,3 +9,4 @@ Release
 *.zip
 *.o
 *.a
+*.so
