@@ -53,6 +53,7 @@ jobs:
         cp a_release.exe ../run_raylib
     - name: Build raylib-cuda
       run: |
+        pwd
         make build_cuda
         cp a_release.exe ../run_raylib_cuda
         cd ..
