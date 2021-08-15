@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <immintrin.h>
 
-#include "fractal_color.h"
+#include "../include/fractal_color.h"
 #include "fractals_avx.h"
 #include "main.h"
 

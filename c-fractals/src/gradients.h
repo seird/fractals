@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-#include "fractal_color.h"
+#include "../include/fractal_color.h"
 
 
 #define COLORMAP_SIZE 16

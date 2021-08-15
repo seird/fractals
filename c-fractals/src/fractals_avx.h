@@ -4,7 +4,7 @@
 #ifdef __AVX2__
 
 #include "complex_avx.h"
-#include "fractal_color.h"
+#include "../include/fractal_color.h"
 #include <immintrin.h>
 
 

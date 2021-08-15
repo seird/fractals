@@ -5,7 +5,7 @@
 #include <math.h>
 #include <complex.h>
 
-#include "fractal_color.h"
+#include "../include/fractal_color.h"
 
 
 typedef float _Complex (*fractal_t)(float _Complex, float _Complex);

@@ -14,7 +14,7 @@
 
 #include "gradients.h"
 #include "fractals.h"
-#include "fractal_color.h"
+#include "../include/fractal_color.h"
 #include "compute_avx.h"
 
 
