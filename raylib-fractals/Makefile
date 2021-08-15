@@ -43,7 +43,7 @@ build-cuda:
 run: build
 	./a_release.exe
 
-run_cuda: build_cuda
+run-cuda: build-cuda
 	./a_release.exe
 
 debug:
