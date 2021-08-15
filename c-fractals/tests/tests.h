@@ -8,7 +8,7 @@
 #include <math.h>
 #include <stdbool.h>
 
-#include "../src/fractal_color.h"
+#include "../include/fractal_color.h"
 #include "../src/compute_avx.h"
 #include "../src/fractals.h"
 #include "../src/main.h"

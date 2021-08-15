@@ -4,7 +4,7 @@
 
 #include "benchmark.h"
 #include "../src/main.h"
-#include "../src/fractal_color.h"
+#include "../include/fractal_color.h"
 
 #ifdef CUDA
 #include "../../cuda-fractals/include/fractal_cuda.h"
