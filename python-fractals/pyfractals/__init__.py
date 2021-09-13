@@ -28,14 +28,14 @@ def wrap_lib_function(fname, argtypes: List = [], restype=None, cuda=False):
     return func
 
 
-# HCMATRIX fractal_cmatrix_create(int ROWS, int COLS);
+# HCMATRIX fractal_cmatrix_create(int height, int width);
 _fractal_cmatrix_create_wrapped = wrap_lib_function(
     "fractal_cmatrix_create",
     argtypes = [c_int, c_int],
     restype  = HCMATRIX
 )
 
-# HCMATRIX fractal_cmatrix_reshape(HCMATRIX hCmatrix, int ROWS_new, int COLS_new);
+# HCMATRIX fractal_cmatrix_reshape(HCMATRIX hCmatrix, int height_new, int width_new);
 _fractal_cmatrix_reshape_wrapped = wrap_lib_function(
     "fractal_cmatrix_reshape",
     argtypes = [HCMATRIX, c_int, c_int],
@@ -49,7 +49,7 @@ _fractal_cmatrix_free_wrapped = wrap_lib_function(
     restype  = None
 )
 
-# float * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
+# float * fractal_cmatrix_value(HCMATRIX hCmatrix, int h, int w);
 _fractal_cmatrix_value_wrapped = wrap_lib_function(
     "fractal_cmatrix_value",
     argtypes = [HCMATRIX, c_int, c_int],
@@ -112,7 +112,7 @@ _fractal_value_to_color_wrapped = wrap_lib_function(
     restype  = None
 )
 
-# int * fractal_image_create(int ROWS, int COLS);
+# int * fractal_image_create(int height, int width);
 _fractal_image_create_wrapped = wrap_lib_function(
     "fractal_image_create",
     argtypes = [c_int, c_int],
@@ -153,17 +153,17 @@ if cuda:
 
 
 
-def fractal_cmatrix_create(rows: int, cols: int) -> HCMATRIX:
+def fractal_cmatrix_create(height: int, width: int) -> HCMATRIX:
     """
     Create a color matrix
     """
-    return _fractal_cmatrix_create_wrapped(c_int(rows), c_int(cols))
+    return _fractal_cmatrix_create_wrapped(c_int(height), c_int(width))
 
-def fractal_cmatrix_reshape(hCmatrix: HCMATRIX, rows_new: int, cols_new: int) -> HCMATRIX:
+def fractal_cmatrix_reshape(hCmatrix: HCMATRIX, height_new: int, width_new: int) -> HCMATRIX:
     """
     Reshape a color matrix
     """
-    return _fractal_cmatrix_reshape_wrapped(hCmatrix, c_int(rows_new), c_int(cols_new))
+    return _fractal_cmatrix_reshape_wrapped(hCmatrix, c_int(height_new), c_int(width_new))
 
 def fractal_cmatrix_free(hCmatrix: HCMATRIX) -> None:
     """
@@ -171,11 +171,11 @@ def fractal_cmatrix_free(hCmatrix: HCMATRIX) -> None:
     """
     return _fractal_cmatrix_free_wrapped(hCmatrix)
     
-def fractal_cmatrix_value(hCmatrix: HCMATRIX, row: int, col: int) -> float:
+def fractal_cmatrix_value(hCmatrix: HCMATRIX, h: int, w: int) -> float:
     """
     Get a matrix value
     """
-    f_p = _fractal_cmatrix_value_wrapped(hCmatrix, c_int(row), c_int(col))
+    f_p = _fractal_cmatrix_value_wrapped(hCmatrix, c_int(h), c_int(w))
     return cast(f_p, c_float_p).contents.value
 
 def fractal_get_colors(hCmatrix: HCMATRIX, fp: FractalProperties) -> None:

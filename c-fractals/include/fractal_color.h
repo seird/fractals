@@ -53,8 +53,8 @@ struct FractalProperties {
     float x_end;
     float y_start;
     float y_end;
-    float width;
-    float height;
+    int width;
+    int height;
     enum FC_Fractal frac;
     enum FC_Mode mode;
     float c_real;
@@ -69,16 +69,16 @@ struct FractalProperties {
 
 
 /* create a color matrix */
-HCMATRIX fractal_cmatrix_create(int ROWS, int COLS);
+HCMATRIX fractal_cmatrix_create(int height, int width);
 
 /* reshape a color matrix */
-HCMATRIX fractal_cmatrix_reshape(HCMATRIX hCmatrix, int ROWS_new, int COLS_new);
+HCMATRIX fractal_cmatrix_reshape(HCMATRIX hCmatrix, int height_new, int width_new);
 
 /* free a color matrix */
 void fractal_cmatrix_free(HCMATRIX hCmatrix);
 
 /* get a matrix value */
-float * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
+float * fractal_cmatrix_value(HCMATRIX hCmatrix, int height, int width);
 
 /* get fractal colors */
 void fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
@@ -105,7 +105,7 @@ void fractal_image_save(int * image, int width, int height, const char * filenam
 void fractal_value_to_color(float * r, float * g, float * b, int value, enum FC_Color color);
 
 /* create an image array */
-int * fractal_image_create(int ROWS, int COLS);
+int * fractal_image_create(int height, int width);
 
 /* free an image array */
 void fractal_image_free(int * image);

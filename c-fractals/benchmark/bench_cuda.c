@@ -10,7 +10,7 @@ BENCH_FUNC(bench_cuda) {
     float _Complex c = c_real + c_imag*I;
     float R = ceilf(cabs(c)) + 1;
 
-    int * image = (int *) malloc(sizeof(int)*ROWS*COLS);
+    int * image = (int *) malloc(sizeof(int)*HEIGHT*WIDTH);
 
 
     float x_start = -R;
@@ -24,8 +24,8 @@ BENCH_FUNC(bench_cuda) {
         .x_end = x_end,
         .y_start = y_start,
         .y_end = y_end,
-        .height = ROWS,
-        .width = COLS,
+        .height = HEIGHT,
+        .width = WIDTH,
         .frac = FRACTAL,
         .mode = MODE,
         .c_real = c_real,
@@ -40,7 +40,7 @@ BENCH_FUNC(bench_cuda) {
 
 
 BENCH_FUNC(bench_cuda_lyapunov) {
-    int * image = (int *) malloc(sizeof(int)*ROWS*COLS);
+    int * image = (int *) malloc(sizeof(int)*HEIGHT*WIDTH);
 
 
     float x_start = 0;
@@ -54,8 +54,8 @@ BENCH_FUNC(bench_cuda_lyapunov) {
         .x_end = x_end,
         .y_start = y_start,
         .y_end = y_end,
-        .height = ROWS,
-        .width = COLS,
+        .height = HEIGHT,
+        .width = WIDTH,
         .mode = FC_MODE_LYAPUNOV,
         .sequence = "ABAAB",
         .sequence_length = 5,

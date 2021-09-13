@@ -7,69 +7,69 @@
 
 
 HCMATRIX
-fractal_cmatrix_create(int ROWS, int COLS)
+fractal_cmatrix_create(int height, int width)
 {
     HS_CMATRIX hc = malloc(sizeof(struct S_CMATRIX));
 
     #ifdef __AVX2__
         #if defined(_WIN64) || defined(_WIN32)
-            hc->cmatrix = _aligned_malloc(sizeof(float *) * ROWS, AVX_ALIGNMENT);
-            for (int i = 0; i < ROWS; ++i) {
-                hc->cmatrix[i] = _aligned_malloc(sizeof(float) * COLS, AVX_ALIGNMENT);
+            hc->cmatrix = _aligned_malloc(sizeof(float *) * height, AVX_ALIGNMENT);
+            for (int i = 0; i < height; ++i) {
+                hc->cmatrix[i] = _aligned_malloc(sizeof(float) * width, AVX_ALIGNMENT);
             } 
         #else // Linux
-            hc->cmatrix = aligned_alloc(AVX_ALIGNMENT, sizeof(float *) * ROWS);
-            for (int i = 0; i < ROWS; ++i) {
-                hc->cmatrix[i] = aligned_alloc(AVX_ALIGNMENT, sizeof(float) * COLS);
+            hc->cmatrix = aligned_alloc(AVX_ALIGNMENT, sizeof(float *) * height);
+            for (int i = 0; i < height; ++i) {
+                hc->cmatrix[i] = aligned_alloc(AVX_ALIGNMENT, sizeof(float) * width);
             } 
         #endif
     #else
-        hc->cmatrix = malloc(sizeof(float *) * ROWS);
-        for (int i = 0; i < ROWS; ++i) {
-            hc->cmatrix[i] = malloc(sizeof(float) * COLS);
+        hc->cmatrix = malloc(sizeof(float *) * height);
+        for (int i = 0; i < height; ++i) {
+            hc->cmatrix[i] = malloc(sizeof(float) * width);
         }   
     #endif
 
-    hc->ROWS = ROWS;
-    hc->COLS = COLS;
+    hc->height = height;
+    hc->width = width;
 
     return (HCMATRIX)hc;
 }
 
 HCMATRIX
-fractal_cmatrix_reshape(HCMATRIX hCmatrix, int ROWS_new, int COLS_new)
+fractal_cmatrix_reshape(HCMATRIX hCmatrix, int height_new, int width_new)
 {
     HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
 
     #ifdef __AVX2__
         #if defined(_WIN64) || defined(_WIN32)
-            for (int i = 0; i < hc->ROWS; ++i) {
+            for (int i = 0; i < hc->height; ++i) {
                 _aligned_free(hc->cmatrix[i]);
             }
-            hc->cmatrix = _aligned_realloc(hc->cmatrix, sizeof(float *) * ROWS_new, AVX_ALIGNMENT);
-            for (int i = 0; i < ROWS_new; ++i) {
-                hc->cmatrix[i] = _aligned_malloc(sizeof(float) * COLS_new, AVX_ALIGNMENT);
+            hc->cmatrix = _aligned_realloc(hc->cmatrix, sizeof(float *) * height_new, AVX_ALIGNMENT);
+            for (int i = 0; i < height_new; ++i) {
+                hc->cmatrix[i] = _aligned_malloc(sizeof(float) * width_new, AVX_ALIGNMENT);
             }
         #else
             // Linux
-            for (int i = 0; i < hc->ROWS; ++i) {
+            for (int i = 0; i < hc->height; ++i) {
                 free(hc->cmatrix[i]);
             }
             free(hc->cmatrix);
-            hc = fractal_cmatrix_create(ROWS_new, COLS_new);
+            hc = fractal_cmatrix_create(height_new, width_new);
         #endif
     #else
-        for (int i = 0; i < hc->ROWS; ++i) {
+        for (int i = 0; i < hc->height; ++i) {
             free(hc->cmatrix[i]);
         }
-        hc->cmatrix = realloc(hc->cmatrix, sizeof(float *) * ROWS_new);
-        for (int i = 0; i < ROWS_new; ++i) {
-            hc->cmatrix[i] = malloc(sizeof(float) * COLS_new);
+        hc->cmatrix = realloc(hc->cmatrix, sizeof(float *) * height_new);
+        for (int i = 0; i < height_new; ++i) {
+            hc->cmatrix[i] = malloc(sizeof(float) * width_new);
         }
     #endif
 
-    hc->ROWS = ROWS_new;
-    hc->COLS = COLS_new;
+    hc->height = height_new;
+    hc->width = width_new;
 
     return hc;
 }
@@ -80,12 +80,12 @@ fractal_cmatrix_free(HCMATRIX hCmatrix)
     HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
 
     #if defined(__AVX2__) && (defined(_WIN32) || defined(_WIN64))
-        for (int i = 0; i < hc->ROWS; ++i) {
+        for (int i = 0; i < hc->height; ++i) {
             _aligned_free(hc->cmatrix[i]);
         }
         _aligned_free(hc->cmatrix);
     #else
-        for (int i = 0; i < hc->ROWS; ++i) {
+        for (int i = 0; i < hc->height; ++i) {
             free(hc->cmatrix[i]);
         }
         free(hc->cmatrix);
@@ -94,9 +94,9 @@ fractal_cmatrix_free(HCMATRIX hCmatrix)
 }
 
 float *
-fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col)
+fractal_cmatrix_value(HCMATRIX hCmatrix, int height, int width)
 {
-    return &((HS_CMATRIX) hCmatrix)->cmatrix[row][col];
+    return &((HS_CMATRIX) hCmatrix)->cmatrix[height][width];
 }
 
 float
@@ -105,10 +105,10 @@ fractal_cmatrix_max(HCMATRIX hCmatrix)
     HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
 
     float max_color = 0.0;
-    for (int row=0; row<hc->ROWS; ++row) {
-        for (int col=0; col<hc->COLS; ++col) {
-            if (hc->cmatrix[row][col] > max_color) {
-                max_color = hc->cmatrix[row][col];
+    for (int h=0; h<hc->height; ++h) {
+        for (int w=0; w<hc->width; ++w) {
+            if (hc->cmatrix[h][w] > max_color) {
+                max_color = hc->cmatrix[h][w];
             }
         }
     }
@@ -123,17 +123,17 @@ fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum FC_Color col
     int comp = 3; // rgb
 
     float pr, pg, pb;
-    char * data = malloc(hc->ROWS*hc->COLS*comp);
-    for (int r=0; r<hc->ROWS; ++r) {
-        for (int c=0; c<hc->COLS; ++c) {
+    char * data = malloc(hc->height*hc->width*comp);
+    for (int r=0; r<hc->height; ++r) {
+        for (int c=0; c<hc->width; ++c) {
             fractal_value_to_color(&pr, &pg, &pb, (int)*fractal_cmatrix_value(hCmatrix, r, c), color);
-            data[r*(hc->COLS*3)+(c*3)] = (char) (pr*255);
-            data[r*(hc->COLS*3)+(c*3)+1] = (char) (pg*255);
-            data[r*(hc->COLS*3)+(c*3)+2] = (char) (pb*255);
+            data[r*(hc->width*3)+(c*3)] = (char) (pr*255);
+            data[r*(hc->width*3)+(c*3)+1] = (char) (pg*255);
+            data[r*(hc->width*3)+(c*3)+2] = (char) (pb*255);
         }
     }
 
-    stbi_write_png(filename, hc->COLS, hc->ROWS, comp, data, 0);
+    stbi_write_png(filename, hc->width, hc->height, comp, data, 0);
 
     free(data);
 }
@@ -160,9 +160,9 @@ fractal_image_save(int * image, int width, int height, const char * filename, en
 }
 
 int *
-fractal_image_create(int ROWS, int COLS)
+fractal_image_create(int height, int width)
 {
-    return (int *) malloc(sizeof(int)*ROWS*COLS);
+    return (int *) malloc(sizeof(int)*height*width);
 }
 
 void

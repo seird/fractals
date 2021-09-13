@@ -34,10 +34,10 @@ fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
     fractal_t fractal = fractal_get(fp->frac);
 
     float y = fp->y_start;
-    for (int row=0; row<hc->ROWS; ++row) {
+    for (int h=0; h<hc->height; ++h) {
         float x = fp->x_start;
-        for (int col=0; col<hc->COLS; ++col) {
-            fractal_get_single_color(&hc->cmatrix[row][col], x, y, fractal, c, fp->R, fp->max_iterations);
+        for (int w=0; w<hc->width; ++w) {
+            fractal_get_single_color(&hc->cmatrix[h][w], x, y, fractal, c, fp->R, fp->max_iterations);
             x += fp->_x_step;
         }
         y += fp->_y_step;

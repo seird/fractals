@@ -2,8 +2,8 @@
 
 
 int MAX_ITERATIONS   = 1000;
-int ROWS             = 1000;
-int COLS             = 1000;
+int HEIGHT           = 1000;
+int WIDTH            = 1000;
 float C_REAL         = -0.788485;//-0.835f
 float C_IMAG         = 0.004913;//-0.2321f
 int NUM_THREADS      = 6;
@@ -19,8 +19,8 @@ main(void)
     printf("\tNumber of runs     = %20d\n", num_runs);
     printf("\tFractal iterations = %20d\n", MAX_ITERATIONS);
     printf("\tNumber of threads  = %20d\n", NUM_THREADS);
-    printf("\tROWS               = %20d\n", ROWS);
-    printf("\tCOLUMNS            = %20d\n", COLS);
+    printf("\tHEIGHT             = %20d\n", HEIGHT);
+    printf("\tWIDTH              = %20d\n", WIDTH);
     printf("\tC_REAL             = %20f\n", C_REAL);
     printf("\tC_IMAG             = %20f\n", C_IMAG);
     printf("\tMODE               = %20d\n", MODE);
@@ -36,7 +36,7 @@ main(void)
     #endif // __AVX2__
 
     #ifdef CUDA
-    fractal_cuda_init(COLS, ROWS);
+    fractal_cuda_init(WIDTH, HEIGHT);
     BENCH_RUN(bench_cuda, num_runs);
     BENCH_RUN(bench_cuda_lyapunov, num_runs);
     fractal_cuda_clean();

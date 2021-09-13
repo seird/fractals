@@ -91,9 +91,9 @@ fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
 
             float x_step = fp->_x_step;
             float y = fp->y_start;
-            for (int row=0; row<hc->ROWS; ++row) {
+            for (int h=0; h<hc->height; ++h) {
                 float x = fp->x_start;
-                for (int col=0; col<hc->COLS; col+=VECFSIZE) {
+                for (int w=0; w<hc->width; w+=VECFSIZE) {
                     __m256 y_vec = _mm256_set1_ps(y);
                     __m256 x_vec = _mm256_add_ps(
                         _mm256_set1_ps(x),
@@ -101,7 +101,7 @@ fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
                         //_mm256_set_ps(0, x_step, 2*x_step, 3*x_step, 4*x_step, 5*x_step, 6*x_step, 7*x_step)
                     );
 
-                    fractal_avxf_get_vector_color(&hc->cmatrix[row][col], 
+                    fractal_avxf_get_vector_color(&hc->cmatrix[h][w], 
                                                   &x_vec, &y_vec,
                                                   &c_real, &c_imag,
                                                   &RR, fp->max_iterations,
@@ -119,9 +119,9 @@ fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
 
             float x_step = fp->_y_step;
             float y = fp->y_start;
-            for (int row=0; row<hc->ROWS; ++row) {
+            for (int h=0; h<hc->height; ++h) {
                 float x = fp->x_start;
-                for (int col=0; col<hc->COLS; col+=VECFSIZE) {
+                for (int w=0; w<hc->width; w+=VECFSIZE) {
                     // Start at z=0
                     __m256 z_real = _mm256_set1_ps(0);
                     __m256 z_imag = _mm256_set1_ps(0);
@@ -133,7 +133,7 @@ fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
                         //_mm256_set_ps(0, x_step, 2*x_step, 3*x_step, 4*x_step, 5*x_step, 6*x_step, 7*x_step)
                     );
 
-                    fractal_avxf_get_vector_color(&hc->cmatrix[row][col], 
+                    fractal_avxf_get_vector_color(&hc->cmatrix[h][w], 
                                                 &z_real, &z_imag,
                                                 &c_real, &c_imag,
                                                 &RR, fp->max_iterations,

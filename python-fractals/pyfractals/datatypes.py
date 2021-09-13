@@ -46,8 +46,8 @@ class FractalProperties(Structure):
         ("x_end"            , c_float),
         ("y_start"          , c_float),
         ("y_end"            , c_float),
-        ("width"            , c_float),
-        ("height"           , c_float),
+        ("width"            , c_int),
+        ("height"           , c_int),
         ("frac"             , c_int),
         ("mode"             , c_int),
         ("c_real"           , c_float),
@@ -76,8 +76,8 @@ class FractalProperties(Structure):
         self.x_end             = c_float(x_end)
         self.y_start           = c_float(y_start)
         self.y_end             = c_float(y_end)
-        self.width             = c_float(width)
-        self.height            = c_float(height)
+        self.width             = c_int(width)
+        self.height            = c_int(height)
         self.frac              = fractal.value
         self.mode              = mode.value
         self.c_real            = c_float(c_real)

@@ -221,20 +221,20 @@ main(void)
             #endif
 
             // Convert the values to a color image
-            for (int row=0; row<HEIGHT; ++row) {
-                for (int col=0; col<WIDTH; ++col) {
+            for (int h=0; h<HEIGHT; ++h) {
+                for (int w=0; w<WIDTH; ++w) {
                     float r, g, b;
                     #ifdef CUDA
-                        fractal_value_to_color(&r, &g, &b, cuda_image[row*WIDTH+col], f_color);
+                        fractal_value_to_color(&r, &g, &b, cuda_image[h*WIDTH+w], f_color);
                     #else
-                        fractal_value_to_color(&r, &g, &b, (int)*fractal_cmatrix_value(hc, row, col), f_color);
+                        fractal_value_to_color(&r, &g, &b, (int)*fractal_cmatrix_value(hc, h, w), f_color);
                     #endif
                     Color c;
                     c.a = 255;
                     c.r = r*255;
                     c.g = g*255;
                     c.b = b*255;
-                    image[row*WIDTH+col] = c;
+                    image[h*WIDTH+w] = c;
                 }
             }
         }
@@ -278,8 +278,8 @@ main(void)
 
         if (show_position){
             sprintf(buf, "%.4f, %.4f",
-                    fp.x_start + GetMouseX()/fp.width*(fp.x_end-fp.x_start),
-                    fp.y_start + GetMouseY()/fp.height*(fp.y_end-fp.y_start));
+                    fp.x_start + (float)GetMouseX()/fp.width*(fp.x_end-fp.x_start),
+                    fp.y_start + (float)GetMouseY()/fp.height*(fp.y_end-fp.y_start));
             DrawText(buf, 10, HEIGHT-30, 20, PINK);
 
             DrawLine(0, GetMouseY(), WIDTH, GetMouseY(), PINK);

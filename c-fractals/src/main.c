@@ -49,12 +49,26 @@ main(void)
         .max_iterations = max_iterations,
     };
 
+    float counter = 0;
+    int N = 100;
+    char savename[20];
+
+    for (int i=0; i<N; ++i) {
+        c_real = 0.7885f * cosf(counter / (2 * 3.1416f));
+        c_imag = 0.7885f * sinf(counter / (2 * 3.1416f));
+        counter += 0.1f;
+        printf("[%02d] c_real = %f, c_imag = %f\n", i, c_real, c_imag);
+
+        fp.c_real = c_real;
+        fp.c_imag = c_imag;
+        sprintf(savename, "fractal_%02d.png", i);
+
     #ifdef CUDA
         int * image = fractal_image_create(height, width);
         fractal_cuda_init(width, height);
         
         fractal_cuda_get_colors(image, &fp);
-        // fractal_image_save(image, width, height, "fractal.png", FC_COLOR_ULTRA);
+        fractal_image_save(image, width, height, savename, FC_COLOR_ULTRA);
 
         fractal_cuda_clean();
         fractal_image_free(image);
@@ -68,10 +82,12 @@ main(void)
 
         //float max_color = fractal_cmatrix_max(hCmatrix);
 
-        fractal_cmatrix_save(hCmatrix, "fractal.png", FC_COLOR_ULTRA);
+        fractal_cmatrix_save(hCmatrix, savename, FC_COLOR_ULTRA);
 
         fractal_cmatrix_free(hCmatrix);
     #endif
+
+    }
 
 	return 0;
 }

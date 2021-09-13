@@ -12,8 +12,8 @@
 
 
 extern int MAX_ITERATIONS;
-extern int ROWS;
-extern int COLS;
+extern int HEIGHT;
+extern int WIDTH;
 extern float C_REAL;
 extern float C_IMAG;
 extern int NUM_THREADS;

@@ -24,8 +24,8 @@
 typedef float ** CMATRIX;
 typedef struct S_CMATRIX {
     CMATRIX cmatrix;
-    int ROWS;
-    int COLS;
+    int height;
+    int width;
 } * HS_CMATRIX;
 
 struct ThreadArg {

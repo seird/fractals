@@ -18,13 +18,13 @@ Include the library interface **fracal_color.h** in the project. Add the source 
 - Initialize a color matrix, returns a handle **HCMATRIX**
 
     ```c
-    HCMATRIX fractal_cmatrix_create(int ROWS, int COLS);
+    HCMATRIX fractal_cmatrix_create(int height, int width);
     ```
 
 - Reshape an existing color matrix
 
     ```c
-    HCMATRIX fractal_cmatrix_reshape(HCMATRIX hCmatrix, int ROWS_new, int COLS_new);
+    HCMATRIX fractal_cmatrix_reshape(HCMATRIX hCmatrix, int height_new, int width_new);
     ```
 
 - Free a color matrix
@@ -36,7 +36,7 @@ Include the library interface **fracal_color.h** in the project. Add the source 
 - Retrieve a pointer to a value in the color matrix
 
     ```c
-    float * fractal_cmatrix_value(HCMATRIX hCmatrix, int row, int col);
+    float * fractal_cmatrix_value(HCMATRIX hCmatrix, int height, int width);
     ```
 
 - Compute the fractal colors
@@ -90,7 +90,7 @@ Include the library interface **fracal_color.h** in the project. Add the source 
 - Create an image array
 
     ```c
-    int * fractal_image_create(int ROWS, int COLS);
+    int * fractal_image_create(int height, int width);
     ```
 
 - Free an image array

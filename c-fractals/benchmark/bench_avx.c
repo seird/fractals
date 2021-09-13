@@ -10,7 +10,7 @@ BENCH_FUNC(bench_avx) {
     float _Complex c = c_real + c_imag*I;
     float R = ceilf(cabs(c)) + 1;
 
-    HCMATRIX hCmatrix = fractal_cmatrix_create(ROWS, COLS);
+    HCMATRIX hCmatrix = fractal_cmatrix_create(HEIGHT, WIDTH);
 
     float x_start = -R;
     float x_end = R;
@@ -23,8 +23,8 @@ BENCH_FUNC(bench_avx) {
         .x_end = x_end,
         .y_start = y_start,
         .y_end = y_end,
-        .height = ROWS,
-        .width = COLS,
+        .height = HEIGHT,
+        .width = WIDTH,
         .frac = FRACTAL,
         .mode = MODE,
         .c_real = c_real,

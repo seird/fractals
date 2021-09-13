@@ -11,8 +11,8 @@ MU_TEST(test_threaded_result)
     float _Complex c = c_real + c_imag*I;
     float R = ceilf(cabs(c)) + 1;
 
-    int ROWS = 100;
-    int COLS = 100;
+    int height = 100;
+    int width = 100;
 
     float x_start = -R;
     float x_end = R;
@@ -22,16 +22,16 @@ MU_TEST(test_threaded_result)
 
     int max_iterations = 100;
 
-    HCMATRIX hCmatrix_nc = fractal_cmatrix_create(ROWS, COLS);
-    HCMATRIX hCmatrix_th = fractal_cmatrix_create(ROWS, COLS);
+    HCMATRIX hCmatrix_nc = fractal_cmatrix_create(height, width);
+    HCMATRIX hCmatrix_th = fractal_cmatrix_create(height, width);
 
     struct FractalProperties fp = {
         .x_start = x_start,
         .x_end = x_end,
         .y_start = y_start,
         .y_end = y_end,
-        .height = ROWS,
-        .width = COLS,
+        .height = height,
+        .width = width,
         .frac = FC_FRAC_Z2,
         .mode = FC_MODE_JULIA,
         .c_real = c_real,
