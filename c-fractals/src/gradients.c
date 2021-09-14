@@ -2,15 +2,15 @@
 
 
 static colorfunc_t colorfuncs[FC_COLOR_NUM_ENTRIES] = {
-    value_to_rgb_ultra,
-    value_to_rgb_monochrome,
-    value_to_rgb_tri,
-    value_to_rgb_jet,
-    value_to_rgb_lavender,
-    value_to_rgb_binary,
+    fractal_value_to_rgb_ultra,
+    fractal_value_to_rgb_monochrome,
+    fractal_value_to_rgb_tri,
+    fractal_value_to_rgb_jet,
+    fractal_value_to_rgb_lavender,
+    fractal_value_to_rgb_binary,
 };
 
-colorfunc_t colorfunc_get(enum FC_Color color)
+colorfunc_t fractal_colorfunc_get(enum FC_Color color)
 {
     return colorfuncs[color % FC_COLOR_NUM_ENTRIES];
 }
@@ -18,13 +18,13 @@ colorfunc_t colorfunc_get(enum FC_Color color)
 void
 fractal_value_to_color(float * r, float * g, float * b, int value, enum FC_Color color)
 {
-    colorfunc_get(color)(r, g, b, value);
+    fractal_colorfunc_get(color)(r, g, b, value);
 }
 
 
 
 void
-value_to_rgb_jet(float * r, float * g, float * b, int value)
+fractal_value_to_rgb_jet(float * r, float * g, float * b, int value)
 {
     static const float colormap[COLORMAP_SIZE][3] = {
         {  0.00000,     0.00000,   191.25000},
@@ -46,9 +46,9 @@ value_to_rgb_jet(float * r, float * g, float * b, int value)
     };
 
     if (value > 0) {
-        *r = colormap[value % 160][0] / 255;
-        *g = colormap[value % 160][1] / 255;
-        *b = colormap[value % COLORMAP_SIZE*10][2] / 255;
+        *r = colormap[value % 160][0];
+        *g = colormap[value % 160][1];
+        *b = colormap[value % COLORMAP_SIZE*10][2];
     }
     else {
         *r = *g = *b = 0;
@@ -57,7 +57,7 @@ value_to_rgb_jet(float * r, float * g, float * b, int value)
 
 
 void
-value_to_rgb_monochrome(float * r, float * g, float * b, int value)
+fractal_value_to_rgb_monochrome(float * r, float * g, float * b, int value)
 {
     static const float colormap[COLORMAP_SIZE][3] = {
         {50, 50, 50},
@@ -78,9 +78,9 @@ value_to_rgb_monochrome(float * r, float * g, float * b, int value)
     };
 
     if (value > 0) {
-        *r = colormap[value % COLORMAP_SIZE][0] / 255;
-        *g = colormap[value % COLORMAP_SIZE][1] / 255;
-        *b = colormap[value % COLORMAP_SIZE][2] / 255;
+        *r = colormap[value % COLORMAP_SIZE][0];
+        *g = colormap[value % COLORMAP_SIZE][1];
+        *b = colormap[value % COLORMAP_SIZE][2];
     }
     else {
         *r = *g = *b = 0;
@@ -89,7 +89,7 @@ value_to_rgb_monochrome(float * r, float * g, float * b, int value)
 
 
 void
-value_to_rgb_tri(float * r, float * g, float * b, int value)
+fractal_value_to_rgb_tri(float * r, float * g, float * b, int value)
 {
     static const float colormap[3][3] = {
         {255, 150, 150},
@@ -98,9 +98,9 @@ value_to_rgb_tri(float * r, float * g, float * b, int value)
     };
 
     if (value > 0) {
-        *r = colormap[value % 3][0] / 255;
-        *g = colormap[value % 3][1] / 255;
-        *b = colormap[value % 3][2] / 255;
+        *r = colormap[value % 3][0];
+        *g = colormap[value % 3][1];
+        *b = colormap[value % 3][2];
     }
     else {
         *r = *g = *b = 0;
@@ -109,7 +109,7 @@ value_to_rgb_tri(float * r, float * g, float * b, int value)
 
 
 void
-value_to_rgb_ultra(float * r, float * g, float * b, int value)
+fractal_value_to_rgb_ultra(float * r, float * g, float * b, int value)
 {
     static const float colormap[COLORMAP_SIZE][3] = {
         {66, 30, 15},
@@ -131,9 +131,9 @@ value_to_rgb_ultra(float * r, float * g, float * b, int value)
     };
 
     if (value > 0) {
-        *r = colormap[value % COLORMAP_SIZE][0]/255;
-        *g = colormap[value % COLORMAP_SIZE][1]/255;
-        *b = colormap[value % COLORMAP_SIZE][2]/255;
+        *r = colormap[value % COLORMAP_SIZE][0];
+        *g = colormap[value % COLORMAP_SIZE][1];
+        *b = colormap[value % COLORMAP_SIZE][2];
     }
     else {
         *r = *g = *b = 0;
@@ -141,7 +141,7 @@ value_to_rgb_ultra(float * r, float * g, float * b, int value)
 }
 
 
-void value_to_rgb_lavender(float * r, float * g, float * b, int value) {
+void fractal_value_to_rgb_lavender(float * r, float * g, float * b, int value) {
     static const float colormap[][3] = {
        { 69, 147, 254},
        {101, 154, 214},
@@ -180,9 +180,9 @@ void value_to_rgb_lavender(float * r, float * g, float * b, int value) {
     };
 
     if (value > 0) {
-        *r = colormap[value % sizeof(colormap)/3][0]/255;
-        *g = colormap[value % sizeof(colormap)/3][1]/255;
-        *b = colormap[value % sizeof(colormap)/3][2]/255;
+        *r = colormap[value % sizeof(colormap)/3][0];
+        *g = colormap[value % sizeof(colormap)/3][1];
+        *b = colormap[value % sizeof(colormap)/3][2];
     } else {
         *r = *g = *b = 0;
     }
@@ -190,7 +190,7 @@ void value_to_rgb_lavender(float * r, float * g, float * b, int value) {
 
 
 void
-value_to_rgb_binary(float * r, float * g, float * b, int value)
+fractal_value_to_rgb_binary(float * r, float * g, float * b, int value)
 {
-    *r = *g = *b = value > 0;
+    *r = *g = *b = 255*(value > 0);
 }

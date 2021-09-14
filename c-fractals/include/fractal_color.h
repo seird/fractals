@@ -48,6 +48,8 @@ enum FC_Color {
 /* types */
 typedef void * HCMATRIX;
 
+typedef void (* colorfunc_t)(float * r, float * g, float * b, int value);
+
 struct FractalProperties {
     float x_start;
     float x_end;
@@ -104,10 +106,13 @@ void fractal_image_save(int * image, int width, int height, const char * filenam
 /* convert a cmatrix value to rgb */
 void fractal_value_to_color(float * r, float * g, float * b, int value, enum FC_Color color);
 
+/* get a color function */
+colorfunc_t fractal_colorfunc_get(enum FC_Color color);
+
 /* create an image array */
 int * fractal_image_create(int height, int width);
 
 /* free an image array */
 void fractal_image_free(int * image);
 
-#endif
+#endif // __FRACTAL_COLOR_H__

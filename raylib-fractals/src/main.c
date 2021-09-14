@@ -23,6 +23,7 @@
 
 struct FractalProperties fp;
 enum FC_Color f_color;
+colorfunc_t colorfunc;
 float animation_speed;
 bool animate;
 bool update;
@@ -58,6 +59,7 @@ reset(bool view_only)
     fp.sequence_length=sizeof(LYAPUNOV_SEQUENCE)-1;
 
     f_color = FC_COLOR_ULTRA;
+    colorfunc = fractal_colorfunc_get(f_color);
 
     animate = true;
     update = true;
@@ -123,6 +125,7 @@ handle_user_input()
     /* Cycle colors */
     if (IsKeyPressed(KEY_ONE)){
         f_color = (f_color + 1) % FC_COLOR_NUM_ENTRIES;
+        colorfunc = fractal_colorfunc_get(f_color);
         update = true;
     }
     /* Cycle fractals */
@@ -182,7 +185,7 @@ main(void)
 
     InitWindow(WIDTH, HEIGHT, "raylib fractals"); 
 
-    SetTargetFPS(GetMonitorRefreshRate(0));
+    // SetTargetFPS(GetMonitorRefreshRate(0));
     
     Texture2D texture = LoadTextureFromImage(img);
 
@@ -225,15 +228,15 @@ main(void)
                 for (int w=0; w<WIDTH; ++w) {
                     float r, g, b;
                     #ifdef CUDA
-                        fractal_value_to_color(&r, &g, &b, cuda_image[h*WIDTH+w], f_color);
+                        colorfunc(&r, &g, &b, cuda_image[h*WIDTH+w]);
                     #else
-                        fractal_value_to_color(&r, &g, &b, (int)*fractal_cmatrix_value(hc, h, w), f_color);
+                        colorfunc(&r, &g, &b, (int)*fractal_cmatrix_value(hc, h, w));
                     #endif
                     Color c;
                     c.a = 255;
-                    c.r = r*255;
-                    c.g = g*255;
-                    c.b = b*255;
+                    c.r = r;
+                    c.g = g;
+                    c.b = b;
                     image[h*WIDTH+w] = c;
                 }
             }
