@@ -72,7 +72,13 @@ Include the library interface **fracal_color.h** in the project. Add the source 
 - Convert a cmatrix value to rgb
 
     ```c
-    void fractal_value_to_color(float * r, float * g, float * b, int value, enum FC_Color color);
+    void fractal_value_to_color(uint8_t * r, uint8_t * g, uint8_t * b, int value, enum FC_Color color);
+    ```
+
+- Get a color function
+
+    ```c
+    colorfunc_t fractal_colorfunc_get(enum FC_Color color);
     ```
 
 - Save a color matrix as png

@@ -185,7 +185,7 @@ main(void)
 
     InitWindow(WIDTH, HEIGHT, "raylib fractals"); 
 
-    // SetTargetFPS(GetMonitorRefreshRate(0));
+    SetTargetFPS(GetMonitorRefreshRate(0));
     
     Texture2D texture = LoadTextureFromImage(img);
 
@@ -226,7 +226,7 @@ main(void)
             // Convert the values to a color image
             for (int h=0; h<HEIGHT; ++h) {
                 for (int w=0; w<WIDTH; ++w) {
-                    float r, g, b;
+                    uint8_t r, g, b;
                     #ifdef CUDA
                         colorfunc(&r, &g, &b, cuda_image[h*WIDTH+w]);
                     #else

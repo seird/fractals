@@ -105,10 +105,10 @@ _fractal_image_save_wrapped = wrap_lib_function(
     restype  = None
 )
 
-# void fractal_value_to_color(float * r, float * g, float * b, int value, enum FC_Color color);
+# void fractal_value_to_color(uint8_t * r, uint8_t * g, uint8_t * b, int value, enum FC_Color color);
 _fractal_value_to_color_wrapped = wrap_lib_function(
     "fractal_value_to_color",
-    argtypes = [c_float_p, c_float_p, c_float_p, c_int, c_int],
+    argtypes = [c_uint8_p, c_uint8_p, c_uint8_p, c_int, c_int],
     restype  = None
 )
 
@@ -220,13 +220,13 @@ def fractal_image_save(image: c_int_p, width: int, height: int, filename: str, c
     """
     return _fractal_image_save_wrapped(image, c_int(width), c_int(height), filename.encode('utf-8'), c_int(color.value))
 
-def fractal_value_to_color(value: int, color: Color) -> Tuple[float, float, float]:
+def fractal_value_to_color(value: int, color: Color) -> Tuple[c_uint8, c_uint8, c_uint8]:
     """
     Convert a cmatrix value to rgb
     """
-    r = c_float(0.0)
-    g = c_float(0.0)
-    b = c_float(0.0)
+    r = c_uint8(0.0)
+    g = c_uint8(0.0)
+    b = c_uint8(0.0)
     _fractal_value_to_color_wrapped(byref(r), byref(g), byref(b), c_int(int(value)), c_int(color.value))
     return (r.value, g.value, b.value)
 

@@ -1,12 +1,12 @@
 from ctypes import (CDLL, POINTER, Structure, byref, c_char_p, c_float, c_int,
-                    c_size_t, c_void_p)
+                    c_uint8, c_size_t, c_void_p)
 from enum import Enum
 from typing import Optional
 
 HCMATRIX = c_void_p
 c_int_p = POINTER(c_int)
 c_float_p = POINTER(c_float)
-
+c_uint8_p = POINTER(c_uint8)
 
 class Fractal(Enum):
     Z2      = 0

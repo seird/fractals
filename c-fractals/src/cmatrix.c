@@ -122,14 +122,14 @@ fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum FC_Color col
 
     int comp = 3; // rgb
 
-    float pr, pg, pb;
-    char * data = malloc(hc->height*hc->width*comp);
+    uint8_t pr, pg, pb;
+    uint8_t * data = malloc(hc->height*hc->width*comp);
     for (int r=0; r<hc->height; ++r) {
         for (int c=0; c<hc->width; ++c) {
             fractal_value_to_color(&pr, &pg, &pb, (int)*fractal_cmatrix_value(hCmatrix, r, c), color);
-            data[r*(hc->width*3)+(c*3)] = (char) (pr*255);
-            data[r*(hc->width*3)+(c*3)+1] = (char) (pg*255);
-            data[r*(hc->width*3)+(c*3)+2] = (char) (pb*255);
+            data[r*(hc->width*3)+(c*3)] = pr;
+            data[r*(hc->width*3)+(c*3)+1] = pg;
+            data[r*(hc->width*3)+(c*3)+2] = pb;
         }
     }
 
@@ -143,14 +143,14 @@ fractal_image_save(int * image, int width, int height, const char * filename, en
 {
     int comp = 3; // rgb
 
-    float pr, pg, pb;
-    char * data = malloc(height*width*comp);
+    uint8_t pr, pg, pb;
+    uint8_t * data = malloc(height*width*comp);
     for (int r=0; r<height; ++r) {
         for (int c=0; c<width; ++c) {
             fractal_value_to_color(&pr, &pg, &pb, image[width*r+c], color);
-            data[r*(width*3)+(c*3)] = (char) (pr*255);
-            data[r*(width*3)+(c*3)+1] = (char) (pg*255);
-            data[r*(width*3)+(c*3)+2] = (char) (pb*255);
+            data[r*(width*3)+(c*3)] = pr;
+            data[r*(width*3)+(c*3)+1] = pg;
+            data[r*(width*3)+(c*3)+2] = pb;
         }
     }
 

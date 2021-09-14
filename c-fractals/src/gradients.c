@@ -16,7 +16,7 @@ colorfunc_t fractal_colorfunc_get(enum FC_Color color)
 }
 
 void
-fractal_value_to_color(float * r, float * g, float * b, int value, enum FC_Color color)
+fractal_value_to_color(uint8_t * r, uint8_t * g, uint8_t * b, int value, enum FC_Color color)
 {
     fractal_colorfunc_get(color)(r, g, b, value);
 }
@@ -24,7 +24,7 @@ fractal_value_to_color(float * r, float * g, float * b, int value, enum FC_Color
 
 
 void
-fractal_value_to_rgb_jet(float * r, float * g, float * b, int value)
+fractal_value_to_rgb_jet(uint8_t * r, uint8_t * g, uint8_t * b, int value)
 {
     static const float colormap[COLORMAP_SIZE][3] = {
         {  0.00000,     0.00000,   191.25000},
@@ -57,7 +57,7 @@ fractal_value_to_rgb_jet(float * r, float * g, float * b, int value)
 
 
 void
-fractal_value_to_rgb_monochrome(float * r, float * g, float * b, int value)
+fractal_value_to_rgb_monochrome(uint8_t * r, uint8_t * g, uint8_t * b, int value)
 {
     static const float colormap[COLORMAP_SIZE][3] = {
         {50, 50, 50},
@@ -89,7 +89,7 @@ fractal_value_to_rgb_monochrome(float * r, float * g, float * b, int value)
 
 
 void
-fractal_value_to_rgb_tri(float * r, float * g, float * b, int value)
+fractal_value_to_rgb_tri(uint8_t * r, uint8_t * g, uint8_t * b, int value)
 {
     static const float colormap[3][3] = {
         {255, 150, 150},
@@ -109,7 +109,7 @@ fractal_value_to_rgb_tri(float * r, float * g, float * b, int value)
 
 
 void
-fractal_value_to_rgb_ultra(float * r, float * g, float * b, int value)
+fractal_value_to_rgb_ultra(uint8_t * r, uint8_t * g, uint8_t * b, int value)
 {
     static const float colormap[COLORMAP_SIZE][3] = {
         {66, 30, 15},
@@ -141,7 +141,7 @@ fractal_value_to_rgb_ultra(float * r, float * g, float * b, int value)
 }
 
 
-void fractal_value_to_rgb_lavender(float * r, float * g, float * b, int value) {
+void fractal_value_to_rgb_lavender(uint8_t * r, uint8_t * g, uint8_t * b, int value) {
     static const float colormap[][3] = {
        { 69, 147, 254},
        {101, 154, 214},
@@ -190,7 +190,7 @@ void fractal_value_to_rgb_lavender(float * r, float * g, float * b, int value) {
 
 
 void
-fractal_value_to_rgb_binary(float * r, float * g, float * b, int value)
+fractal_value_to_rgb_binary(uint8_t * r, uint8_t * g, uint8_t * b, int value)
 {
     *r = *g = *b = 255*(value > 0);
 }
