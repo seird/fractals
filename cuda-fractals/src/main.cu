@@ -24,78 +24,30 @@ fractal_cuda_clean()
 }
 
 
-fractal_cuda_kernel_t kernels_julia[FC_FRAC_NUM_ENTRIES] = {
-    fractal_cuda_kernel_julia_z2,
-    fractal_cuda_kernel_julia_z3,
-    fractal_cuda_kernel_julia_z4,
-    fractal_cuda_kernel_julia_zconj2,
-    fractal_cuda_kernel_julia_zconj3,
-    fractal_cuda_kernel_julia_zconj4,
-    fractal_cuda_kernel_julia_zabs2,
-    fractal_cuda_kernel_julia_zabs3,
-    fractal_cuda_kernel_julia_zabs4,
-    fractal_cuda_kernel_julia_magnet,
-    fractal_cuda_kernel_julia_z2_z,
-};
-
-fractal_cuda_kernel_t kernels_mandelbrot[FC_FRAC_NUM_ENTRIES] = {
-    fractal_cuda_kernel_mandelbrot_z2,
-    fractal_cuda_kernel_mandelbrot_z3,
-    fractal_cuda_kernel_mandelbrot_z4,
-    fractal_cuda_kernel_mandelbrot_zconj2,
-    fractal_cuda_kernel_mandelbrot_zconj3,
-    fractal_cuda_kernel_mandelbrot_zconj4,
-    fractal_cuda_kernel_mandelbrot_zabs2,
-    fractal_cuda_kernel_mandelbrot_zabs3,
-    fractal_cuda_kernel_mandelbrot_zabs4,
-    fractal_cuda_kernel_mandelbrot_magnet,
-    fractal_cuda_kernel_mandelbrot_z2_z,
-};
-
-
 extern "C" void
 fractal_cuda_get_colors(uint8_t * image, struct FractalProperties * fp)
 {
     dim3 threads(8, 8);
     dim3 blocks(fp->width / threads.x, fp->height / threads.y);
 
-    // Get the kernel function
-    fractal_cuda_kernel_t kernel;
     switch (fp->mode) {
         case FC_MODE_JULIA:
-            kernel = kernels_julia[fp->frac];
+            julia_kernels[fp->frac % FC_FRAC_NUM_ENTRIES]<<<blocks, threads>>>(d_image, *fp);
             break;
         case FC_MODE_MANDELBROT:
-            kernel = kernels_mandelbrot[fp->frac];
+            mandelbrot_kernels[fp->frac % FC_FRAC_NUM_ENTRIES]<<<blocks, threads>>>(d_image, *fp);
             break;
         case FC_MODE_LYAPUNOV:
             char * d_sequence;
             cudaMalloc(&d_sequence, sizeof(char) * fp->sequence_length);
             cudaMemcpy(d_sequence, fp->sequence, sizeof(char) * fp->sequence_length, cudaMemcpyHostToDevice);
 
-            fractal_cuda_kernel_lyapunov<<<blocks, threads>>>(d_image,
-                                                              fp->x_start, fp->x_end,
-                                                              fp->y_start, fp->y_end,
-                                                              fp->width, fp->height,
-                                                              d_sequence, fp->sequence_length,
-                                                              fp->max_iterations,
-                                                              fp->color);
+            fractal_cuda_kernel_lyapunov<<<blocks, threads>>>(d_image, *fp, d_sequence);
             cudaFree(&d_sequence);
-            goto finish;
         default:
-            kernel = kernels_julia[fp->frac];
+            break;
     }
 
-    // Do the cuda computation
-    kernel<<<blocks, threads>>>(d_image,
-                                fp->x_start, fp->x_end,
-                                fp->y_start, fp->y_end,
-                                fp->c_real, fp->c_imag,
-                                fp->width, fp->height,
-                                fp->max_iterations, fp->R,
-                                fp->color);
-
-    finish:
     cudaThreadSynchronize();
 
     // Copy the result back

@@ -24,16 +24,10 @@ typedef void (* fractal_cuda_t)(float * result_real, float * result_imag,
                                 const float c_real, const float c_imag);
 
 
-typedef void (* fractal_cuda_kernel_t)(uint8_t * colors, const float w_start, const float w_end,
-                                       const float h_start, const float h_end,
-                                       const float c_real, const float c_imag,
-                                       int width, int height,
-                                       int max_iterations, float R,
-                                       FC_Color color);
+typedef void (* fractal_cuda_kernel_t)(uint8_t * colors, FractalProperties fp);
 
 __device__ inline bool
 fractal_cuda_escape_magnitude_check(float z_real, float z_imag, float R)
 {
     return (z_real*z_real + z_imag*z_imag) > (R*R);
 }
-

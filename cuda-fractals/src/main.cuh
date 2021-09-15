@@ -3,6 +3,7 @@
 #include "julia.cuh"
 #include "mandelbrot.cuh"
 #include "lyapunov.cuh"
+#include "fractals.cuh"
 
 
 #ifdef __linux__
