@@ -2,8 +2,7 @@ CC_CUDA = nvcc
 CC = gcc
 
 FILES_CUDA = \
-	src/fractal.cu \
-	src/utils.cu \
+	$(wildcard src/*.cu) \
 
 FILES = src/main.c
 

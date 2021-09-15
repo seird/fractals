@@ -1,16 +1,10 @@
 #pragma once
 
 
-#include <cuda_runtime.h>
-#include <device_launch_parameters.h>
-
-#include "../include/fractal_cuda.h"
-
-
 #define COLORMAP_SIZE 16
 
 
-__device__ void
+__device__ inline void
 fractal_cuda_value_to_rgb_jet(uint8_t * r, uint8_t * g, uint8_t * b, int value)
 {
     static const uint8_t colormap[COLORMAP_SIZE][3] = {
@@ -43,7 +37,7 @@ fractal_cuda_value_to_rgb_jet(uint8_t * r, uint8_t * g, uint8_t * b, int value)
 }
 
 
-__device__ void
+__device__ inline void
 fractal_cuda_value_to_rgb_monochrome(uint8_t * r, uint8_t * g, uint8_t * b, int value)
 {
     static const uint8_t colormap[COLORMAP_SIZE][3] = {
@@ -75,7 +69,7 @@ fractal_cuda_value_to_rgb_monochrome(uint8_t * r, uint8_t * g, uint8_t * b, int 
 }
 
 
-__device__ void
+__device__ inline void
 fractal_cuda_value_to_rgb_tri(uint8_t * r, uint8_t * g, uint8_t * b, int value)
 {
     static const uint8_t colormap[3][3] = {
@@ -95,7 +89,7 @@ fractal_cuda_value_to_rgb_tri(uint8_t * r, uint8_t * g, uint8_t * b, int value)
 }
 
 
-__device__ void
+__device__ inline void
 fractal_cuda_value_to_rgb_ultra(uint8_t * r, uint8_t * g, uint8_t * b, int value)
 {
     static const uint8_t colormap[COLORMAP_SIZE][3] = {
@@ -128,7 +122,7 @@ fractal_cuda_value_to_rgb_ultra(uint8_t * r, uint8_t * g, uint8_t * b, int value
 }
 
 
-__device__ void
+__device__ inline void
 fractal_cuda_value_to_rgb_lavender(uint8_t * r, uint8_t * g, uint8_t * b, int value) {
     static const uint8_t colormap[][3] = {
        { 69, 147, 254},
@@ -177,7 +171,7 @@ fractal_cuda_value_to_rgb_lavender(uint8_t * r, uint8_t * g, uint8_t * b, int va
 }
 
 
-__device__ void
+__device__ inline void
 fractal_cuda_value_to_rgb_binary(uint8_t * r, uint8_t * g, uint8_t * b, int value)
 {
     *r = *g = *b = 255*(value > 0);

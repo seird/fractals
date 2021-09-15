@@ -9,22 +9,14 @@
 
 #include "../include/fractal_cuda.h"
 
+#include "gradients.cuh"
+#include "fractals.cuh"
+
 
 extern uint8_t * d_image;
 
 
 #define BLACK 0
-
-
-#ifdef __linux__
-extern "C" bool fractal_cuda_init(int width, int height);
-extern "C" void fractal_cuda_clean();
-extern "C" void fractal_cuda_get_colors(uint8_t * image, struct FractalProperties * fp);
-#else
-extern "C" bool __declspec(dllexport) fractal_cuda_init(int width, int height);
-extern "C" void __declspec(dllexport) fractal_cuda_clean();
-extern "C" void __declspec(dllexport) fractal_cuda_get_colors(uint8_t * image, struct FractalProperties * fp);
-#endif
 
 
 typedef void (* fractal_cuda_t)(float * result_real, float * result_imag,
@@ -38,3 +30,10 @@ typedef void (* fractal_cuda_kernel_t)(uint8_t * colors, const float w_start, co
                                        int width, int height,
                                        int max_iterations, float R,
                                        FC_Color color);
+
+__device__ inline bool
+fractal_cuda_escape_magnitude_check(float z_real, float z_imag, float R)
+{
+    return (z_real*z_real + z_imag*z_imag) > (R*R);
+}
+
