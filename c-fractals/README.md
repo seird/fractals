@@ -90,19 +90,19 @@ Include the library interface **fracal_color.h** in the project. Add the source 
 - Save an image array as png
 
     ```c
-    void fractal_image_save(int * image, int width, int height, const char * filename, enum FC_Color color);
+    void fractal_image_save(uint8_t * image, int width, int height, const char * filename);
     ```
 
 - Create an image array
 
     ```c
-    int * fractal_image_create(int height, int width);
+    uint8_t * fractal_image_create(int height, int width);
     ```
 
 - Free an image array
     
     ```c
-    void fractal_image_free(int * image);
+    void fractal_image_free(uint8_t * image);
     ```
     
 ### Structs
@@ -119,6 +119,7 @@ Include the library interface **fracal_color.h** in the project. Add the source 
         float height;
         enum FC_Fractal frac;
         enum FC_Mode mode;
+        enum FC_Color color;
         float c_real;
         float c_imag;
         float R;

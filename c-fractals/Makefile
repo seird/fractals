@@ -54,7 +54,13 @@ static:
 build: 
 	$(CC) $(CFLAGS_RELEASE) $(FILES) -o a_release.exe
 
+build-cuda: 
+	$(CC) $(CFLAGS_RELEASE) -DCUDA -lcudafractals -L. $(FILES) -o a_release.exe
+
 run: build
+	./a_release.exe
+
+run-cuda: build-cuda
 	./a_release.exe
 
 debug:

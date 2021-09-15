@@ -98,10 +98,10 @@ _fractal_cmatrix_save_wrapped = wrap_lib_function(
     restype  = None
 )
 
-# void fractal_image_save(int * image, int width, int height, const char * filename, enum FC_Color color);
+# void fractal_image_save(uint8_t * image, int width, int height, const char * filename);
 _fractal_image_save_wrapped = wrap_lib_function(
     "fractal_image_save",
-    argtypes = [c_int_p, c_int, c_int, c_char_p, c_int],
+    argtypes = [c_uint8_p, c_int, c_int, c_char_p],
     restype  = None
 )
 
@@ -116,13 +116,13 @@ _fractal_value_to_color_wrapped = wrap_lib_function(
 _fractal_image_create_wrapped = wrap_lib_function(
     "fractal_image_create",
     argtypes = [c_int, c_int],
-    restype  = c_int_p
+    restype  = c_uint8_p
 )
 
-# void fractal_image_free(int * image);
+# void fractal_image_free(uint8_t * image);
 _fractal_image_free_wrapped = wrap_lib_function(
     "fractal_image_free",
-    argtypes = [c_int_p],
+    argtypes = [c_uint8_p],
     restype  = None
 )
 
@@ -143,10 +143,10 @@ if cuda:
         cuda     = cuda
     )
 
-    # void fractal_cuda_get_colors(int * image, struct FractalProperties * fp);
+    # void fractal_cuda_get_colors(uint8_t * image, struct FractalProperties * fp);
     _fractal_cuda_get_colors_wrapped = wrap_lib_function(
         "fractal_cuda_get_colors",
-        argtypes = [c_int_p, POINTER(FractalProperties)],
+        argtypes = [c_uint8_p, POINTER(FractalProperties)],
         restype  = None,
         cuda     = cuda
     )
@@ -214,11 +214,11 @@ def fractal_cmatrix_save(hCmatrix: HCMATRIX, filename: str, color: Color) -> Non
     """
     return _fractal_cmatrix_save_wrapped(hCmatrix, filename.encode('utf-8'), c_int(color.value))
 
-def fractal_image_save(image: c_int_p, width: int, height: int, filename: str, color: Color) -> None:
+def fractal_image_save(image: c_uint8_p, width: int, height: int, filename: str) -> None:
     """
     Save an image array as png
     """
-    return _fractal_image_save_wrapped(image, c_int(width), c_int(height), filename.encode('utf-8'), c_int(color.value))
+    return _fractal_image_save_wrapped(image, c_int(width), c_int(height), filename.encode('utf-8'))
 
 def fractal_value_to_color(value: int, color: Color) -> Tuple[c_uint8, c_uint8, c_uint8]:
     """
@@ -230,13 +230,13 @@ def fractal_value_to_color(value: int, color: Color) -> Tuple[c_uint8, c_uint8, 
     _fractal_value_to_color_wrapped(byref(r), byref(g), byref(b), c_int(int(value)), c_int(color.value))
     return (r.value, g.value, b.value)
 
-def fractal_image_create(width: int, height: int) -> c_int_p:
+def fractal_image_create(width: int, height: int) -> c_uint8_p:
     """
     Create an image array
     """
     return _fractal_image_create_wrapped(c_int(height), c_int(width))
 
-def fractal_image_free(image: c_int_p) -> None:
+def fractal_image_free(image: c_uint8_p) -> None:
     """
     Free an image array
     """
@@ -254,7 +254,7 @@ def fractal_cuda_clean() -> None:
     """
     return _fractal_cuda_clean_wrapped()
 
-def fractal_cuda_get_colors(image: c_int_p, fp: FractalProperties) -> None:
+def fractal_cuda_get_colors(image: c_uint8_p, fp: FractalProperties) -> None:
     """
     Do the color computation
     """

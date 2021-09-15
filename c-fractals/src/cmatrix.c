@@ -139,34 +139,19 @@ fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum FC_Color col
 }
 
 void
-fractal_image_save(int * image, int width, int height, const char * filename, enum FC_Color color)
+fractal_image_save(uint8_t * image, int width, int height, const char * filename)
 {
-    int comp = 3; // rgb
-
-    uint8_t pr, pg, pb;
-    uint8_t * data = malloc(height*width*comp);
-    for (int r=0; r<height; ++r) {
-        for (int c=0; c<width; ++c) {
-            fractal_value_to_color(&pr, &pg, &pb, image[width*r+c], color);
-            data[r*(width*3)+(c*3)] = pr;
-            data[r*(width*3)+(c*3)+1] = pg;
-            data[r*(width*3)+(c*3)+2] = pb;
-        }
-    }
-
-    stbi_write_png(filename, width, height, comp, data, 0);
-
-    free(data);
+    stbi_write_png(filename, width, height, 3, image, 0);
 }
 
-int *
+uint8_t *
 fractal_image_create(int height, int width)
 {
-    return (int *) malloc(sizeof(int)*height*width);
+    return (uint8_t *) malloc(sizeof(int)*height*width*3);
 }
 
 void
-fractal_image_free(int * image)
+fractal_image_free(uint8_t * image)
 {
     free(image);
 }

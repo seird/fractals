@@ -19,8 +19,8 @@ main(void)
     
     float aspect_ratio = (float)width/height;
 
-    float x_start = -R/5+0.5;
-    float x_end   =  R/5+0.5;
+    float x_start = -R;
+    float x_end   =  R;
 
     float y_start = x_start/aspect_ratio;
     float y_end = x_end/aspect_ratio;    
@@ -29,6 +29,7 @@ main(void)
 
     enum FC_Mode mode = FC_MODE_JULIA;
     enum FC_Fractal fractal = FC_FRAC_Z2;
+    enum FC_Color color = FC_COLOR_JET;
     /* ---------------------------------------- */
 
 
@@ -43,13 +44,15 @@ main(void)
 
         .frac = fractal,
         .mode = mode,
+        .color = color,
+
         .c_real = c_real,
         .c_imag = c_imag,
         .R = R,
         .max_iterations = max_iterations,
     };
 
-    float counter = 0;
+    float counter = 10.0f;
     int N = 100;
     char savename[20];
 
@@ -64,11 +67,11 @@ main(void)
         sprintf(savename, "fractal_%02d.png", i);
 
     #ifdef CUDA
-        int * image = fractal_image_create(height, width);
+        uint8_t * image = fractal_image_create(height, width);
         fractal_cuda_init(width, height);
         
         fractal_cuda_get_colors(image, &fp);
-        fractal_image_save(image, width, height, savename, FC_COLOR_ULTRA);
+        fractal_image_save(image, width, height, savename);
 
         fractal_cuda_clean();
         fractal_image_free(image);
@@ -82,7 +85,7 @@ main(void)
 
         //float max_color = fractal_cmatrix_max(hCmatrix);
 
-        fractal_cmatrix_save(hCmatrix, savename, FC_COLOR_ULTRA);
+        fractal_cmatrix_save(hCmatrix, savename, fp.color);
 
         fractal_cmatrix_free(hCmatrix);
     #endif

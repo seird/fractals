@@ -59,6 +59,7 @@ struct FractalProperties {
     int height;
     enum FC_Fractal frac;
     enum FC_Mode mode;
+    enum FC_Color color;
     float c_real;
     float c_imag;
     float R;
@@ -101,7 +102,7 @@ float fractal_cmatrix_max(HCMATRIX hCmatrix);
 void fractal_cmatrix_save(HCMATRIX hCmatrix, const char * filename, enum FC_Color color);
 
 /* save an image array as png */
-void fractal_image_save(int * image, int width, int height, const char * filename, enum FC_Color color);
+void fractal_image_save(uint8_t * image, int width, int height, const char * filename);
 
 /* convert a cmatrix value to rgb */
 void fractal_value_to_color(uint8_t * r, uint8_t * g, uint8_t * b, int value, enum FC_Color color);
@@ -110,9 +111,9 @@ void fractal_value_to_color(uint8_t * r, uint8_t * g, uint8_t * b, int value, en
 colorfunc_t fractal_colorfunc_get(enum FC_Color color);
 
 /* create an image array */
-int * fractal_image_create(int height, int width);
+uint8_t * fractal_image_create(int height, int width);
 
 /* free an image array */
-void fractal_image_free(int * image);
+void fractal_image_free(uint8_t * image);
 
 #endif // __FRACTAL_COLOR_H__

@@ -59,6 +59,7 @@ reset(bool view_only)
     fp.sequence_length=sizeof(LYAPUNOV_SEQUENCE)-1;
 
     f_color = FC_COLOR_ULTRA;
+    fp.color = f_color;
     colorfunc = fractal_colorfunc_get(f_color);
 
     animate = true;
@@ -126,6 +127,7 @@ handle_user_input()
     if (IsKeyPressed(KEY_ONE)){
         f_color = (f_color + 1) % FC_COLOR_NUM_ENTRIES;
         colorfunc = fractal_colorfunc_get(f_color);
+        fp.color = f_color;
         update = true;
     }
     /* Cycle fractals */
@@ -167,7 +169,7 @@ main(void)
     reset(false);
 
     #ifdef CUDA
-        int * cuda_image = fractal_image_create(HEIGHT, WIDTH);
+        uint8_t * cuda_image = fractal_image_create(HEIGHT, WIDTH);
         fractal_cuda_init(WIDTH, HEIGHT);
     #else
         HCMATRIX hc = fractal_cmatrix_create(HEIGHT, WIDTH);
@@ -192,7 +194,7 @@ main(void)
     bool firstrun = true;
     int fps = 0;
     float frametime = 0;
-    counter = 0;
+
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
 		char buf[1024];
@@ -226,17 +228,19 @@ main(void)
             // Convert the values to a color image
             for (int h=0; h<HEIGHT; ++h) {
                 for (int w=0; w<WIDTH; ++w) {
-                    uint8_t r, g, b;
-                    #ifdef CUDA
-                        colorfunc(&r, &g, &b, cuda_image[h*WIDTH+w]);
-                    #else
-                        colorfunc(&r, &g, &b, (int)*fractal_cmatrix_value(hc, h, w));
-                    #endif
                     Color c;
                     c.a = 255;
-                    c.r = r;
-                    c.g = g;
-                    c.b = b;
+                    #ifdef CUDA
+                        c.r = cuda_image[h*WIDTH*3 + w*3];
+                        c.g = cuda_image[h*WIDTH*3 + w*3 + 1];
+                        c.b = cuda_image[h*WIDTH*3 + w*3 + 2];
+                    #else
+                        uint8_t r, g, b;
+                        colorfunc(&r, &g, &b, (int)*fractal_cmatrix_value(hc, h, w));
+                        c.r = r;
+                        c.g = g;
+                        c.b = b;
+                    #endif
                     image[h*WIDTH+w] = c;
                 }
             }

@@ -1,4 +1,5 @@
 #include "fractal.cuh"
+#include "gradients.cuh"
 
 
 /** multiple kernel functions are used for better performance
@@ -217,12 +218,13 @@ fractal_cuda_escape_magnitude_check(float z_real, float z_imag, float R)
 }
 
 __device__ void
-fractal_cuda_kernel_julia(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_julia(uint8_t * colors, const float w_start, const float w_end,
                                     const float h_start, const float h_end,
                                     const float c_real, const float c_imag,
                                     int width, int height,
                                     int max_iterations, float R,
-                                    fractal_cuda_t fractal)
+                                    fractal_cuda_t fractal,
+                                    FC_Color color)
 {
     int w = (blockIdx.x*blockDim.x) + threadIdx.x;
     int h = (blockIdx.y*blockDim.y) + threadIdx.y;
@@ -242,185 +244,215 @@ fractal_cuda_kernel_julia(int * colors, const float w_start, const float w_end,
         z_imag = r_imag;
     }
 
-    colors[h*width+w] = num_iterations == max_iterations ? BLACK : num_iterations;
+    int value = num_iterations == max_iterations ? BLACK : num_iterations;
+
+    colorfuncs[color%FC_COLOR_NUM_ENTRIES](
+        colors + h*width*3 + w*3,
+        colors + h*width*3 + w*3 + 1,
+        colors + h*width*3 + w*3 + 2,
+        value
+    );
 }
 
 
 __global__ void
-fractal_cuda_kernel_julia_z2(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_julia_z2(uint8_t * colors, const float w_start, const float w_end,
                                        const float h_start, const float h_end,
                                        const float c_real, const float c_imag,
                                        int width, int height,
-                                       int max_iterations, float R)
+                                       int max_iterations, float R,
+                                       FC_Color color)
 {
     fractal_cuda_kernel_julia(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_z2);
+                                        fractal_cuda_z2,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_z3(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_julia_z3(uint8_t * colors, const float w_start, const float w_end,
                                        const float h_start, const float h_end,
                                        const float c_real, const float c_imag,
                                        int width, int height,
-                                       int max_iterations, float R)
+                                       int max_iterations, float R,
+                                       FC_Color color)
 {
     fractal_cuda_kernel_julia(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_z3);
+                                        fractal_cuda_z3,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_z4(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_julia_z4(uint8_t * colors, const float w_start, const float w_end,
                                        const float h_start, const float h_end,
                                        const float c_real, const float c_imag,
                                        int width, int height,
-                                       int max_iterations, float R)
+                                       int max_iterations, float R,
+                                       FC_Color color)
 {
     fractal_cuda_kernel_julia(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_z4);
+                                        fractal_cuda_z4,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_zconj2(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_julia_zconj2(uint8_t * colors, const float w_start, const float w_end,
                                            const float h_start, const float h_end,
                                            const float c_real, const float c_imag,
                                            int width, int height,
-                                           int max_iterations, float R)
+                                           int max_iterations, float R,
+                                           FC_Color color)
 {
     fractal_cuda_kernel_julia(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_zconj2);
+                                        fractal_cuda_zconj2,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_zconj3(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_julia_zconj3(uint8_t * colors, const float w_start, const float w_end,
                                            const float h_start, const float h_end,
                                            const float c_real, const float c_imag,
                                            int width, int height,
-                                           int max_iterations, float R)
+                                           int max_iterations, float R,
+                                           FC_Color color)
 {
     fractal_cuda_kernel_julia(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_zconj3);
+                                        fractal_cuda_zconj3,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_zconj4(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_julia_zconj4(uint8_t * colors, const float w_start, const float w_end,
                                            const float h_start, const float h_end,
                                            const float c_real, const float c_imag,
                                            int width, int height,
-                                           int max_iterations, float R)
+                                           int max_iterations, float R,
+                                           FC_Color color)
 {
     fractal_cuda_kernel_julia(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_zconj4);
+                                        fractal_cuda_zconj4,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_zabs2(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_julia_zabs2(uint8_t * colors, const float w_start, const float w_end,
                                           const float h_start, const float h_end,
                                           const float c_real, const float c_imag,
                                           int width, int height,
-                                          int max_iterations, float R)
+                                          int max_iterations, float R,
+                                          FC_Color color)
 {
     fractal_cuda_kernel_julia(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_zabs2);
+                                        fractal_cuda_zabs2,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_zabs3(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_julia_zabs3(uint8_t * colors, const float w_start, const float w_end,
                                           const float h_start, const float h_end,
                                           const float c_real, const float c_imag,
                                           int width, int height,
-                                          int max_iterations, float R)
+                                          int max_iterations, float R,
+                                          FC_Color color)
 {
     fractal_cuda_kernel_julia(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_zabs3);
+                                        fractal_cuda_zabs3,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_zabs4(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_julia_zabs4(uint8_t * colors, const float w_start, const float w_end,
                                           const float h_start, const float h_end,
                                           const float c_real, const float c_imag,
                                           int width, int height,
-                                          int max_iterations, float R)
+                                          int max_iterations, float R,
+                                          FC_Color color)
 {
     fractal_cuda_kernel_julia(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_zabs4);
+                                        fractal_cuda_zabs4,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_magnet(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_julia_magnet(uint8_t * colors, const float w_start, const float w_end,
                                            const float h_start, const float h_end,
                                            const float c_real, const float c_imag,
                                            int width, int height,
-                                           int max_iterations, float R)
+                                           int max_iterations, float R,
+                                           FC_Color color)
 {
     fractal_cuda_kernel_julia(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_magnet);
+                                        fractal_cuda_magnet,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_z2_z(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_julia_z2_z(uint8_t * colors, const float w_start, const float w_end,
                                          const float h_start, const float h_end,
                                          const float c_real, const float c_imag,
                                          int width, int height,
-                                         int max_iterations, float R)
+                                         int max_iterations, float R,
+                                         FC_Color color)
 {
     fractal_cuda_kernel_julia(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_z2_z);
+                                        fractal_cuda_z2_z,
+                                        color);
 }
 
 
 // Mandelbrot
 
 __device__ void
-fractal_cuda_kernel_mandelbrot(int * colors, const float w_start, const float w_end,
-                                    const float h_start, const float h_end,
-                                    float c_real, float c_imag,
-                                    int width, int height,
-                                    int max_iterations, float R,
-                                    fractal_cuda_t fractal)
+fractal_cuda_kernel_mandelbrot(uint8_t * colors, const float w_start, const float w_end,
+                                const float h_start, const float h_end,
+                                float c_real, float c_imag,
+                                int width, int height,
+                                int max_iterations, float R,
+                                fractal_cuda_t fractal,
+                                FC_Color color)
 {
     int w = (blockIdx.x*blockDim.x) + threadIdx.x;
     int h = (blockIdx.y*blockDim.y) + threadIdx.y;
@@ -442,183 +474,213 @@ fractal_cuda_kernel_mandelbrot(int * colors, const float w_start, const float w_
         z_imag = r_imag;
     }
 
-    colors[h*width+w] = num_iterations == max_iterations ? BLACK : num_iterations;
+    int value = num_iterations == max_iterations ? BLACK : num_iterations;
+
+    colorfuncs[color%FC_COLOR_NUM_ENTRIES](
+        colors + h*width*3 + w*3,
+        colors + h*width*3 + w*3 + 1,
+        colors + h*width*3 + w*3 + 2,
+        value
+    );
 }
 
 __global__ void
-fractal_cuda_kernel_mandelbrot_z2(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_mandelbrot_z2(uint8_t * colors, const float w_start, const float w_end,
                                        const float h_start, const float h_end,
                                        const float c_real, const float c_imag,
                                        int width, int height,
-                                       int max_iterations, float R)
+                                       int max_iterations, float R,
+                                       FC_Color color)
 {
     fractal_cuda_kernel_mandelbrot(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_z2);
+                                        fractal_cuda_z2,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_mandelbrot_z3(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_mandelbrot_z3(uint8_t * colors, const float w_start, const float w_end,
                                        const float h_start, const float h_end,
                                        const float c_real, const float c_imag,
                                        int width, int height,
-                                       int max_iterations, float R)
+                                       int max_iterations, float R,
+                                       FC_Color color)
 {
     fractal_cuda_kernel_mandelbrot(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_z3);
+                                        fractal_cuda_z3,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_mandelbrot_z4(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_mandelbrot_z4(uint8_t * colors, const float w_start, const float w_end,
                                        const float h_start, const float h_end,
                                        const float c_real, const float c_imag,
                                        int width, int height,
-                                       int max_iterations, float R)
+                                       int max_iterations, float R,
+                                       FC_Color color)
 {
     fractal_cuda_kernel_mandelbrot(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_z4);
+                                        fractal_cuda_z4,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_mandelbrot_zconj2(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_mandelbrot_zconj2(uint8_t * colors, const float w_start, const float w_end,
                                            const float h_start, const float h_end,
                                            const float c_real, const float c_imag,
                                            int width, int height,
-                                           int max_iterations, float R)
+                                           int max_iterations, float R,
+                                           FC_Color color)
 {
     fractal_cuda_kernel_mandelbrot(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_zconj2);
+                                        fractal_cuda_zconj2,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_mandelbrot_zconj3(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_mandelbrot_zconj3(uint8_t * colors, const float w_start, const float w_end,
                                            const float h_start, const float h_end,
                                            const float c_real, const float c_imag,
                                            int width, int height,
-                                           int max_iterations, float R)
+                                           int max_iterations, float R,
+                                           FC_Color color)
 {
     fractal_cuda_kernel_mandelbrot(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_zconj3);
+                                        fractal_cuda_zconj3,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_mandelbrot_zconj4(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_mandelbrot_zconj4(uint8_t * colors, const float w_start, const float w_end,
                                            const float h_start, const float h_end,
                                            const float c_real, const float c_imag,
                                            int width, int height,
-                                           int max_iterations, float R)
+                                           int max_iterations, float R,
+                                           FC_Color color)
 {
     fractal_cuda_kernel_mandelbrot(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_zconj4);
+                                        fractal_cuda_zconj4,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_mandelbrot_zabs2(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_mandelbrot_zabs2(uint8_t * colors, const float w_start, const float w_end,
                                           const float h_start, const float h_end,
                                           const float c_real, const float c_imag,
                                           int width, int height,
-                                          int max_iterations, float R)
+                                          int max_iterations, float R,
+                                          FC_Color color)
 {
     fractal_cuda_kernel_mandelbrot(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_zabs2);
+                                        fractal_cuda_zabs2,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_mandelbrot_zabs3(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_mandelbrot_zabs3(uint8_t * colors, const float w_start, const float w_end,
                                           const float h_start, const float h_end,
                                           const float c_real, const float c_imag,
                                           int width, int height,
-                                          int max_iterations, float R)
+                                          int max_iterations, float R,
+                                          FC_Color color)
 {
     fractal_cuda_kernel_mandelbrot(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_zabs3);
+                                        fractal_cuda_zabs3,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_mandelbrot_zabs4(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_mandelbrot_zabs4(uint8_t * colors, const float w_start, const float w_end,
                                           const float h_start, const float h_end,
                                           const float c_real, const float c_imag,
                                           int width, int height,
-                                          int max_iterations, float R)
+                                          int max_iterations, float R,
+                                          FC_Color color)
 {
     fractal_cuda_kernel_mandelbrot(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_zabs4);
+                                        fractal_cuda_zabs4,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_mandelbrot_magnet(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_mandelbrot_magnet(uint8_t * colors, const float w_start, const float w_end,
                                            const float h_start, const float h_end,
                                            const float c_real, const float c_imag,
                                            int width, int height,
-                                           int max_iterations, float R)
+                                           int max_iterations, float R,
+                                           FC_Color color)
 {
     fractal_cuda_kernel_mandelbrot(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_magnet);
+                                        fractal_cuda_magnet,
+                                        color);
 }
 
 __global__ void
-fractal_cuda_kernel_mandelbrot_z2_z(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_mandelbrot_z2_z(uint8_t * colors, const float w_start, const float w_end,
                                          const float h_start, const float h_end,
                                          const float c_real, const float c_imag,
                                          int width, int height,
-                                         int max_iterations, float R)
+                                         int max_iterations, float R,
+                                         FC_Color color)
 {
     fractal_cuda_kernel_mandelbrot(colors, w_start, w_end,
                                         h_start, h_end,
                                         c_real, c_imag,
                                         width, height,
                                         max_iterations, R,
-                                        fractal_cuda_z2_z);
+                                        fractal_cuda_z2_z,
+                                        color);
 }
 
 
 // Lyapunov
 
 __global__ void
-fractal_cuda_kernel_lyapunov(int * colors, const float w_start, const float w_end,
+fractal_cuda_kernel_lyapunov(uint8_t * colors, const float w_start, const float w_end,
                              const float h_start, const float h_end,
                              int width, int height,
                              char * sequence, size_t sequence_length,
-                             int max_iterations)
+                             int max_iterations,
+                             FC_Color color)
 {
     int w = (blockIdx.x*blockDim.x) + threadIdx.x;
     int h = (blockIdx.y*blockDim.y) + threadIdx.y;
@@ -637,7 +699,14 @@ fractal_cuda_kernel_lyapunov(int * colors, const float w_start, const float w_en
 
     // lyapunov_exponent /= max_iterations;
 
-    colors[h*width+w] = lyapunov_exponent > 0.0f ? 0 : (int)lyapunov_exponent * -1; // > 0 -> chaos, < 0 -> stable
+    int value = lyapunov_exponent > 0.0f ? 0 : (int)lyapunov_exponent * -1; // > 0 -> chaos, < 0 -> stable
+    
+    colorfuncs[color%FC_COLOR_NUM_ENTRIES](
+        colors + h*width*3 + w*3,
+        colors + h*width*3 + w*3 + 1,
+        colors + h*width*3 + w*3 + 2,
+        value
+    );
 }
 
 
@@ -671,7 +740,7 @@ fractal_cuda_kernel_t kernels_mandelbrot[FC_FRAC_NUM_ENTRIES] = {
 
 
 extern "C" void
-fractal_cuda_get_colors(int * image, struct FractalProperties * fp)
+fractal_cuda_get_colors(uint8_t * image, struct FractalProperties * fp)
 {
     dim3 threads(8, 8);
     dim3 blocks(fp->width / threads.x, fp->height / threads.y);
@@ -695,7 +764,8 @@ fractal_cuda_get_colors(int * image, struct FractalProperties * fp)
                                                               fp->y_start, fp->y_end,
                                                               fp->width, fp->height,
                                                               d_sequence, fp->sequence_length,
-                                                              fp->max_iterations);
+                                                              fp->max_iterations,
+                                                              fp->color);
             cudaFree(&d_sequence);
             goto finish;
         default:
@@ -708,7 +778,8 @@ fractal_cuda_get_colors(int * image, struct FractalProperties * fp)
                                 fp->y_start, fp->y_end,
                                 fp->c_real, fp->c_imag,
                                 fp->width, fp->height,
-                                fp->max_iterations, fp->R);
+                                fp->max_iterations, fp->R,
+                                fp->color);
 
     finish:
     cudaThreadSynchronize();

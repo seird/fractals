@@ -1,7 +1,7 @@
 #include "fractal.cuh"
 
 
-int * d_image;
+uint8_t * d_image;
 
 
 extern "C" bool

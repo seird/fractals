@@ -50,6 +50,7 @@ class FractalProperties(Structure):
         ("height"           , c_int),
         ("frac"             , c_int),
         ("mode"             , c_int),
+        ("color"            , c_int),
         ("c_real"           , c_float),
         ("c_imag"           , c_float),
         ("R"                , c_float),
@@ -67,6 +68,7 @@ class FractalProperties(Structure):
                  height           : Optional[int]     = 1000,
                  fractal          : Optional[Fractal] = Fractal.Z2,
                  mode             : Optional[Mode]    = Mode.JULIA,
+                 color            : Optional[Color]   = Color.ULTRA,
                  c_real           : Optional[float]   = -0.7835,
                  c_imag           : Optional[float]   = -0.2321,
                  R                : Optional[float]   = 2,
@@ -78,8 +80,9 @@ class FractalProperties(Structure):
         self.y_end             = c_float(y_end)
         self.width             = c_int(width)
         self.height            = c_int(height)
-        self.frac              = fractal.value
-        self.mode              = mode.value
+        self.frac              = c_int(fractal.value)
+        self.mode              = c_int(mode.value)
+        self.color             = c_int(color.value)
         self.c_real            = c_float(c_real)
         self.c_imag            = c_float(c_imag)
         self.R                 = c_float(R)
