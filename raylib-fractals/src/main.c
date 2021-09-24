@@ -298,6 +298,7 @@ main(void)
                          "1: Colors\n"
                          "2: Fractals\n"
                          "3: Modes\n"
+                         "4: Animations\n"
                          "R: Reset\n"
                          "F2: Toggle position\n"
                          "F1: Toggle OSD\n");
