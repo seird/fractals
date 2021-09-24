@@ -11,6 +11,7 @@
 #define NUM_THREADS 12
 #define VECSIZE 8
 #define MAX_ITERATIONS 250
+#define R_DEFAULT 2
 
 #ifdef CUDA
 #define WIDTH 1920 // (VECSIZE*100)
@@ -57,7 +58,7 @@ reset(bool view_only)
     fp.mode=FC_MODE_JULIA;
     fp.c_real=1;
     fp.c_imag=1;
-    fp.R=2;
+    fp.R=R_DEFAULT;
     fp.max_iterations=MAX_ITERATIONS;
     fp.sequence=LYAPUNOV_SEQUENCE;
     fp.sequence_length=sizeof(LYAPUNOV_SEQUENCE)-1;
@@ -151,6 +152,7 @@ handle_user_input()
         animation = (animation + 1) % NUM_ANIMATIONS;
         animationfunc = animationfunc_get(animation);
         fp.max_iterations = MAX_ITERATIONS;
+        fp.R = R_DEFAULT;
         update = true;
     }
     /* Pause the animation */
@@ -295,19 +297,23 @@ main(void)
             sprintf(buf, "\n\n\n"
                          "WASD: Pan around\n"
                          "Space: Pause\n"
-                         "1: Colors\n"
-                         "2: Fractals\n"
-                         "3: Modes\n"
-                         "4: Animations\n"
+                         "1: Color: %d\n"
+                         "2: Fractal: %d\n"
+                         "3: Mode: %d\n"
+                         "4: Animation: %d\n"
                          "R: Reset\n"
                          "F2: Toggle position\n"
-                         "F1: Toggle OSD\n");
+                         "F1: Toggle OSD\n",
+                         fp.color, fp.frac, fp.mode, animation);
             DrawText(buf, 10, 5, 20, PURPLE);
 
             if (fp.mode == FC_MODE_JULIA) {
                 sprintf(buf, "c = %5.02f + %5.02f j", fp.c_real,fp.c_imag);
-                DrawText(buf, WIDTH-200, 5, 20, GREEN);
+                DrawText(buf, WIDTH-200, 65, 20, GREEN);
             }
+
+            sprintf(buf, "ITERS = %d\nR = %3.02f", fp.max_iterations, fp.R);
+            DrawText(buf, WIDTH-200, 5, 20, GOLD);
         }
 
         if (show_position){
