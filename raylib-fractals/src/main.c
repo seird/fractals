@@ -1,5 +1,6 @@
 #include "../../c-fractals/include/fractal_color.h"
 #include "../../cuda-fractals/include/fractal_cuda.h"
+#include "animations.h"
 #include "raylib.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,6 +10,7 @@
 
 #define NUM_THREADS 12
 #define VECSIZE 8
+#define MAX_ITERATIONS 250
 
 #ifdef CUDA
 #define WIDTH 1920 // (VECSIZE*100)
@@ -30,7 +32,9 @@ bool update;
 bool show_info;
 bool show_position;
 float aspect_ratio;
-int counter;
+int step;
+animationfunc_t animationfunc;
+enum Animation animation;
 
 
 void
@@ -54,7 +58,7 @@ reset(bool view_only)
     fp.c_real=1;
     fp.c_imag=1;
     fp.R=2;
-    fp.max_iterations=250;
+    fp.max_iterations=MAX_ITERATIONS;
     fp.sequence=LYAPUNOV_SEQUENCE;
     fp.sequence_length=sizeof(LYAPUNOV_SEQUENCE)-1;
 
@@ -66,6 +70,8 @@ reset(bool view_only)
     update = true;
     show_info = true;
     show_position = false;
+    animationfunc = animationfunc_get(ANIMATION_DEFAULT);
+    animation = ANIMATION_DEFAULT;
 }
 
 
@@ -140,6 +146,13 @@ handle_user_input()
         fp.mode = (fp.mode + 1) % FC_MODE_NUM_ENTRIES;
         update = true;
     }
+    /* Cycle animations */
+    if (IsKeyPressed(KEY_FOUR)){
+        animation = (animation + 1) % NUM_ANIMATIONS;
+        animationfunc = animationfunc_get(animation);
+        fp.max_iterations = MAX_ITERATIONS;
+        update = true;
+    }
     /* Pause the animation */
     if (IsKeyPressed(KEY_SPACE)){
         animate = !animate;
@@ -159,6 +172,20 @@ handle_user_input()
     /* Toggle Fullscreen */
     if (IsKeyPressed(KEY_F11)){
         ToggleFullscreen();
+    }
+    /* Manually move the animation forward */
+    if (IsKeyDown(KEY_RIGHT)) {
+        update = true;
+        animate = false;
+        step++;
+        animationfunc(&fp, step, animation_speed);
+    }
+    /* Manually move the animation backward */
+    if (IsKeyDown(KEY_LEFT)) {
+        update = true;
+        animate = false;
+        step--;
+        animationfunc(&fp, step, animation_speed);
     }
 }
 
@@ -208,12 +235,11 @@ main(void)
 
         handle_user_input();
 
-        if (fp.mode == FC_MODE_MANDELBROT || fp.mode == FC_MODE_LYAPUNOV) animate = false;
+        if (fp.mode == FC_MODE_LYAPUNOV) animate = false;
 
         if (animate) {
-            fp.c_real = 0.7885 * cosf(counter / (2 * PI) / 20 * animation_speed);
-            fp.c_imag = 0.7885 * sinf(counter / (2 * PI) / 10 * animation_speed);
-            counter++;
+            animationfunc(&fp, step, animation_speed);
+            step++;
             update = true;
         }
 
@@ -247,7 +273,7 @@ main(void)
         }
 
         // Update fps and frametime less frequently to improve readability
-        if (counter % 10 == 0) {
+        if (step % 10 == 0) {
             fps = GetFPS();
             frametime = GetFrameTime()*1000;
         } else {
