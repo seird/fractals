@@ -4,7 +4,9 @@
 static animationfunc_t animationfuncs[NUM_ANIMATIONS] = {
     animation_default,
     animation_iterations,
+    animation_iterations_linear,
     animation_default_iterations,
+    animation_escape,
 };
 
 
@@ -28,7 +30,7 @@ animation_iterations(struct FractalProperties * fp, int step, float speed)
 {
     static int direction = 1;
 
-    int period = 200 * (1 / fabsf(speed));
+    int period = 200 / fabsf(speed);
     int _step = step % period;
 
     int iterations_lb = 2;
@@ -45,9 +47,56 @@ animation_iterations(struct FractalProperties * fp, int step, float speed)
     }
 }
 
+
+void
+animation_iterations_linear(struct FractalProperties * fp, int step, float speed)
+{
+    static int direction = 1;
+
+    int period = 200 / fabsf(speed);
+    int _step = step % period;
+
+    int R_lb = 0;
+    int R_ub = 100;
+
+    if (direction == 1) {
+        fp->max_iterations = R_lb + (float)_step / period * (R_ub - R_lb);
+    } else if (direction == -1) {
+        fp->max_iterations = R_lb + (float)(period - _step) / period * (R_ub - R_lb);
+    }
+
+    if (_step == (period-1)) {
+        direction *= -1;
+    }
+}
+
+
 void
 animation_default_iterations(struct FractalProperties * fp, int step, float speed)
 {
     animation_default(fp, step, speed);
     animation_iterations(fp, step, speed);
+}
+
+
+void
+animation_escape(struct FractalProperties * fp, int step, float speed)
+{
+    static int direction = 1;
+
+    int period = 400 / fabsf(speed);
+    int _step = step % period;
+
+    int R_lb = 0;
+    int R_ub = 10;
+
+    if (direction == 1) {
+        fp->R = R_lb + (float)_step / period * (R_ub - R_lb);
+    } else if (direction == -1) {
+        fp->R = R_lb + (float)(period - _step) / period * (R_ub - R_lb);
+    }
+
+    if (_step == (period-1)) {
+        direction *= -1;
+    }
 }
