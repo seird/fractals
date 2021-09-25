@@ -18,7 +18,7 @@ extern "C" void
 fractal_cuda_clean()
 {
     if (d_image != NULL) {
-        cudaFree(&d_image);
+        cudaFree(d_image);
         d_image = NULL;
     }
 }

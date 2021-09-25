@@ -53,6 +53,9 @@ debug:
 memcheck: debug
 	valgrind --leak-check=full ./a_debug.exe
 
+memcheck-cuda: build-cuda
+	cuda-memcheck --leak-check full ./a_release.exe
+
 clean:
 ifeq ($(PLATFORM_OS),WINDOWS)
 	del *.o /s
