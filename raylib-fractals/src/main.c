@@ -296,7 +296,7 @@ main(void)
 
             sprintf(buf, "\n\n\n"
                          "WASD: Pan around\n"
-                         "Space: Pause\n"
+                         "Space: %s\n"
                          "1: Color: %d\n"
                          "2: Fractal: %d\n"
                          "3: Mode: %d\n"
@@ -304,7 +304,7 @@ main(void)
                          "R: Reset\n"
                          "F2: Toggle position\n"
                          "F1: Toggle OSD\n",
-                         fp.color, fp.frac, fp.mode, animation);
+                         (animate ? "Pause" : "Unpause"), fp.color, fp.frac, fp.mode, animation);
             DrawText(buf, 10, 5, 20, PURPLE);
 
             if (fp.mode == FC_MODE_JULIA) {
