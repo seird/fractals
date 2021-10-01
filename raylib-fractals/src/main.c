@@ -238,6 +238,7 @@ main(void)
         handle_user_input();
 
         if (fp.mode == FC_MODE_LYAPUNOV) animate = false;
+        if (fp.mode == FC_MODE_MANDELBROT && (animation == ANIMATION_DEFAULT || animation == ANIMATION_DEFAULT_ITERATIONS)) animate = false;
 
         if (animate) {
             animationfunc(&fp, step, animation_speed);
