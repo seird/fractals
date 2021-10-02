@@ -90,7 +90,7 @@ bench:
 	$(CC) $(CFLAGS_RELEASE) -DBENCHMARK $(FILES_BENCH) -o benchmark.exe -lm
 	./benchmark.exe
 
-bench_cuda:
+bench-cuda:
 	$(CC) $(CFLAGS_RELEASE) -DBENCHMARK -DCUDA  -L. $(FILES_BENCH) -o benchmark.exe -lm -lcudafractals
 	./benchmark.exe
 
