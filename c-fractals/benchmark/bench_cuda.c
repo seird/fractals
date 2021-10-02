@@ -10,7 +10,7 @@ BENCH_FUNC(bench_cuda) {
     float _Complex c = c_real + c_imag*I;
     float R = ceilf(cabs(c)) + 1;
 
-    int * image = (int *) malloc(sizeof(int)*HEIGHT*WIDTH);
+    uint8_t * image = (uint8_t *) malloc(sizeof(int)*HEIGHT*WIDTH);
 
 
     float x_start = -R;
@@ -40,7 +40,7 @@ BENCH_FUNC(bench_cuda) {
 
 
 BENCH_FUNC(bench_cuda_lyapunov) {
-    int * image = (int *) malloc(sizeof(int)*HEIGHT*WIDTH);
+    uint8_t * image = (uint8_t *) malloc(sizeof(int)*HEIGHT*WIDTH);
 
 
     float x_start = 0;

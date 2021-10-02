@@ -15,7 +15,7 @@ main(int argc, char * argv[])
 {    
     printf("Hello world\n");
 
-    int * image = (int *) malloc(sizeof(int) * WIDTH*HEIGHT);
+    uint8_t * image = (uint8_t *) malloc(sizeof(int) * WIDTH*HEIGHT);
     float c_real = -0.788485f;
 	float c_imag = 0.004913f;
 

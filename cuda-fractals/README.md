@@ -23,5 +23,5 @@
 - Do the color computation
 
     ```c
-    void fractal_cuda_get_colors(int * image, struct FractalProperties * fp);
+    void fractal_cuda_get_colors(uint8_t * image, struct FractalProperties * fp);
     ```
