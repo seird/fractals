@@ -10,7 +10,7 @@ fractal_cuda_init(int width, int height)
     if (d_image != NULL) {
         return false;
     } else {
-        return (cudaMalloc(&d_image, sizeof(int) * width*height) == cudaSuccess);
+        return (cudaMalloc(&d_image, sizeof(uint8_t) * width*height*3) == cudaSuccess);
     }
 }
 
@@ -48,8 +48,6 @@ fractal_cuda_get_colors(uint8_t * image, struct FractalProperties * fp)
             break;
     }
 
-    cudaThreadSynchronize();
-
     // Copy the result back
-    cudaMemcpy(image, d_image, sizeof(int) * fp->width*fp->height, cudaMemcpyDeviceToHost);
+    cudaMemcpy(image, d_image, sizeof(uint8_t) * fp->width*fp->height*3, cudaMemcpyDeviceToHost);
 }
