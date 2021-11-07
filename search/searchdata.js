@@ -2,13 +2,12 @@ var indexSectionsWithContent =
 {
   0: "_cfhmrswxy",
   1: "f",
-  2: "fr",
+  2: "f",
   3: "f",
   4: "_cfhmrswxy",
   5: "ch",
   6: "f",
-  7: "f",
-  8: "c"
+  7: "f"
 };
 
 var indexSectionNames =
@@ -20,8 +19,7 @@ var indexSectionNames =
   4: "variables",
   5: "typedefs",
   6: "enums",
-  7: "enumvalues",
-  8: "pages"
+  7: "enumvalues"
 };
 
 var indexSectionLabels =
@@ -33,7 +31,6 @@ var indexSectionLabels =
   4: "Variables",
   5: "Typedefs",
   6: "Enumerations",
-  7: "Enumerator",
-  8: "Pages"
+  7: "Enumerator"
 };
 
