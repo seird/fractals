@@ -3,6 +3,7 @@ x64
 .vscode
 Debug
 Release
+*/docs/*/
 raylib-*_linux_amd64
 
 *.exe
