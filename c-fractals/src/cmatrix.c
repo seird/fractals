@@ -1,8 +1,8 @@
 #include "main.h"
 
-#ifndef STATIC
+// #ifndef STATIC
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#endif
+// #endif
 #include "stb_image_write.h"
 
 

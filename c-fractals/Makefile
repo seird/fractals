@@ -21,25 +21,7 @@ OBJS = $(addsuffix .o, $(basename $(notdir $(FILES))))
 ifeq ($(OS),Windows_NT)
 	PLATFORM_OS = WINDOWS
 else
-	UNAMEOS = $(shell uname)
-	ifeq ($(UNAMEOS),Linux)
-		PLATFORM_OS = LINUX
-	endif
-	ifeq ($(UNAMEOS),FreeBSD)
-		PLATFORM_OS = BSD
-	endif
-	ifeq ($(UNAMEOS),OpenBSD)
-		PLATFORM_OS = BSD
-	endif
-	ifeq ($(UNAMEOS),NetBSD)
-		PLATFORM_OS = BSD
-	endif
-	ifeq ($(UNAMEOS),DragonFly)
-		PLATFORM_OS = BSD
-	endif
-	ifeq ($(UNAMEOS),Darwin)
-		PLATFORM_OS = OSX
-	endif
+	PLATFORM_OS = LINUX
 endif
 
 
@@ -70,7 +52,7 @@ profile: debug
 	valgrind --tool=callgrind ./a_debug.exe
 
 memcheck: debug
-	valgrind --leak-check=full ./test.exe
+	valgrind --leak-check=full ./a_debug.exe
 
 cache: build
 	valgrind --tool=cachegrind ./a_release.exe

@@ -30,7 +30,10 @@ Include the library interface **fracal_color.h** in the project. Add the source 
 - uint8_t * fractal_image_create(int height, int width);
 - void fractal_image_free(uint8_t * image);
 
-## Example
+## Examples
+
+See `examples/`
+
 
 ```c
 int
