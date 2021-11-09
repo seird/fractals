@@ -124,7 +124,7 @@ fractal_cuda_value_to_rgb_ultra(uint8_t * r, uint8_t * g, uint8_t * b, int value
 
 __device__ inline void
 fractal_cuda_value_to_rgb_lavender(uint8_t * r, uint8_t * g, uint8_t * b, int value) {
-    static const uint8_t colormap[][3] = {
+    static const uint8_t colormap[34][3] = {
        { 69, 147, 254},
        {101, 154, 214},
        {108, 122, 211},
@@ -162,9 +162,9 @@ fractal_cuda_value_to_rgb_lavender(uint8_t * r, uint8_t * g, uint8_t * b, int va
     };
 
     if (value > 0) {
-        *r = colormap[value % sizeof(colormap)/3][0];
-        *g = colormap[value % sizeof(colormap)/3][1];
-        *b = colormap[value % sizeof(colormap)/3][2];
+        *r = colormap[value % 34][0];
+        *g = colormap[value % 34][1];
+        *b = colormap[value % 34][2];
     } else {
         *r = *g = *b = 0;
     }
