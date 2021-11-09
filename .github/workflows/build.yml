@@ -32,8 +32,8 @@ jobs:
       run: |
         gcc --version
         cd c-fractals
-        make static
-        cp libfractal.a ../libfractal.a
+        make library
+        cp libfractal.so ../libfractal.so
         cd ..
     - name: Install cuda
       run: |
@@ -63,6 +63,11 @@ jobs:
         make build
         cp a_release.exe ../run_raylib
         cd ..
+    - name: Upload libfractal.so
+      uses: actions/upload-artifact@v2
+      with:
+        name: libfractal.so
+        path: libfractal.so
     - name: Upload libcudafractals.so
       uses: actions/upload-artifact@v2
       with:
@@ -91,6 +96,7 @@ jobs:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: false
         files: |
+          libfractal.so
           libcudafractals.so
           run_raylib
           run_raylib_cuda

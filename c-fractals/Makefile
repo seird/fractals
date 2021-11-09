@@ -20,14 +20,16 @@ OBJS = $(addsuffix .o, $(basename $(notdir $(FILES))))
 
 ifeq ($(OS),Windows_NT)
 	PLATFORM_OS = WINDOWS
+	LIBEXT = dll
 else
 	PLATFORM_OS = LINUX
+	LIBEXT = so
 endif
 
 
 
 library:
-	$(CC) $(CFLAGS_RELEASE_LIB) $(FILES) -o libfractal.dll
+	$(CC) $(CFLAGS_RELEASE_LIB) $(FILES) -o libfractal.$(LIBEXT)
 
 static:
 	$(CC) $(CFLAGS_RELEASE_LIB_STATIC) $(FILES)
