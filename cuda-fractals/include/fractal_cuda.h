@@ -36,18 +36,18 @@ void FCUDAAPI fractal_cuda_clean();
 /**
  * @brief Create an image array.
  * 
- * @param height 
  * @param width 
+ * @param height 
  * @return uint8_t* 
  */
-uint8_t FCUDAAPI *  fractal_image_create(int height, int width);
+uint8_t FCUDAAPI *  fractal_cuda_image_create(int width, int height);
 
 /**
  * @brief Free an image array.
  * 
  * @param image 
  */
-void FCUDAAPI fractal_image_free(uint8_t * image);
+void FCUDAAPI fractal_cuda_image_free(uint8_t * image);
 
 /**
  * @brief Compute the fractal colors with cuda.
@@ -65,7 +65,7 @@ void FCUDAAPI fractal_cuda_get_colors(uint8_t * image, struct FractalProperties 
  * @param height 
  * @param filename 
  */
-void FCUDAAPI fractal_image_save(uint8_t * image, int width, int height, const char * filename);
+void FCUDAAPI fractal_cuda_image_save(uint8_t * image, int width, int height, const char * filename);
 
 
 #if defined(__cplusplus)

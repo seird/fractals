@@ -98,9 +98,9 @@ _fractal_cmatrix_save_wrapped = wrap_lib_function(
     restype  = None
 )
 
-# void fractal_image_save(uint8_t * image, int width, int height, const char * filename);
-_fractal_image_save_wrapped = wrap_lib_function(
-    "fractal_image_save",
+# void fractal_cuda_image_save(uint8_t * image, int width, int height, const char * filename);
+_fractal_cuda_image_save_wrapped = wrap_lib_function(
+    "fractal_cuda_image_save",
     argtypes = [c_uint8_p, c_int, c_int, c_char_p],
     restype  = None
 )
@@ -112,16 +112,16 @@ _fractal_value_to_color_wrapped = wrap_lib_function(
     restype  = None
 )
 
-# int * fractal_image_create(int height, int width);
-_fractal_image_create_wrapped = wrap_lib_function(
-    "fractal_image_create",
+# int * fractal_cuda_image_create(int width, int height);
+_fractal_cuda_image_create_wrapped = wrap_lib_function(
+    "fractal_cuda_image_create",
     argtypes = [c_int, c_int],
     restype  = c_uint8_p
 )
 
-# void fractal_image_free(uint8_t * image);
-_fractal_image_free_wrapped = wrap_lib_function(
-    "fractal_image_free",
+# void fractal_cuda_image_free(uint8_t * image);
+_fractal_cuda_image_free_wrapped = wrap_lib_function(
+    "fractal_cuda_image_free",
     argtypes = [c_uint8_p],
     restype  = None
 )
@@ -214,11 +214,11 @@ def fractal_cmatrix_save(hCmatrix: HCMATRIX, filename: str, color: Color) -> Non
     """
     return _fractal_cmatrix_save_wrapped(hCmatrix, filename.encode('utf-8'), c_int(color.value))
 
-def fractal_image_save(image: c_uint8_p, width: int, height: int, filename: str) -> None:
+def fractal_cuda_image_save(image: c_uint8_p, width: int, height: int, filename: str) -> None:
     """
     Save an image array as png
     """
-    return _fractal_image_save_wrapped(image, c_int(width), c_int(height), filename.encode('utf-8'))
+    return _fractal_cuda_image_save_wrapped(image, c_int(width), c_int(height), filename.encode('utf-8'))
 
 def fractal_value_to_color(value: int, color: Color) -> Tuple[c_uint8, c_uint8, c_uint8]:
     """
@@ -230,17 +230,17 @@ def fractal_value_to_color(value: int, color: Color) -> Tuple[c_uint8, c_uint8, 
     _fractal_value_to_color_wrapped(byref(r), byref(g), byref(b), c_int(int(value)), c_int(color.value))
     return (r.value, g.value, b.value)
 
-def fractal_image_create(width: int, height: int) -> c_uint8_p:
+def fractal_cuda_image_create(width: int, height: int) -> c_uint8_p:
     """
     Create an image array
     """
-    return _fractal_image_create_wrapped(c_int(height), c_int(width))
+    return _fractal_cuda_image_create_wrapped(c_int(height), c_int(width))
 
-def fractal_image_free(image: c_uint8_p) -> None:
+def fractal_cuda_image_free(image: c_uint8_p) -> None:
     """
     Free an image array
     """
-    return _fractal_image_free_wrapped(image)
+    return _fractal_cuda_image_free_wrapped(image)
 
 def fractal_cuda_init(width: int, height: int) -> bool:
     """

@@ -18,7 +18,7 @@
 
 - bool fractal_cuda_init(int width, int height);
 - void fractal_cuda_clean();
-- uint8_t * fractal_image_create(int height, int width);
-- void fractal_image_free(uint8_t * image);
+- uint8_t * fractal_cuda_image_create(int width, int height);
+- void fractal_cuda_image_free(uint8_t * image);
 - void fractal_cuda_get_colors(uint8_t * image, struct FractalProperties * fp);
-- void fractal_image_save(uint8_t * image, int width, int height, const char * filename);
+- void fractal_cuda_image_save(uint8_t * image, int width, int height, const char * filename);

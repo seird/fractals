@@ -23,13 +23,13 @@
 - Create an image array.
 
     ```c
-    uint8_t * fractal_image_create(int height, int width);
+    uint8_t * fractal_cuda_image_create(int width, int height);
     ```
 
 - Free an image array.
 
     ```c
-    void fractal_image_free(uint8_t * image);
+    void fractal_cuda_image_free(uint8_t * image);
     ```
 
 - Do the color computation
@@ -41,5 +41,9 @@
 - Save an image as png
 
     ```c
-    void fractal_image_save(uint8_t * image, int width, int height, const char * filename);
+    void fractal_cuda_image_save(uint8_t * image, int width, int height, const char * filename);
     ```
+
+### Examples
+
+see `examples/`

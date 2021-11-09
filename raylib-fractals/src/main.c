@@ -198,7 +198,7 @@ main(void)
     reset(false);
 
     #ifdef CUDA
-        uint8_t * cuda_image = fractal_image_create(HEIGHT, WIDTH);
+        uint8_t * cuda_image = fractal_cuda_image_create(HEIGHT, WIDTH);
         fractal_cuda_init(WIDTH, HEIGHT);
     #else
         HCMATRIX hc = fractal_cmatrix_create(HEIGHT, WIDTH);
@@ -333,7 +333,7 @@ main(void)
     CloseWindow();        // Close window and OpenGL context
 
     #ifdef CUDA
-        fractal_image_free(cuda_image);
+        fractal_cuda_image_free(cuda_image);
         fractal_cuda_clean();
     #else
         fractal_cmatrix_free(hc);

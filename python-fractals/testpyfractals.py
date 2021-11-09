@@ -55,7 +55,7 @@ def example_cuda():
     y_end = x_end/aspect_ratio
 
     pf.fractal_cuda_init(width, height)
-    cuda_image = pf.fractal_image_create(width, height)
+    cuda_image = pf.fractal_cuda_image_create(width, height)
 
     elapsed_total = 0
     N = 10
@@ -82,11 +82,11 @@ def example_cuda():
         print(f"[{i}]: {elapsed} seconds.")
         elapsed_total += elapsed
 
-        pf.fractal_image_save(cuda_image, width, height, f"fractal_cuda_ultra_{i:03d}.png")
+        pf.fractal_cuda_image_save(cuda_image, width, height, f"fractal_cuda_ultra_{i:03d}.png")
 
     print("Total elapsed:", elapsed_total)
 
-    pf.fractal_image_free(cuda_image)
+    pf.fractal_cuda_image_free(cuda_image)
     pf.fractal_cuda_clean()    
 
 
@@ -95,7 +95,7 @@ def example_lyapunov():
     width = 2000
 
     pf.fractal_cuda_init(width, height)
-    cuda_image = pf.fractal_image_create(width, height)
+    cuda_image = pf.fractal_cuda_image_create(width, height)
 
     elapsed_total = 0
 
@@ -119,12 +119,12 @@ def example_lyapunov():
             print(f"{sequence:5s} - {max_iterations:6d} - {elapsed} seconds.")
             elapsed_total += elapsed
 
-            pf.fractal_image_save(cuda_image, width, height, f"fractal_cuda_ultra_lyapunov_{sequence}_{max_iterations:010d}.png")
+            pf.fractal_cuda_image_save(cuda_image, width, height, f"fractal_cuda_ultra_lyapunov_{sequence}_{max_iterations:010d}.png")
 
 
     print("Total elapsed:", elapsed_total)
 
-    pf.fractal_image_free(cuda_image)
+    pf.fractal_cuda_image_free(cuda_image)
     pf.fractal_cuda_clean()    
 
 

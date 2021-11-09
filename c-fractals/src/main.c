@@ -1,8 +1,5 @@
 #include "main.h"
 
-#ifdef CUDA
-#include "../../cuda-fractals/include/fractal_cuda.h"
-#endif
 
 #if (!defined(TEST) && !defined(SHARED) && !defined(STATIC) && !defined(BENCHMARK))
 int
@@ -66,16 +63,6 @@ main(void)
         fp.c_imag = c_imag;
         sprintf(savename, "fractal_%02d.png", i);
 
-    #ifdef CUDA
-        uint8_t * image = fractal_image_create(height, width);
-        fractal_cuda_init(width, height);
-        
-        fractal_cuda_get_colors(image, &fp);
-        fractal_image_save(image, width, height, savename);
-
-        fractal_cuda_clean();
-        fractal_image_free(image);
-    #else
         HCMATRIX hCmatrix = fractal_cmatrix_create(height, width);
 
         //fractal_get_colors(hCmatrix, &fp);
@@ -88,8 +75,6 @@ main(void)
         fractal_cmatrix_save(hCmatrix, savename, fp.color);
 
         fractal_cmatrix_free(hCmatrix);
-    #endif
-
     }
 
 	return 0;
