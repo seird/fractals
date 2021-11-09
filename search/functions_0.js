@@ -11,11 +11,11 @@ var searchData=
   ['fractal_5fcolorfunc_5fget_81',['fractal_colorfunc_get',['../fractal__color_8h.html#a2792099d6fdfa448759fc5fe16b341f9',1,'fractal_color.h']]],
   ['fractal_5fcuda_5fclean_82',['fractal_cuda_clean',['../fractal__cuda_8h.html#a648c81e2aa876a58a8d14ef8302a0a03',1,'fractal_cuda.h']]],
   ['fractal_5fcuda_5fget_5fcolors_83',['fractal_cuda_get_colors',['../fractal__cuda_8h.html#a1ae6842a5cd21df7b12e75d5ccea7087',1,'fractal_cuda.h']]],
-  ['fractal_5fcuda_5finit_84',['fractal_cuda_init',['../fractal__cuda_8h.html#ae8b76e84e656e6fea781a2ccffd501ea',1,'fractal_cuda.h']]],
-  ['fractal_5fget_5fcolors_85',['fractal_get_colors',['../fractal__color_8h.html#a4642eb62f426fcf6b02bc75070fe18d1',1,'fractal_color.h']]],
-  ['fractal_5fget_5fcolors_5fth_86',['fractal_get_colors_th',['../fractal__color_8h.html#a2f39b68282407e59f1e08d9b33229115',1,'fractal_color.h']]],
-  ['fractal_5fimage_5fcreate_87',['fractal_image_create',['../fractal__cuda_8h.html#a1041cd06aa71e0bedf64466eccb7d566',1,'fractal_cuda.h']]],
-  ['fractal_5fimage_5ffree_88',['fractal_image_free',['../fractal__cuda_8h.html#ac44cd0cb924790201e23090a96143548',1,'fractal_cuda.h']]],
-  ['fractal_5fimage_5fsave_89',['fractal_image_save',['../fractal__cuda_8h.html#ab3b1166cca00c573b5f847abd37d190b',1,'fractal_cuda.h']]],
+  ['fractal_5fcuda_5fimage_5fcreate_84',['fractal_cuda_image_create',['../fractal__cuda_8h.html#a4b638440b27961fef46d22aecbff680d',1,'fractal_cuda.h']]],
+  ['fractal_5fcuda_5fimage_5ffree_85',['fractal_cuda_image_free',['../fractal__cuda_8h.html#abc37bad0a7e3009aea8312363f0633b7',1,'fractal_cuda.h']]],
+  ['fractal_5fcuda_5fimage_5fsave_86',['fractal_cuda_image_save',['../fractal__cuda_8h.html#aeed0b00b3263c9f08487052d5913cc80',1,'fractal_cuda.h']]],
+  ['fractal_5fcuda_5finit_87',['fractal_cuda_init',['../fractal__cuda_8h.html#ae8b76e84e656e6fea781a2ccffd501ea',1,'fractal_cuda.h']]],
+  ['fractal_5fget_5fcolors_88',['fractal_get_colors',['../fractal__color_8h.html#a4642eb62f426fcf6b02bc75070fe18d1',1,'fractal_color.h']]],
+  ['fractal_5fget_5fcolors_5fth_89',['fractal_get_colors_th',['../fractal__color_8h.html#a2f39b68282407e59f1e08d9b33229115',1,'fractal_color.h']]],
   ['fractal_5fvalue_5fto_5fcolor_90',['fractal_value_to_color',['../fractal__color_8h.html#ac01b9f501b17e12952bb7517e15343e6',1,'fractal_color.h']]]
 ];
