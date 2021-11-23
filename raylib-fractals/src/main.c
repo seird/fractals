@@ -144,7 +144,7 @@ handle_user_input()
     }
     /* Cycle modes */
     if (IsKeyPressed(KEY_THREE)){
-        fp.mode = (fp.mode + 1) % FC_MODE_NUM_ENTRIES;
+        fp.mode = (fp.mode + 1) % (FC_MODE_NUM_ENTRIES-1);
         update = true;
     }
     /* Cycle animations */

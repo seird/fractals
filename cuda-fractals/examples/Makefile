@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS_RELEASE = -O3 -Wall -Wextra -pthread -ffast-math -mavx2
-LIBS = -lfractal -lcudafractals -L..
+LIBS = -lfractal -lcudafractals
 
 FILES_EXAMPLES = \
 	$(wildcard *.c) \

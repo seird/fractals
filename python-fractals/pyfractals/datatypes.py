@@ -26,6 +26,7 @@ class Mode(Enum):
     MANDELBROT = 0
     JULIA      = 1
     LYAPUNOV   = 2
+    FLAMES     = 3
 
 
 class Color(Enum):
@@ -35,6 +36,28 @@ class Color(Enum):
     JET        = 3
     LAVENDER   = 4
     BINARY     = 5
+
+
+class Flame(Structure):
+    _fields_ = [
+        ("num_chaos_games"  , c_int),
+        ("chaos_game_length", c_int),
+        ("supersample"      , c_int),
+        ("gamma"            , c_float),
+        ("savename"         , c_char_p),
+    ]
+
+    def __init__(self,
+                 num_chaos_games  : Optional[int]     = 500000,
+                 chaos_game_length: Optional[int]     = 100,
+                 supersample      : Optional[int]     = 3,
+                 gamma            : Optional[float]   = 2.2,
+                 savename         : Optional[str]     = "flame.png"):
+        self.num_chaos_games   = c_int(num_chaos_games)
+        self.chaos_game_length = c_int(chaos_game_length)
+        self.supersample       = c_int(supersample)
+        self.gamma             = c_float(gamma)
+        self.savename          = savename.encode("utf8")
 
 
 class FractalProperties(Structure):
@@ -56,7 +79,8 @@ class FractalProperties(Structure):
         ("R"                , c_float),
         ("max_iterations"   , c_int),
         ("lyapunov_sequence", c_char_p),
-        ("sequence_length"  , c_size_t)
+        ("sequence_length"  , c_size_t),
+        ("flame"            , Flame)
     ]
 
     def __init__(self,
@@ -73,7 +97,8 @@ class FractalProperties(Structure):
                  c_imag           : Optional[float]   = -0.2321,
                  R                : Optional[float]   = 2,
                  max_iterations   : Optional[int]     = 1000,
-                 lyapunov_sequence: Optional[str]     = "AABAB"):
+                 lyapunov_sequence: Optional[str]     = "AABAB",
+                 flame            : Optional[Flame]   = None):
         self.x_start           = c_float(x_start)
         self.x_end             = c_float(x_end)
         self.y_start           = c_float(y_start)
@@ -89,3 +114,4 @@ class FractalProperties(Structure):
         self.max_iterations    = c_int(max_iterations)
         self.lyapunov_sequence = lyapunov_sequence.encode("utf8")
         self.sequence_length   = len(lyapunov_sequence)
+        self.flame             = flame

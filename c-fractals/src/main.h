@@ -16,6 +16,7 @@
 #include "fractals.h"
 #include "../include/fractal_color.h"
 #include "compute_avx.h"
+#include "flames/flames.h"
 
 
 #define BLACK 0.0

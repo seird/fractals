@@ -20,7 +20,7 @@ except Exception:
 
 
 def wrap_lib_function(fname, argtypes: List = [], restype=None, cuda=False):
-    func = getattr(lib if not cuda else lib_cuda, fname)
+    func = getattr(lib if not cuda else lib_cuda, fname, None)
     if not func:
         return None
     func.argtypes = argtypes

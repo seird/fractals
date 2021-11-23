@@ -36,13 +36,13 @@ endif
 
 
 build: lib
-	$(CC) -DCUDA -o $(name) -L. $(FILES) -lm -l$(name_cuda)
+	$(CC) -DCUDA -o $(name) $(FILES) -L. -lm -l$(name_cuda)
 
 run: build
 	./$(name)
 
 debug: lib
-	$(CC) -DCUDA -g -o $(name) -L. -l$(name_cuda) $(FILES)
+	$(CC) -DCUDA -o $(name) -g $(FILES) -lm -L. -l$(name_cuda)
 
 
 lib:

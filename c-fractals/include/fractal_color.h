@@ -31,6 +31,7 @@ enum FC_Mode {
     FC_MODE_MANDELBROT,
     FC_MODE_JULIA,
     FC_MODE_LYAPUNOV,
+    FC_MODE_FLAMES,
     FC_MODE_NUM_ENTRIES,
 };
 
@@ -50,6 +51,14 @@ typedef void * HCMATRIX;
 
 typedef void (* colorfunc_t)(uint8_t * r, uint8_t * g, uint8_t * b, int value);
 
+struct Flame {
+    int num_chaos_games;    /**< The number of chaos games to run */
+    int chaos_game_length;  /**< The number of iterations in a chaos game */
+    int supersample;        /**< Reduce noise by computing the fractal flame in a higher resolution */
+    float gamma;            /**< Gamma correction */
+    char * savename;        /**< Save name for the resulting image */
+};
+
 struct FractalProperties {
     float x_start;          /**< Lower bound of the real axis in the complex plane */
     float x_end;            /**< Upper bound of the real axis in the complex plane */
@@ -66,6 +75,7 @@ struct FractalProperties {
     int max_iterations;     /**< Maximum number of times the fractal function will be iterated */
     char * sequence;        /**< Lyapunov sequence */
     size_t sequence_length; /**< Lyapunov sequence length */
+    struct Flame flame;     /**< Fractal flame properties */
     float _x_step;
     float _y_step;
 };

@@ -1,11 +1,12 @@
 CC = gcc
-CFLAGS_DEBUG = -g -Wall -Wextra -pthread -mavx2 #-shared
-CFLAGS_RELEASE = -O3 -Wall -Wextra -pthread -ffast-math -mavx2 #-shared
-CFLAGS_RELEASE_LIB = -O3 -Wall -Wextra -shared -DSHARED -pthread -ffast-math -march=native -mavx2 -fPIC
-CFLAGS_RELEASE_LIB_STATIC = -O3 -Wall -Wextra -pthread -DSTATIC -ffast-math -march=native -mavx2 -fPIC -c
+CFLAGS_DEBUG = -g -Wall -Wextra -pthread -mavx2 -lm #-shared
+CFLAGS_RELEASE = -O3 -Wall -Wextra -pthread -ffast-math -mavx2 -lm #-shared
+CFLAGS_RELEASE_LIB = -O3 -Wall -Wextra -shared -DSHARED -pthread -ffast-math -march=native -mavx2 -fPIC -lm
+CFLAGS_RELEASE_LIB_STATIC = -O3 -Wall -Wextra -pthread -DSTATIC -ffast-math -march=native -mavx2 -fPIC -c -lm
 
 FILES = \
 	$(wildcard src/*.c) \
+	$(wildcard src/flames/*.c) \
 
 FILES_TEST = \
 	$(FILES) \
@@ -29,17 +30,17 @@ endif
 
 
 library:
-	$(CC) $(CFLAGS_RELEASE_LIB) $(FILES) -o libfractal.$(LIBEXT)
+	$(CC) -o libfractal.$(LIBEXT) $(FILES) $(CFLAGS_RELEASE_LIB)
 
 static:
-	$(CC) $(CFLAGS_RELEASE_LIB_STATIC) $(FILES)
+	$(CC) $(FILES) $(CFLAGS_RELEASE_LIB_STATIC)
 	ar -rc libfractal.a $(OBJS)
 
 build: 
-	$(CC) $(CFLAGS_RELEASE) $(FILES) -o a_release.exe
+	$(CC) -o a_release.exe $(FILES) $(CFLAGS_RELEASE)
 
 build-cuda: 
-	$(CC) $(CFLAGS_RELEASE) -DCUDA -lcudafractals -L. $(FILES) -o a_release.exe
+	$(CC) -o a_release.exe $(FILES) $(CFLAGS_RELEASE) -DCUDA -lcudafractals -L.
 
 run: build
 	./a_release.exe
@@ -48,7 +49,7 @@ run-cuda: build-cuda
 	./a_release.exe
 
 debug:
-	$(CC) $(CFLAGS_DEBUG) $(FILES) -o a_debug.exe -lm
+	$(CC) -o a_debug.exe $(FILES) $(CFLAGS_DEBUG)
 
 profile: debug
 	valgrind --tool=callgrind ./a_debug.exe
