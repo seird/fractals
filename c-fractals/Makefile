@@ -62,21 +62,21 @@ cache: build
 	#cg_annotate cachegrind.out.{PID}
 
 test:
-	$(CC) $(CFLAGS_RELEASE) -fprofile-arcs -ftest-coverage -DTEST $(FILES_TEST) -o test.exe
+	$(CC) -o test.exe $(FILES_TEST) $(CFLAGS_RELEASE) -fprofile-arcs -ftest-coverage -DTEST
 	./test.exe
 	gcovr -e "tests/*" -e "src/stb_image_write.h" --xml-pretty --exclude-unreachable-branches --print-summary -o coverage.xml
 
 coverage_html:
-	$(CC) $(CFLAGS_RELEASE) -fprofile-arcs -ftest-coverage -DTEST $(FILES_TEST) -o test.exe
+	$(CC) -o test.exe $(FILES_TEST) $(CFLAGS_RELEASE) -fprofile-arcs -ftest-coverage -DTEST
 	./test.exe
 	gcovr -e "tests/*" -e "src/stb_image_write.h" --html --html-details --exclude-unreachable-branches --print-summary -o coverage.html
 
 bench:
-	$(CC) $(CFLAGS_RELEASE) -DBENCHMARK $(FILES_BENCH) -o benchmark.exe -lm
+	$(CC) -o benchmark.exe $(FILES_BENCH) $(CFLAGS_RELEASE) -DBENCHMARK -o benchmark.exe -lm
 	./benchmark.exe
 
 bench-cuda:
-	$(CC) $(CFLAGS_RELEASE) -DBENCHMARK -DCUDA  -L. $(FILES_BENCH) -o benchmark.exe -lm -lcudafractals
+	$(CC) -o benchmark.exe $(FILES_BENCH) $(CFLAGS_RELEASE) -DBENCHMARK -DCUDA  -L. -lm -lcudafractals
 	./benchmark.exe
 
 install: library
