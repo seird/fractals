@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['x_5fend_104',['x_end',['../struct_fractal_properties.html#af71281b3fc8abea5f4de554ea44aee88',1,'FractalProperties']]],
-  ['x_5fstart_105',['x_start',['../struct_fractal_properties.html#a8b84d22b3628deeb7d4d923e2a0a7cb5',1,'FractalProperties']]]
+  ['savename_114',['savename',['../struct_flame.html#ae34a54298926d7046d32590bd5b2ce3f',1,'Flame']]],
+  ['sequence_115',['sequence',['../struct_fractal_properties.html#acff6438815a61b92c8bd1c35e1b5f773',1,'FractalProperties']]],
+  ['sequence_5flength_116',['sequence_length',['../struct_fractal_properties.html#a6c60ea1b8981a5225310fcaca9fa70b9',1,'FractalProperties']]],
+  ['supersample_117',['supersample',['../struct_flame.html#ab1a979b2072777dc07a4bf9b4c2c7aa7',1,'Flame']]]
 ];

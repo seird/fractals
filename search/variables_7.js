@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['width_103',['width',['../struct_fractal_properties.html#af8781c99fcd338933d1b9530a644a351',1,'FractalProperties']]]
+  ['r_113',['R',['../struct_fractal_properties.html#a61cc21487dc339544d26271a20768c95',1,'FractalProperties']]]
 ];

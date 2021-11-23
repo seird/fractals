@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['max_5fiterations_58',['max_iterations',['../struct_fractal_properties.html#a04520a8d25b0a80db9c410ab721af195',1,'FractalProperties']]],
-  ['mode_59',['mode',['../struct_fractal_properties.html#aae8eb67a5b6c8b9ce2b6c252305e69b8',1,'FractalProperties']]]
+  ['hcmatrix_61',['HCMATRIX',['../fractal__color_8h.html#a28467cd203f60e27a7a86c91fcffb88d',1,'fractal_color.h']]],
+  ['height_62',['height',['../struct_fractal_properties.html#a86eb18150d0efa580993f22d91e0b86a',1,'FractalProperties']]]
 ];
