@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['r_66',['R',['../struct_fractal_properties.html#a61cc21487dc339544d26271a20768c95',1,'FractalProperties']]],
-  ['readme_2emd_67',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]]
+  ['num_5fchaos_5fgames_67',['num_chaos_games',['../struct_flame.html#addca7165f1db9603dea08b43c1962b68',1,'Flame']]]
 ];

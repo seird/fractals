@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['readme_2emd_81',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]]
+  ['getting_2dstarted_2edox_84',['getting-started.dox',['../getting-started_8dox.html',1,'']]]
 ];

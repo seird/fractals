@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['c_20functions_153',['C Functions',['../index.html',1,'']]]
+  ['getting_20started_158',['Getting Started',['../getting-started.html',1,'']]]
 ];
