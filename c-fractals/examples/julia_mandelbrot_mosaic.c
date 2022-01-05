@@ -1,3 +1,5 @@
+/* Generate a Mandelbrot mosaic consisting of small Julia fractals. */
+
 #include "../include/fractal_color.h"
 #include <string.h> /* memcpy */
 

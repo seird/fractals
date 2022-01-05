@@ -3,7 +3,8 @@ x64
 .vscode
 Debug
 Release
-docs/*/
+docs/html
+docs/latex
 raylib-*_linux_amd64
 
 *.exe
@@ -15,6 +16,5 @@ raylib-*_linux_amd64
 *.gcno
 *.gcda
 *.xml
-*.html
 *.tar.gz
 run_raylib*

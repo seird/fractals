@@ -1,6 +1,6 @@
 # Python wrapper - pyfractals
 
-Python wrapper for [c-fractals](c-fractals).
+Python wrapper for [c-fractals](../c-fractals).
 
 
 See `testpyfractals.py` for an example.

@@ -1,0 +1,17 @@
+/*! \mainpage
+
+
+Library interfaces:
+
+- fractal_color.h (C and AVX2 implementations)
+- fractal_cuda.h (Cuda implementation)
+
+
+
+See \ref getting-started to get started.
+
+See \ref usage to see how to use the library.
+
+See <a href="examples.html">Examples</a> for a few complete code examples.
+
+*/

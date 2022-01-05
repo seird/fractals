@@ -1,61 +1,67 @@
-/* Render Julia fractal. */
+/*! \page usage Usage
 
-#include "../include/fractal_color.h"
-
-
-int
-main(void)
-{
+\li Include the library interface fractal_color.h:
+    \code{c}
+    #inlude "include/fractal_color.h"
+    \endcode
+\li Create a handle to a color matrix of specified width and height:
+    \code{c}
+    HCMATRIX hCmatrix = fractal_cmatrix_create(800, 800);
+    \endcode
+\li Specify the desired fractal properties:
+    \code{c}
     /* ----------- INPUT PARAMETERS ----------- */
     float c_real = -0.7835f;
-	float c_imag = -0.2321f;
+    float c_imag = -0.2321f;
     float R = 2.0f;
     
     int height = 8*100;
     int width = 8*240;
     
     float aspect_ratio = (float)width/height;
-
+  
     float x_start = -R;
     float x_end   =  R;
-
+  
     float y_start = x_start/aspect_ratio;
     float y_end = x_end/aspect_ratio;    
-
+  
     int max_iterations = 1000;
-
+  
     enum FC_Mode mode = FC_MODE_JULIA;
     enum FC_Fractal fractal = FC_FRAC_Z2;
     enum FC_Color color = FC_COLOR_ULTRA;
     /* ---------------------------------------- */
-
 
     struct FractalProperties fp = {
         .x_start = x_start,
         .x_end = x_end,
         .y_start = y_start,
         .y_end = y_end,
-
+  
         .width = width,
         .height = height,
-
+  
         .frac = fractal,
         .mode = mode,
         .color = color,
-
+  
         .c_real = c_real,
         .c_imag = c_imag,
         .R = R,
         .max_iterations = max_iterations,
     };
+    \endcode
 
-    HCMATRIX hCmatrix = fractal_cmatrix_create(height, width);
-
-    fractal_avxf_get_colors_th(hCmatrix, &fp, 10);
-
+\li Do the fractal computations and save the result as a .png image:
+    \code{c}
+    fractal_avxf_get_colors(hCmatrix, &fp);
     fractal_cmatrix_save(hCmatrix, "julia_avx_thread.png", fp.color);
+    \endcode
 
+\li Free the color matrix when you're finished:
+    \code{c}
     fractal_cmatrix_free(hCmatrix);
+    \endcode
 
-    return 0;
-}
+*/

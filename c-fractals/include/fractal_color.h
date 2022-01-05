@@ -75,7 +75,8 @@ struct FractalProperties {
     int max_iterations;     /**< Maximum number of times the fractal function will be iterated */
     char * sequence;        /**< Lyapunov sequence */
     size_t sequence_length; /**< Lyapunov sequence length */
-    struct Flame flame;     /**< Fractal flame properties */
+    struct Flame flame;     /**< Fractal flame properties
+                             * @warning @c HCMATRIX is not used by fractal flames, and the image is immediately saved. */
     float _x_step;
     float _y_step;
 };
@@ -186,5 +187,18 @@ void fractal_value_to_color(uint8_t * r, uint8_t * g, uint8_t * b, int value, en
  * @return colorfunc_t 
  */
 colorfunc_t fractal_colorfunc_get(enum FC_Color color);
+
+
+/**
+ * @example{lineno} flames.c
+ */
+
+/**
+ * @example{lineno} julia_avx_thread.c
+ */
+
+/**
+ * @example{lineno} julia_mandelbrot_mosaic.c
+ */
 
 #endif // __FRACTAL_COLOR_H__

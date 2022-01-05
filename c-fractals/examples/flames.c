@@ -1,3 +1,5 @@
+/* Render a fractal flame. */
+
 #include "../include/fractal_color.h"
 
 

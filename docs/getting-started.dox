@@ -1,0 +1,32 @@
+/*! \page getting-started Getting Started
+
+
+\section sec-src Get the source code
+
+\code{bash}
+git clone https://github.com/seird/fractals
+cd fractals/c-fractals
+\endcode
+
+
+\section sec-dynamic-lib Build a dynamic library
+
+\code{bash}
+make
+\endcode
+
+
+\section sec-static-lib Build a static library
+
+\code{bash}
+make static
+\endcode
+
+
+\section sec-compile Compilation
+
+\code{bash}
+gcc -o executable main.c -lfractal
+\endcode
+
+*/
