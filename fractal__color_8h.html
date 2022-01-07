@@ -173,6 +173,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a0598ad481fa7160fd83e574226c49e65"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fractal__color_8h.html#a0598ad481fa7160fd83e574226c49e65">fractal_cmatrix_free</a> (<a class="el" href="fractal__color_8h.html#a28467cd203f60e27a7a86c91fcffb88d">HCMATRIX</a> hCmatrix)</td></tr>
 <tr class="memdesc:a0598ad481fa7160fd83e574226c49e65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free a color matrix.  <a href="fractal__color_8h.html#a0598ad481fa7160fd83e574226c49e65">More...</a><br /></td></tr>
 <tr class="separator:a0598ad481fa7160fd83e574226c49e65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63225b594cf23668d40cd7bbb32aa5a7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fractal__color_8h.html#a63225b594cf23668d40cd7bbb32aa5a7">fractal_cmatrix_height</a> (<a class="el" href="fractal__color_8h.html#a28467cd203f60e27a7a86c91fcffb88d">HCMATRIX</a> hCmatrix)</td></tr>
+<tr class="memdesc:a63225b594cf23668d40cd7bbb32aa5a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the height of a color matrix.  <a href="fractal__color_8h.html#a63225b594cf23668d40cd7bbb32aa5a7">More...</a><br /></td></tr>
+<tr class="separator:a63225b594cf23668d40cd7bbb32aa5a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa98316781bacf162227a04913c5d7fe2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fractal__color_8h.html#aa98316781bacf162227a04913c5d7fe2">fractal_cmatrix_width</a> (<a class="el" href="fractal__color_8h.html#a28467cd203f60e27a7a86c91fcffb88d">HCMATRIX</a> hCmatrix)</td></tr>
+<tr class="memdesc:aa98316781bacf162227a04913c5d7fe2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the width of a color matrix.  <a href="fractal__color_8h.html#aa98316781bacf162227a04913c5d7fe2">More...</a><br /></td></tr>
+<tr class="separator:aa98316781bacf162227a04913c5d7fe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1ca510003fb0f1e882f68b78adaa106"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fractal__color_8h.html#ab1ca510003fb0f1e882f68b78adaa106">fractal_cmatrix_value</a> (<a class="el" href="fractal__color_8h.html#a28467cd203f60e27a7a86c91fcffb88d">HCMATRIX</a> hCmatrix, int height, int width)</td></tr>
 <tr class="memdesc:ab1ca510003fb0f1e882f68b78adaa106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a pointer to a value in the color matrix.  <a href="fractal__color_8h.html#ab1ca510003fb0f1e882f68b78adaa106">More...</a><br /></td></tr>
 <tr class="separator:ab1ca510003fb0f1e882f68b78adaa106"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -353,7 +359,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>HCMATRIX </dd></dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="julia_avx_thread_8c-example.html#a16">julia_avx_thread.c</a>, and <a class="el" href="julia_mandelbrot_mosaic_8c-example.html#a0">julia_mandelbrot_mosaic.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="julia_avx_thread_8c-example.html#a14">julia_avx_thread.c</a>, and <a class="el" href="julia_mandelbrot_mosaic_8c-example.html#a0">julia_mandelbrot_mosaic.c</a>.</dd>
 </dl>
 
 </div>
@@ -426,8 +432,62 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="julia_avx_thread_8c-example.html#a19">julia_avx_thread.c</a>, and <a class="el" href="julia_mandelbrot_mosaic_8c-example.html#a14">julia_mandelbrot_mosaic.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="julia_avx_thread_8c-example.html#a17">julia_avx_thread.c</a>, and <a class="el" href="julia_mandelbrot_mosaic_8c-example.html#a14">julia_mandelbrot_mosaic.c</a>.</dd>
 </dl>
+
+</div>
+</div>
+<a id="a63225b594cf23668d40cd7bbb32aa5a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63225b594cf23668d40cd7bbb32aa5a7">&#9670;&nbsp;</a></span>fractal_cmatrix_height()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int fractal_cmatrix_height </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="fractal__color_8h.html#a28467cd203f60e27a7a86c91fcffb88d">HCMATRIX</a>&#160;</td>
+          <td class="paramname"><em>hCmatrix</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the height of a color matrix. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hCmatrix</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a id="aa98316781bacf162227a04913c5d7fe2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa98316781bacf162227a04913c5d7fe2">&#9670;&nbsp;</a></span>fractal_cmatrix_width()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int fractal_cmatrix_width </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="fractal__color_8h.html#a28467cd203f60e27a7a86c91fcffb88d">HCMATRIX</a>&#160;</td>
+          <td class="paramname"><em>hCmatrix</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the width of a color matrix. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hCmatrix</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
 
 </div>
 </div>
@@ -641,7 +701,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="julia_avx_thread_8c-example.html#a17">julia_avx_thread.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="julia_avx_thread_8c-example.html#a15">julia_avx_thread.c</a>.</dd>
 </dl>
 
 </div>
@@ -714,7 +774,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="julia_avx_thread_8c-example.html#a18">julia_avx_thread.c</a>, and <a class="el" href="julia_mandelbrot_mosaic_8c-example.html#a12">julia_mandelbrot_mosaic.c</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="julia_avx_thread_8c-example.html#a16">julia_avx_thread.c</a>, and <a class="el" href="julia_mandelbrot_mosaic_8c-example.html#a12">julia_mandelbrot_mosaic.c</a>.</dd>
 </dl>
 
 </div>

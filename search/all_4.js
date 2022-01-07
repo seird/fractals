@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['hcmatrix_62',['HCMATRIX',['../fractal__color_8h.html#a28467cd203f60e27a7a86c91fcffb88d',1,'fractal_color.h']]],
-  ['height_63',['height',['../struct_fractal_properties.html#a86eb18150d0efa580993f22d91e0b86a',1,'FractalProperties']]]
+  ['hcmatrix_64',['HCMATRIX',['../fractal__color_8h.html#a28467cd203f60e27a7a86c91fcffb88d',1,'fractal_color.h']]],
+  ['height_65',['height',['../struct_flame.html#a5279599e0a7c5377736dc8798e3096fe',1,'Flame']]]
 ];

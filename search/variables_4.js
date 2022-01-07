@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['height_114',['height',['../struct_fractal_properties.html#a86eb18150d0efa580993f22d91e0b86a',1,'FractalProperties']]]
+  ['height_118',['height',['../struct_flame.html#a5279599e0a7c5377736dc8798e3096fe',1,'Flame']]]
 ];

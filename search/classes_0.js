@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['flame_80',['Flame',['../struct_flame.html',1,'']]],
-  ['fractalproperties_81',['FractalProperties',['../struct_fractal_properties.html',1,'']]]
+  ['flame_82',['Flame',['../struct_flame.html',1,'']]],
+  ['fractalproperties_83',['FractalProperties',['../struct_fractal_properties.html',1,'']]]
 ];

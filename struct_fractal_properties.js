@@ -4,8 +4,6 @@ var struct_fractal_properties =
     [ "x_end", "struct_fractal_properties.html#af71281b3fc8abea5f4de554ea44aee88", null ],
     [ "y_start", "struct_fractal_properties.html#acf886b2cc47ed1ebf1d0a6c33571e943", null ],
     [ "y_end", "struct_fractal_properties.html#ac68978469b9f04b28b0c5b663f09f4ac", null ],
-    [ "width", "struct_fractal_properties.html#af8781c99fcd338933d1b9530a644a351", null ],
-    [ "height", "struct_fractal_properties.html#a86eb18150d0efa580993f22d91e0b86a", null ],
     [ "frac", "struct_fractal_properties.html#a7c388708385d2ae2b8cfbb1f28083754", null ],
     [ "mode", "struct_fractal_properties.html#aae8eb67a5b6c8b9ce2b6c252305e69b8", null ],
     [ "color", "struct_fractal_properties.html#a72afbaac841bb65f9dcfbf163692ae96", null ],
