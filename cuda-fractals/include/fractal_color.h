@@ -52,6 +52,8 @@ typedef void * HCMATRIX;
 typedef void (* colorfunc_t)(uint8_t * r, uint8_t * g, uint8_t * b, int value);
 
 struct Flame {
+    int width;              /**< The width in pixels of the flame */
+    int height;             /**< The height in pixels of the flame */
     int num_chaos_games;    /**< The number of chaos games to run */
     int chaos_game_length;  /**< The number of iterations in a chaos game */
     int supersample;        /**< Reduce noise by computing the fractal flame in a higher resolution */
@@ -64,8 +66,6 @@ struct FractalProperties {
     float x_end;            /**< Upper bound of the real axis in the complex plane */
     float y_start;          /**< Lower bound of the imaginary axis in the complex plane */
     float y_end;            /**< Upper bound of the imaginary axis in the complex plane */
-    int width;              /**< Width of the image (real axis) */
-    int height;             /**< Height of the image (imaginary axis) */
     enum FC_Fractal frac;   /**< The fractal function which will be iterated */
     enum FC_Mode mode;      /**< The fractal mode */
     enum FC_Color color;    /**< The color mode to render the fractals (required for cuda) */
@@ -75,7 +75,8 @@ struct FractalProperties {
     int max_iterations;     /**< Maximum number of times the fractal function will be iterated */
     char * sequence;        /**< Lyapunov sequence */
     size_t sequence_length; /**< Lyapunov sequence length */
-    struct Flame flame;     /**< Fractal flame properties */
+    struct Flame flame;     /**< Fractal flame properties
+                             * @warning @c HCMATRIX is not used by fractal flames, and the image is immediately saved. */
     float _x_step;
     float _y_step;
 };
@@ -106,6 +107,22 @@ HCMATRIX fractal_cmatrix_reshape(HCMATRIX hCmatrix, int height_new, int width_ne
  * @param hCmatrix 
  */
 void fractal_cmatrix_free(HCMATRIX hCmatrix);
+
+/**
+ * @brief Get the height of a color matrix
+ * 
+ * @param hCmatrix 
+ * @return int 
+ */
+int fractal_cmatrix_height(HCMATRIX hCmatrix);
+
+/**
+ * @brief Get the width of a color matrix
+ * 
+ * @param hCmatrix 
+ * @return int 
+ */
+int fractal_cmatrix_width(HCMATRIX hCmatrix);
 
 /**
  * @brief Retrieve a pointer to a value in the color matrix
@@ -186,5 +203,18 @@ void fractal_value_to_color(uint8_t * r, uint8_t * g, uint8_t * b, int value, en
  * @return colorfunc_t 
  */
 colorfunc_t fractal_colorfunc_get(enum FC_Color color);
+
+
+/**
+ * @example{lineno} flames.c
+ */
+
+/**
+ * @example{lineno} julia_avx_thread.c
+ */
+
+/**
+ * @example{lineno} julia_mandelbrot_mosaic.c
+ */
 
 #endif // __FRACTAL_COLOR_H__

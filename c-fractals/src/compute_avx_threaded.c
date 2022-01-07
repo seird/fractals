@@ -82,10 +82,12 @@ void
 fractal_avxf_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads)
 {
     HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
-
-    fp->_x_step = (fp->x_end - fp->x_start) / fp->width;
-    fp->_y_step = (fp->y_end - fp->y_start) / fp->height;
-
+    
+    if (fp->mode != FC_MODE_FLAMES) {
+        fp->_x_step = (fp->x_end - fp->x_start) / hc->width;
+        fp->_y_step = (fp->y_end - fp->y_start) / hc->height;
+    }
+    
     pthread_t threads[num_threads];
     struct ThreadArg args[num_threads];
     for (int i=0; i<num_threads; ++i) {

@@ -24,7 +24,7 @@ typedef void (* fractal_cuda_t)(float * result_real, float * result_imag,
                                 const float c_real, const float c_imag);
 
 
-typedef void (* fractal_cuda_kernel_t)(uint8_t * colors, FractalProperties fp);
+typedef void (* fractal_cuda_kernel_t)(uint8_t * colors, int width, int height, FractalProperties fp);
 
 __device__ inline bool
 fractal_cuda_escape_magnitude_check(float z_real, float z_imag, float R)

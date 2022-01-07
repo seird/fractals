@@ -30,8 +30,6 @@ MU_TEST(test_threaded_result)
         .x_end = x_end,
         .y_start = y_start,
         .y_end = y_end,
-        .height = height,
-        .width = width,
         .frac = FC_FRAC_Z2,
         .mode = FC_MODE_JULIA,
         .c_real = c_real,

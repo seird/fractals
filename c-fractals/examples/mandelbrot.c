@@ -30,9 +30,6 @@ main(void)
         .y_start = y_start,
         .y_end = y_end,
 
-        .width = width,
-        .height = height,
-
         .frac = fractal,
         .mode = mode,
         .color = color,

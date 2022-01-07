@@ -10,6 +10,7 @@ static void
 ALL_TESTS()
 {
     MU_RUN_TEST(test_threaded_result);
+    MU_RUN_TEST(test_cmatrix);
     
 
     #ifdef __AVX2__

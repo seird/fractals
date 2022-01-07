@@ -93,6 +93,18 @@ fractal_cmatrix_free(HCMATRIX hCmatrix)
     free(hc);
 }
 
+int
+fractal_cmatrix_height(HCMATRIX hCmatrix)
+{
+    return ((HS_CMATRIX) hCmatrix)->height;
+}
+
+int
+fractal_cmatrix_width(HCMATRIX hCmatrix)
+{
+    return ((HS_CMATRIX) hCmatrix)->width;
+}
+
 float *
 fractal_cmatrix_value(HCMATRIX hCmatrix, int height, int width)
 {

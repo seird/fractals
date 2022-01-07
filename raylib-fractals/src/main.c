@@ -48,8 +48,6 @@ reset(bool view_only)
     fp.x_end=2;
     fp.y_start=-2/aspect_ratio;
     fp.y_end=2/aspect_ratio;
-    fp.width=WIDTH;
-    fp.height=HEIGHT;
     
 
     if (view_only) return;
@@ -319,8 +317,8 @@ main(void)
 
         if (show_position){
             sprintf(buf, "%.4f, %.4f",
-                    fp.x_start + (float)GetMouseX()/fp.width*(fp.x_end-fp.x_start),
-                    fp.y_start + (float)GetMouseY()/fp.height*(fp.y_end-fp.y_start));
+                    fp.x_start + (float)GetMouseX()/WIDTH*(fp.x_end-fp.x_start),
+                    fp.y_start + (float)GetMouseY()/HEIGHT*(fp.y_end-fp.y_start));
             DrawText(buf, 10, HEIGHT-30, 20, PINK);
 
             DrawLine(0, GetMouseY(), WIDTH, GetMouseY(), PINK);

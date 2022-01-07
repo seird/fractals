@@ -34,8 +34,6 @@ main(int argc, char * argv[])
         .x_end = x_end,
         .y_start = y_start,
         .y_end = y_end,
-        .height = HEIGHT,
-        .width = WIDTH,
         .frac = FC_FRAC_Z4,
         .mode = FC_MODE_LYAPUNOV, // TODO
         .c_real = c_real,

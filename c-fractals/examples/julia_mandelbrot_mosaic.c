@@ -44,8 +44,6 @@ julia_mandelbrot_photomosaic(
         .x_end = x_end,
         .y_start = y_start,
         .y_end = y_end,
-        .width = width_element,
-        .height = height_element,
         .frac = fractal,
         .mode = FC_MODE_JULIA,
         .R = R,

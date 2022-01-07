@@ -15,6 +15,7 @@
 
 
 MU_TEST(test_threaded_result);
+MU_TEST(test_cmatrix);
 
 #ifdef __AVX2__
 MU_TEST(test_avx_julia);

@@ -8,7 +8,7 @@ main(void)
 {
     /* ----------- INPUT PARAMETERS ----------- */
     float c_real = -0.7835f;
-	float c_imag = -0.2321f;
+    float c_imag = -0.2321f;
     float R = 2.0f;
     
     int height = 8*100;
@@ -35,9 +35,6 @@ main(void)
         .x_end = x_end,
         .y_start = y_start,
         .y_end = y_end,
-
-        .width = width,
-        .height = height,
 
         .frac = fractal,
         .mode = mode,

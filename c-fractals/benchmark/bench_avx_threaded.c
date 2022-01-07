@@ -23,8 +23,6 @@ BENCH_FUNC(bench_avx_threaded) {
         .x_end = x_end,
         .y_start = y_start,
         .y_end = y_end,
-        .height = HEIGHT,
-        .width = WIDTH,
         .frac = FRACTAL,
         .mode = MODE,
         .c_real = c_real,

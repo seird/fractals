@@ -2,13 +2,13 @@
 
 
 __global__ void
-fractal_cuda_kernel_lyapunov(uint8_t * colors, FractalProperties fp, char * sequence)
+fractal_cuda_kernel_lyapunov(uint8_t * colors, int width, int height, FractalProperties fp, char * sequence)
 {
     int w = (blockIdx.x*blockDim.x) + threadIdx.x;
     int h = (blockIdx.y*blockDim.y) + threadIdx.y;
 
-    float a = fp.x_start + (float)w/fp.width * (fp.x_end - fp.x_start);
-    float b = fp.y_start + (float)h/fp.height * (fp.y_end - fp.y_start);
+    float a = fp.x_start + (float)w/width * (fp.x_end - fp.x_start);
+    float b = fp.y_start + (float)h/height * (fp.y_end - fp.y_start);
    
     float lyapunov_exponent = 0.0f;
     float x_n = 0.5;
@@ -24,9 +24,9 @@ fractal_cuda_kernel_lyapunov(uint8_t * colors, FractalProperties fp, char * sequ
     int value = lyapunov_exponent > 0.0f ? 0 : (int)lyapunov_exponent * -1; // > 0 -> chaos, < 0 -> stable
     
     colorfuncs[fp.color%FC_COLOR_NUM_ENTRIES](
-        colors + h*fp.width*3 + w*3,
-        colors + h*fp.width*3 + w*3 + 1,
-        colors + h*fp.width*3 + w*3 + 2,
+        colors + h*width*3 + w*3,
+        colors + h*width*3 + w*3 + 1,
+        colors + h*width*3 + w*3 + 2,
         value
     );
 }

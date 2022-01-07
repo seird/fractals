@@ -111,18 +111,18 @@ flames_get_colors(struct FractalProperties * fp)
     float gamma = fp->flame.gamma <= 0 ? 1.0f : fp->flame.gamma;
 
     struct Histogram hist = {
-        .data = (size_t *) calloc((fp->width*supersample)*(fp->height*supersample), sizeof(size_t)),
-        .width = fp->width*supersample,
-        .height = fp->height*supersample
+        .data = (size_t *) calloc((fp->flame.width*supersample)*(fp->flame.height*supersample), sizeof(size_t)),
+        .width = fp->flame.width*supersample,
+        .height = fp->flame.height*supersample
     };
 
     struct Colors colors = {
-        .data = (struct RGB *) calloc((fp->width*supersample)*(fp->height*supersample), sizeof(struct RGB)),
-        .width = fp->width*supersample,
-        .height = fp->height*supersample
+        .data = (struct RGB *) calloc((fp->flame.width*supersample)*(fp->flame.height*supersample), sizeof(struct RGB)),
+        .width = fp->flame.width*supersample,
+        .height = fp->flame.height*supersample
     };
 
-    uint8_t * image = (uint8_t *) calloc(3*fp->width*fp->height, sizeof(uint8_t));
+    uint8_t * image = (uint8_t *) calloc(3*fp->flame.width*fp->flame.height, sizeof(uint8_t));
 
     for (int i=0; i<supersample*fp->flame.num_chaos_games; ++i) {
         flames_chaos_game(&hist, &colors, fp->flame.chaos_game_length);
@@ -130,7 +130,7 @@ flames_get_colors(struct FractalProperties * fp)
 
     flames_render(image, &hist, &colors, supersample, gamma);
 
-    stbi_write_png(fp->flame.savename, fp->width, fp->height, 3, image, 0);
+    stbi_write_png(fp->flame.savename, fp->flame.width, fp->flame.height, 3, image, 0);
 
     free(hist.data);
     free(colors.data);

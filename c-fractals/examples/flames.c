@@ -8,10 +8,10 @@ main(void)
 {
     /* ----------- INPUT PARAMETERS ----------- */
     struct FractalProperties fp = {
-        .width = 900,
-        .height = 900,
         .mode = FC_MODE_FLAMES,
         .flame = {
+            .width = 900,
+            .height = 900,
             .num_chaos_games = 500000,
             .chaos_game_length = 100,
             .supersample = 3,

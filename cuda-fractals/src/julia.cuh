@@ -5,13 +5,13 @@
 
 
 __device__ void
-fractal_cuda_kernel_julia(uint8_t * colors, FractalProperties fp, fractal_cuda_t fractal)
+fractal_cuda_kernel_julia(uint8_t * colors, int width, int height, FractalProperties fp, fractal_cuda_t fractal)
 {
     int w = (blockIdx.x*blockDim.x) + threadIdx.x;
     int h = (blockIdx.y*blockDim.y) + threadIdx.y;
 
-    float z_real = fp.x_start + (float)w/fp.width * (fp.x_end - fp.x_start);
-    float z_imag = fp.y_start + (float)h/fp.height * (fp.y_end - fp.y_start);
+    float z_real = fp.x_start + (float)w/width * (fp.x_end - fp.x_start);
+    float z_imag = fp.y_start + (float)h/height * (fp.y_end - fp.y_start);
 
     int num_iterations = 0;
     float r_real;
@@ -29,77 +29,77 @@ fractal_cuda_kernel_julia(uint8_t * colors, FractalProperties fp, fractal_cuda_t
     int value = num_iterations == fp.max_iterations ? BLACK : num_iterations;
 
     colorfuncs[fp.color%FC_COLOR_NUM_ENTRIES](
-        colors + h*fp.width*3 + w*3,
-        colors + h*fp.width*3 + w*3 + 1,
-        colors + h*fp.width*3 + w*3 + 2,
+        colors + h*width*3 + w*3,
+        colors + h*width*3 + w*3 + 1,
+        colors + h*width*3 + w*3 + 2,
         value
     );
 }
 
 __global__ void
-fractal_cuda_kernel_julia_z2(uint8_t * colors, FractalProperties fp)
+fractal_cuda_kernel_julia_z2(uint8_t * colors, int width, int height, FractalProperties fp)
 {
-    fractal_cuda_kernel_julia(colors, fp, fractal_cuda_z2);
+    fractal_cuda_kernel_julia(colors, width, height, fp, fractal_cuda_z2);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_z3(uint8_t * colors, FractalProperties fp)
+fractal_cuda_kernel_julia_z3(uint8_t * colors, int width, int height, FractalProperties fp)
 {
-    fractal_cuda_kernel_julia(colors, fp, fractal_cuda_z3);
+    fractal_cuda_kernel_julia(colors, width, height, fp, fractal_cuda_z3);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_z4(uint8_t * colors, FractalProperties fp)
+fractal_cuda_kernel_julia_z4(uint8_t * colors, int width, int height, FractalProperties fp)
 {
-    fractal_cuda_kernel_julia(colors, fp, fractal_cuda_z4);
+    fractal_cuda_kernel_julia(colors, width, height, fp, fractal_cuda_z4);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_zconj2(uint8_t * colors, FractalProperties fp)
+fractal_cuda_kernel_julia_zconj2(uint8_t * colors, int width, int height, FractalProperties fp)
 {
-    fractal_cuda_kernel_julia(colors, fp, fractal_cuda_zconj2);
+    fractal_cuda_kernel_julia(colors, width, height, fp, fractal_cuda_zconj2);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_zconj3(uint8_t * colors, FractalProperties fp)
+fractal_cuda_kernel_julia_zconj3(uint8_t * colors, int width, int height, FractalProperties fp)
 {
-    fractal_cuda_kernel_julia(colors, fp, fractal_cuda_zconj3);
+    fractal_cuda_kernel_julia(colors, width, height, fp, fractal_cuda_zconj3);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_zconj4(uint8_t * colors, FractalProperties fp)
+fractal_cuda_kernel_julia_zconj4(uint8_t * colors, int width, int height, FractalProperties fp)
 {
-    fractal_cuda_kernel_julia(colors, fp, fractal_cuda_zconj4);
+    fractal_cuda_kernel_julia(colors, width, height, fp, fractal_cuda_zconj4);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_zabs2(uint8_t * colors, FractalProperties fp)
+fractal_cuda_kernel_julia_zabs2(uint8_t * colors, int width, int height, FractalProperties fp)
 {
-    fractal_cuda_kernel_julia(colors, fp, fractal_cuda_zabs2);
+    fractal_cuda_kernel_julia(colors, width, height, fp, fractal_cuda_zabs2);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_zabs3(uint8_t * colors, FractalProperties fp)
+fractal_cuda_kernel_julia_zabs3(uint8_t * colors, int width, int height, FractalProperties fp)
 {
-    fractal_cuda_kernel_julia(colors, fp, fractal_cuda_zabs3);
+    fractal_cuda_kernel_julia(colors, width, height, fp, fractal_cuda_zabs3);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_zabs4(uint8_t * colors, FractalProperties fp)
+fractal_cuda_kernel_julia_zabs4(uint8_t * colors, int width, int height, FractalProperties fp)
 {
-    fractal_cuda_kernel_julia(colors, fp, fractal_cuda_zabs4);
+    fractal_cuda_kernel_julia(colors, width, height, fp, fractal_cuda_zabs4);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_magnet(uint8_t * colors, FractalProperties fp)
+fractal_cuda_kernel_julia_magnet(uint8_t * colors, int width, int height, FractalProperties fp)
 {
-    fractal_cuda_kernel_julia(colors, fp, fractal_cuda_magnet);
+    fractal_cuda_kernel_julia(colors, width, height, fp, fractal_cuda_magnet);
 }
 
 __global__ void
-fractal_cuda_kernel_julia_z2_z(uint8_t * colors, FractalProperties fp)
+fractal_cuda_kernel_julia_z2_z(uint8_t * colors, int width, int height, FractalProperties fp)
 {
-    fractal_cuda_kernel_julia(colors, fp, fractal_cuda_z2_z);
+    fractal_cuda_kernel_julia(colors, width, height, fp, fractal_cuda_z2_z);
 }
 
 
