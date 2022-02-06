@@ -6,6 +6,7 @@ Release
 docs/html
 docs/latex
 raylib-*_linux_amd64
+*.egg-info
 
 *.exe
 *.dll

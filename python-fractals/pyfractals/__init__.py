@@ -98,31 +98,10 @@ _fractal_cmatrix_save_wrapped = wrap_lib_function(
     restype  = None
 )
 
-# void fractal_cuda_image_save(uint8_t * image, int width, int height, const char * filename);
-_fractal_cuda_image_save_wrapped = wrap_lib_function(
-    "fractal_cuda_image_save",
-    argtypes = [c_uint8_p, c_int, c_int, c_char_p],
-    restype  = None
-)
-
 # void fractal_value_to_color(uint8_t * r, uint8_t * g, uint8_t * b, int value, enum FC_Color color);
 _fractal_value_to_color_wrapped = wrap_lib_function(
     "fractal_value_to_color",
     argtypes = [c_uint8_p, c_uint8_p, c_uint8_p, c_int, c_int],
-    restype  = None
-)
-
-# int * fractal_cuda_image_create(int width, int height);
-_fractal_cuda_image_create_wrapped = wrap_lib_function(
-    "fractal_cuda_image_create",
-    argtypes = [c_int, c_int],
-    restype  = c_uint8_p
-)
-
-# void fractal_cuda_image_free(uint8_t * image);
-_fractal_cuda_image_free_wrapped = wrap_lib_function(
-    "fractal_cuda_image_free",
-    argtypes = [c_uint8_p],
     restype  = None
 )
 
@@ -139,6 +118,30 @@ if cuda:
     _fractal_cuda_clean_wrapped = wrap_lib_function(
         "fractal_cuda_clean",
         argtypes = None,
+        restype  = None,
+        cuda     = cuda
+    )
+
+    # int * fractal_cuda_image_create(int width, int height);
+    _fractal_cuda_image_create_wrapped = wrap_lib_function(
+        "fractal_cuda_image_create",
+        argtypes = [c_int, c_int],
+        restype  = c_uint8_p,
+        cuda     = cuda
+    )
+
+    # void fractal_cuda_image_free(uint8_t * image);
+    _fractal_cuda_image_free_wrapped = wrap_lib_function(
+        "fractal_cuda_image_free",
+        argtypes = [c_uint8_p],
+        restype  = None,
+        cuda     = cuda
+    )
+
+    # void fractal_cuda_image_save(uint8_t * image, int width, int height, const char * filename);
+    _fractal_cuda_image_save_wrapped = wrap_lib_function(
+        "fractal_cuda_image_save",
+        argtypes = [c_uint8_p, c_int, c_int, c_char_p],
         restype  = None,
         cuda     = cuda
     )

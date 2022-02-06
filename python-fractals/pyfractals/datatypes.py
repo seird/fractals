@@ -40,6 +40,8 @@ class Color(Enum):
 
 class Flame(Structure):
     _fields_ = [
+        ("width"            , c_int),
+        ("height"           , c_int),
         ("num_chaos_games"  , c_int),
         ("chaos_game_length", c_int),
         ("supersample"      , c_int),
@@ -48,11 +50,15 @@ class Flame(Structure):
     ]
 
     def __init__(self,
+                 width            : int,
+                 height           : int,
                  num_chaos_games  : Optional[int]     = 500000,
                  chaos_game_length: Optional[int]     = 100,
                  supersample      : Optional[int]     = 3,
                  gamma            : Optional[float]   = 2.2,
                  savename         : Optional[str]     = "flame.png"):
+        self.width             = width
+        self.height            = height
         self.num_chaos_games   = c_int(num_chaos_games)
         self.chaos_game_length = c_int(chaos_game_length)
         self.supersample       = c_int(supersample)
@@ -69,8 +75,6 @@ class FractalProperties(Structure):
         ("x_end"            , c_float),
         ("y_start"          , c_float),
         ("y_end"            , c_float),
-        ("width"            , c_int),
-        ("height"           , c_int),
         ("frac"             , c_int),
         ("mode"             , c_int),
         ("color"            , c_int),
@@ -88,8 +92,6 @@ class FractalProperties(Structure):
                  x_end            : Optional[float]   = 2.0,
                  y_start          : Optional[float]   = -2.0,
                  y_end            : Optional[float]   = 2.0,
-                 width            : Optional[int]     = 1000,
-                 height           : Optional[int]     = 1000,
                  fractal          : Optional[Fractal] = Fractal.Z2,
                  mode             : Optional[Mode]    = Mode.JULIA,
                  color            : Optional[Color]   = Color.ULTRA,
@@ -98,13 +100,11 @@ class FractalProperties(Structure):
                  R                : Optional[float]   = 2,
                  max_iterations   : Optional[int]     = 1000,
                  lyapunov_sequence: Optional[str]     = "AABAB",
-                 flame            : Optional[Flame]   = None):
+                 flame            : Optional[Flame]   = Flame(0, 0)):
         self.x_start           = c_float(x_start)
         self.x_end             = c_float(x_end)
         self.y_start           = c_float(y_start)
         self.y_end             = c_float(y_end)
-        self.width             = c_int(width)
-        self.height            = c_int(height)
         self.frac              = c_int(fractal.value)
         self.mode              = c_int(mode.value)
         self.color             = c_int(color.value)
