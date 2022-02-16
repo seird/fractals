@@ -181,6 +181,13 @@ def fractal_cmatrix_value(hCmatrix: HCMATRIX, h: int, w: int) -> float:
     f_p = _fractal_cmatrix_value_wrapped(hCmatrix, c_int(h), c_int(w))
     return cast(f_p, c_float_p).contents.value
 
+def fractal_cmatrix_value_pointer(hCmatrix: HCMATRIX, h: int, w: int) -> c_float_p:
+    """
+    Get a matrix value reference (pointer)
+    """
+    f_p = _fractal_cmatrix_value_wrapped(hCmatrix, c_int(h), c_int(w))
+    return cast(f_p, c_float_p)
+
 def fractal_get_colors(hCmatrix: HCMATRIX, fp: FractalProperties) -> None:
     """
     Get all fractal colors
