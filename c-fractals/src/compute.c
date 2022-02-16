@@ -52,8 +52,6 @@ fractal_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp)
         }
         case FC_MODE_FLAMES:
         {
-            srand(time(NULL));
-
             flames_get_colors(fp); // all variations are currently used
             break;
         }

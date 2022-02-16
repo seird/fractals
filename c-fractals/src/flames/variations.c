@@ -317,7 +317,7 @@ variation_fan(struct Vector2 point)
 struct Vector2
 variation_blob(struct Vector2 point)
 {
-    float p1 = 1.0f; // heigh
+    float p1 = 1.0f; // high
     float p2 = 0.0f; // low
     float p3 = 1.0f; // waves
     float theta = PARAM_THETA;

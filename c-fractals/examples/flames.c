@@ -1,6 +1,7 @@
 /* Render a fractal flame. */
 
 #include "../include/fractal_color.h"
+#include <time.h>
 
 
 int
@@ -20,6 +21,8 @@ main(void)
         }
     };
     /* ---------------------------------------- */
+
+    srand(time(NULL));
 
     fractal_get_colors(NULL, &fp);
 
