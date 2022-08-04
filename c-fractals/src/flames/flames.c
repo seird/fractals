@@ -26,8 +26,8 @@ flames_update(struct Histogram * hist, struct Colors * colors, struct Vector2 po
 {
     float low = -1.0f; // some symmetric range we are interested in
     float high = -low;
-    int x = (point.x - low) / (high-low) * (hist->width-1); // scale the point from [low, high] to [0, width-1]
-    int y = (point.y - low) / (high-low) * (hist->height-1); // scale the point from [low, high] to [0, height-1]
+    int x = (high - point.x) / (high-low) * (hist->width-1); // scale the point from [low, high] to [0, width-1]
+    int y = (high - point.y) / (high-low) * (hist->height-1); // scale the point from [low, high] to [0, height-1]
 
     if (x >= 0 && x < hist->width && y >= 0 && y < hist->height) {
         if ((hist->data[x+y*hist->width] += 1) > hist->max) {
