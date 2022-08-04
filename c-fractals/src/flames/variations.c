@@ -438,8 +438,39 @@ variation_noise(struct Vector2 point)
 
 // 32
 // 33
+
+
 // 34
+struct Vector2
+variation_blur(struct Vector2 point)
+{
+    (void) point;
+
+    float xsi1 = random_float(0, 1);
+    float xsi2 = random_float(0, 1);
+    return (struct Vector2) {
+        xsi1*cosf(2*M_PI*xsi2),
+        xsi1*sinf(2*M_PI*xsi2)
+    };
+}
+
+
 // 35
+struct Vector2
+variation_gaussian(struct Vector2 point)
+{
+    float xsi5 = random_float(0, 1);
+    float xsi1_sum = 0;
+    for (int k=0; k<4; ++k) {
+        xsi1_sum += random_float(0, 1);
+    }
+    return (struct Vector2) {
+        (xsi1_sum-2)*point.x*cosf(2*M_PI*xsi5),
+        (xsi1_sum-2)*point.y*sinf(2*M_PI*xsi5)
+    };
+}
+
+
 // 36
 // 37
 // 38
@@ -460,6 +491,20 @@ variation_tangent(struct Vector2 point)
 
 
 // 43
+struct Vector2
+variation_square(struct Vector2 point)
+{
+    (void) point;
+    
+    float xsi1 = random_float(0, 1);
+    float xsi2 = random_float(0, 1);
+    return (struct Vector2) {
+        xsi1 - 0.5,
+        xsi2 - 0.5
+    };
+}
+
+
 // 44
 // 45
 // 46
@@ -510,7 +555,10 @@ static variationfunc_t variationfuncs[] = {
     variation_bubble,
     variation_cylinder,
     variation_noise,
+    variation_blur,
+    variation_gaussian,
     variation_tangent,
+    variation_square,
     variation_cross
 };
 
