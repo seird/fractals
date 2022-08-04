@@ -532,14 +532,17 @@ flames_variationfunc_get_random()
 struct RGB
 flames_variationcolor_get(int variation)
 {
-    static struct RGB colors[] = {
-        {1, 0, 0},
-        {0, 1, 0},
-        {0, 0, 1},
-        {1, 1, 0},
-        {1, 0, 1},
-        {0, 1, 1}
-    };
+    static struct RGB colors[6];
+    static bool first_run = true;
+    if (first_run) {
+        colors[0] = (struct RGB){random_float(0.25, 1), 0,                     0                    };
+        colors[1] = (struct RGB){0,                     random_float(0.25, 1), 0                    };
+        colors[2] = (struct RGB){0,                     0,                     random_float(0.25, 1)};
+        colors[3] = (struct RGB){random_float(0.25, 1), random_float(0.25, 1), 0                    };
+        colors[4] = (struct RGB){random_float(0.25, 1), 0,                     random_float(0.25, 1)};
+        colors[5] = (struct RGB){0,                     random_float(0.25, 1), random_float(0.25, 1)};
+    }
+    first_run = false;
 
     return colors[variation % (sizeof(colors) / sizeof(colors[0]))];
 }
