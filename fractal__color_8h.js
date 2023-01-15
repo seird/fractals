@@ -44,6 +44,8 @@ var fractal__color_8h =
     [ "fractal_get_colors_th", "fractal__color_8h.html#a2f39b68282407e59f1e08d9b33229115", null ],
     [ "fractal_avxf_get_colors", "fractal__color_8h.html#adfb82af10edc96e9867954e06425c20a", null ],
     [ "fractal_avxf_get_colors_th", "fractal__color_8h.html#aef4faff205e6c10d837751c9ed6ef080", null ],
+    [ "fractal_avx512f_get_colors", "fractal__color_8h.html#af453aeb2fa05c5b041f254c6255b9eed", null ],
+    [ "fractal_avx512f_get_colors_th", "fractal__color_8h.html#a4cd39cdd2cc98c020126e5d9d01f504f", null ],
     [ "fractal_cmatrix_max", "fractal__color_8h.html#a405a9f940f4e9a99f5cf0499c9ce77bd", null ],
     [ "fractal_cmatrix_save", "fractal__color_8h.html#abb78ffe6ed72ac21bff36acd543d8052", null ],
     [ "fractal_value_to_color", "fractal__color_8h.html#ac01b9f501b17e12952bb7517e15343e6", null ],

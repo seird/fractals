@@ -194,6 +194,12 @@ Functions</h2></td></tr>
 <tr class="memitem:aef4faff205e6c10d837751c9ed6ef080"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fractal__color_8h.html#aef4faff205e6c10d837751c9ed6ef080">fractal_avxf_get_colors_th</a> (<a class="el" href="fractal__color_8h.html#a28467cd203f60e27a7a86c91fcffb88d">HCMATRIX</a> hCmatrix, struct <a class="el" href="struct_fractal_properties.html">FractalProperties</a> *fp, int num_threads)</td></tr>
 <tr class="memdesc:aef4faff205e6c10d837751c9ed6ef080"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the fractal colors with AVX2 and threads.  <a href="fractal__color_8h.html#aef4faff205e6c10d837751c9ed6ef080">More...</a><br /></td></tr>
 <tr class="separator:aef4faff205e6c10d837751c9ed6ef080"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af453aeb2fa05c5b041f254c6255b9eed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fractal__color_8h.html#af453aeb2fa05c5b041f254c6255b9eed">fractal_avx512f_get_colors</a> (<a class="el" href="fractal__color_8h.html#a28467cd203f60e27a7a86c91fcffb88d">HCMATRIX</a> hCmatrix, struct <a class="el" href="struct_fractal_properties.html">FractalProperties</a> *fp)</td></tr>
+<tr class="memdesc:af453aeb2fa05c5b041f254c6255b9eed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the fractal colors with AVX512.  <a href="fractal__color_8h.html#af453aeb2fa05c5b041f254c6255b9eed">More...</a><br /></td></tr>
+<tr class="separator:af453aeb2fa05c5b041f254c6255b9eed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cd39cdd2cc98c020126e5d9d01f504f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fractal__color_8h.html#a4cd39cdd2cc98c020126e5d9d01f504f">fractal_avx512f_get_colors_th</a> (<a class="el" href="fractal__color_8h.html#a28467cd203f60e27a7a86c91fcffb88d">HCMATRIX</a> hCmatrix, struct <a class="el" href="struct_fractal_properties.html">FractalProperties</a> *fp, int num_threads)</td></tr>
+<tr class="memdesc:a4cd39cdd2cc98c020126e5d9d01f504f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the fractal colors with AVX512 and threads.  <a href="fractal__color_8h.html#a4cd39cdd2cc98c020126e5d9d01f504f">More...</a><br /></td></tr>
+<tr class="separator:a4cd39cdd2cc98c020126e5d9d01f504f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a405a9f940f4e9a99f5cf0499c9ce77bd"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fractal__color_8h.html#a405a9f940f4e9a99f5cf0499c9ce77bd">fractal_cmatrix_max</a> (<a class="el" href="fractal__color_8h.html#a28467cd203f60e27a7a86c91fcffb88d">HCMATRIX</a> hCmatrix)</td></tr>
 <tr class="memdesc:a405a9f940f4e9a99f5cf0499c9ce77bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the maximum color value in the color matrix.  <a href="fractal__color_8h.html#a405a9f940f4e9a99f5cf0499c9ce77bd">More...</a><br /></td></tr>
 <tr class="separator:a405a9f940f4e9a99f5cf0499c9ce77bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -702,6 +708,87 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="julia_avx_thread_8c-example.html#a15">julia_avx_thread.c</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="af453aeb2fa05c5b041f254c6255b9eed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af453aeb2fa05c5b041f254c6255b9eed">&#9670;&nbsp;</a></span>fractal_avx512f_get_colors()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fractal_avx512f_get_colors </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="fractal__color_8h.html#a28467cd203f60e27a7a86c91fcffb88d">HCMATRIX</a>&#160;</td>
+          <td class="paramname"><em>hCmatrix</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="struct_fractal_properties.html">FractalProperties</a> *&#160;</td>
+          <td class="paramname"><em>fp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compute the fractal colors with AVX512. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hCmatrix</td><td></td></tr>
+    <tr><td class="paramname">fp</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4cd39cdd2cc98c020126e5d9d01f504f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cd39cdd2cc98c020126e5d9d01f504f">&#9670;&nbsp;</a></span>fractal_avx512f_get_colors_th()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fractal_avx512f_get_colors_th </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="fractal__color_8h.html#a28467cd203f60e27a7a86c91fcffb88d">HCMATRIX</a>&#160;</td>
+          <td class="paramname"><em>hCmatrix</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="struct_fractal_properties.html">FractalProperties</a> *&#160;</td>
+          <td class="paramname"><em>fp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>num_threads</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compute the fractal colors with AVX512 and threads. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hCmatrix</td><td></td></tr>
+    <tr><td class="paramname">fp</td><td></td></tr>
+    <tr><td class="paramname">num_threads</td><td></td></tr>
+  </table>
+  </dd>
 </dl>
 
 </div>

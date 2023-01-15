@@ -115,8 +115,8 @@ $(document).ready(function(){initNavTree('julia_mandelbrot_mosaic_8c-example.htm
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    </div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">float</span> aspect_ratio = (float)width_element/height_element;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">float</span> x_start = -2;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">float</span> x_end   = 2;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">float</span> x_start = -1.5f;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">float</span> x_end   = 1.5f;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">float</span> y_start = x_start / aspect_ratio;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">float</span> y_end = x_end / aspect_ratio;</div>
@@ -138,34 +138,35 @@ $(document).ready(function(){initNavTree('julia_mandelbrot_mosaic_8c-example.htm
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            fp.<a name="a9"></a><a class="code" href="struct_fractal_properties.html#a551b3b2ff8b3e32ec944037a64717e30">c_real</a> = c_real_start + (j+0.5f)*(c_real_end - c_real_start)/n_width;</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            </div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <a name="a10"></a><a class="code" href="fractal__color_8h.html#adfb82af10edc96e9867954e06425c20a">fractal_avxf_get_colors</a>(helement, &amp;fp);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="comment">// copy the julia fractal into the mosaic</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> h=i*height_element; h&lt;(i+1)*height_element; ++h) {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                <span class="keywordtype">float</span> * start_mosaic = <a name="a11"></a><a class="code" href="fractal__color_8h.html#ab1ca510003fb0f1e882f68b78adaa106">fractal_cmatrix_value</a>(hmosaic, h, j*width_element);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                <span class="keywordtype">float</span> * start_element = <a class="code" href="fractal__color_8h.html#ab1ca510003fb0f1e882f68b78adaa106">fractal_cmatrix_value</a>(helement, h-i*height_element, 0);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                memcpy(start_mosaic, start_element, <span class="keyword">sizeof</span>(<span class="keywordtype">float</span>)*width_element);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a name="a12"></a><a class="code" href="fractal__color_8h.html#abb78ffe6ed72ac21bff36acd543d8052">fractal_cmatrix_save</a>(hmosaic, savename, <a name="a13"></a><a class="code" href="struct_fractal_properties.html#a72afbaac841bb65f9dcfbf163692ae96">color</a>);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a name="a14"></a><a class="code" href="fractal__color_8h.html#a0598ad481fa7160fd83e574226c49e65">fractal_cmatrix_free</a>(hmosaic);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="fractal__color_8h.html#a0598ad481fa7160fd83e574226c49e65">fractal_cmatrix_free</a>(helement);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;main(<span class="keywordtype">void</span>)</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;{</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    julia_mandelbrot_photomosaic(</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="stringliteral">&quot;mosaic.png&quot;</span>, <a name="a15"></a><a class="code" href="fractal__color_8h.html#a140ffa82fd3936ed1d892d3e5baf8ab2a8d8ec480463a9dbc6d87595307ecae63">FC_COLOR_ULTRA</a>, <a name="a16"></a><a class="code" href="fractal__color_8h.html#a845cd84f2435c543ebdd95630f3776bba7bc8a1518244402155bd22312f07a48e">FC_FRAC_Z2</a>,</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        40, 40,                  <span class="comment">// julia fractal dimension (multiple of 8 for avx)</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        200, 200,                <span class="comment">// number of julia fractals that will be placed into a mosaic</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        -2.0f, 0.8f, -1.4f, 1.4f <span class="comment">// range in the complex plane to draw the mandelbrot set</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    );</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="comment">// fractal_avx512f_get_colors(helement, &amp;fp);</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="comment">// copy the julia fractal into the mosaic</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> h=i*height_element; h&lt;(i+1)*height_element; ++h) {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                <span class="keywordtype">float</span> * start_mosaic = <a name="a11"></a><a class="code" href="fractal__color_8h.html#ab1ca510003fb0f1e882f68b78adaa106">fractal_cmatrix_value</a>(hmosaic, h, j*width_element);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="keywordtype">float</span> * start_element = <a class="code" href="fractal__color_8h.html#ab1ca510003fb0f1e882f68b78adaa106">fractal_cmatrix_value</a>(helement, h-i*height_element, 0);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                memcpy(start_mosaic, start_element, <span class="keyword">sizeof</span>(<span class="keywordtype">float</span>)*width_element);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a name="a12"></a><a class="code" href="fractal__color_8h.html#abb78ffe6ed72ac21bff36acd543d8052">fractal_cmatrix_save</a>(hmosaic, savename, <a name="a13"></a><a class="code" href="struct_fractal_properties.html#a72afbaac841bb65f9dcfbf163692ae96">color</a>);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a name="a14"></a><a class="code" href="fractal__color_8h.html#a0598ad481fa7160fd83e574226c49e65">fractal_cmatrix_free</a>(hmosaic);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="fractal__color_8h.html#a0598ad481fa7160fd83e574226c49e65">fractal_cmatrix_free</a>(helement);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;main(<span class="keywordtype">void</span>)</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;{</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    julia_mandelbrot_photomosaic(</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="stringliteral">&quot;mosaic.png&quot;</span>, <a name="a15"></a><a class="code" href="fractal__color_8h.html#a140ffa82fd3936ed1d892d3e5baf8ab2a8d8ec480463a9dbc6d87595307ecae63">FC_COLOR_ULTRA</a>, <a name="a16"></a><a class="code" href="fractal__color_8h.html#a845cd84f2435c543ebdd95630f3776bba7bc8a1518244402155bd22312f07a48e">FC_FRAC_Z2</a>,</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        48, 48,                  <span class="comment">// julia fractal dimension (width: multiple of 8 for avx, 16 for avx512)</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        200, 200,                <span class="comment">// number of julia fractals that will be placed into a mosaic</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        -2.0f, 0.8f, -1.4f, 1.4f <span class="comment">// range in the complex plane to draw the mandelbrot set</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    );</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
 <div class="ttc" id="afractal__color_8h_html_a0598ad481fa7160fd83e574226c49e65"><div class="ttname"><a href="fractal__color_8h.html#a0598ad481fa7160fd83e574226c49e65">fractal_cmatrix_free</a></div><div class="ttdeci">void fractal_cmatrix_free(HCMATRIX hCmatrix)</div><div class="ttdoc">Free a color matrix.</div></div>
 <div class="ttc" id="afractal__color_8h_html_a140ffa82fd3936ed1d892d3e5baf8ab2"><div class="ttname"><a href="fractal__color_8h.html#a140ffa82fd3936ed1d892d3e5baf8ab2">FC_Color</a></div><div class="ttdeci">FC_Color</div><div class="ttdef"><b>Definition:</b> fractal_color.h:39</div></div>
 <div class="ttc" id="afractal__color_8h_html_a140ffa82fd3936ed1d892d3e5baf8ab2a8d8ec480463a9dbc6d87595307ecae63"><div class="ttname"><a href="fractal__color_8h.html#a140ffa82fd3936ed1d892d3e5baf8ab2a8d8ec480463a9dbc6d87595307ecae63">FC_COLOR_ULTRA</a></div><div class="ttdeci">@ FC_COLOR_ULTRA</div><div class="ttdef"><b>Definition:</b> fractal_color.h:40</div></div>
