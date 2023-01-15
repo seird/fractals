@@ -169,6 +169,23 @@ void fractal_avxf_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
 void fractal_avxf_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads);
 
 /**
+ * @brief Compute the fractal colors with AVX512
+ * 
+ * @param hCmatrix 
+ * @param fp 
+ */
+void fractal_avx512f_get_colors(HCMATRIX hCmatrix, struct FractalProperties * fp);
+
+/**
+ * @brief Compute the fractal colors with AVX512 and threads
+ * 
+ * @param hCmatrix 
+ * @param fp 
+ * @param num_threads 
+ */
+void fractal_avx512f_get_colors_th(HCMATRIX hCmatrix, struct FractalProperties * fp, int num_threads);
+
+/**
  * @brief Retrieve the maximum color value in the color matrix
  * 
  * @param hCmatrix 

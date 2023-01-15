@@ -12,7 +12,7 @@ main(void)
     float R = ceilf(cabs(c)) + 1;
     
     int height = 10*108;
-    int width = 8*240;
+    int width = 16*240; // multiple of the vector size
     
     float aspect_ratio = (float)width/height;
 
@@ -47,7 +47,7 @@ main(void)
     };
 
     float counter = 10.0f;
-    int N = 100;
+    int N = 1;
     char savename[20];
 
     for (int i=0; i<N; ++i) {
@@ -62,10 +62,12 @@ main(void)
 
         HCMATRIX hCmatrix = fractal_cmatrix_create(height, width);
 
-        //fractal_get_colors(hCmatrix, &fp);
-        //fractal_get_colors_th(hCmatrix, &fp, 10);
-        //fractal_avxf_get_colors(hCmatrix, &fp);
-        fractal_avxf_get_colors_th(hCmatrix, &fp, 10);
+        // fractal_get_colors(hCmatrix, &fp);
+        // fractal_get_colors_th(hCmatrix, &fp, 10);
+        // fractal_avxf_get_colors(hCmatrix, &fp);
+        // fractal_avxf_get_colors_th(hCmatrix, &fp, 10);
+        fractal_avx512f_get_colors(hCmatrix, &fp);
+        // fractal_avx512f_get_colors_th(hCmatrix, &fp, 10);
 
         //float max_color = fractal_cmatrix_max(hCmatrix);
 

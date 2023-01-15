@@ -33,8 +33,8 @@ julia_mandelbrot_photomosaic(
     
     float aspect_ratio = (float)width_element/height_element;
 
-    float x_start = -2;
-    float x_end   = 2;
+    float x_start = -1.5f;
+    float x_end   = 1.5f;
 
     float y_start = x_start / aspect_ratio;
     float y_end = x_end / aspect_ratio;
@@ -56,6 +56,7 @@ julia_mandelbrot_photomosaic(
             fp.c_real = c_real_start + (j+0.5f)*(c_real_end - c_real_start)/n_width;
             
             fractal_avxf_get_colors(helement, &fp);
+            // fractal_avx512f_get_colors(helement, &fp);
 
             // copy the julia fractal into the mosaic
             for (int h=i*height_element; h<(i+1)*height_element; ++h) {
@@ -77,7 +78,7 @@ main(void)
 {
     julia_mandelbrot_photomosaic(
         "mosaic.png", FC_COLOR_ULTRA, FC_FRAC_Z2,
-        40, 40,                  // julia fractal dimension (multiple of 8 for avx)
+        48, 48,                  // julia fractal dimension (width: multiple of 8 for avx, 16 for avx512)
         200, 200,                // number of julia fractals that will be placed into a mosaic
         -2.0f, 0.8f, -1.4f, 1.4f // range in the complex plane to draw the mandelbrot set
     );

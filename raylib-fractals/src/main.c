@@ -8,17 +8,16 @@
 #include <complex.h>
 
 
-#define NUM_THREADS 12
-#define VECSIZE 8
+#define NUM_THREADS 24
 #define MAX_ITERATIONS 250
 #define R_DEFAULT 2
 
 #ifdef CUDA
-#define WIDTH 1920 // (VECSIZE*100)
-#define HEIGHT 1080 // WIDTH
+#define WIDTH 1920
+#define HEIGHT 1080
 #else
-#define WIDTH 1280 // (VECSIZE*100)
-#define HEIGHT 720 // WIDTH
+#define WIDTH 1920 // multiple of (vector size) --> AVX2: 8, AVX512: 16
+#define HEIGHT 1080
 #endif
 
 #define LYAPUNOV_SEQUENCE "ABAABBAA"
@@ -249,7 +248,8 @@ main(void)
             #ifdef CUDA
                 fractal_cuda_get_colors(cuda_image, &fp);
             #else
-                fractal_avxf_get_colors_th(hc, &fp, NUM_THREADS);
+                // fractal_avxf_get_colors_th(hc, &fp, NUM_THREADS);
+                fractal_avx512f_get_colors_th(hc, &fp, NUM_THREADS);
             #endif
 
             // Convert the values to a color image

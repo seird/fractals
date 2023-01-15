@@ -1,8 +1,8 @@
 CC = gcc
-CFLAGS_DEBUG = -g -Wall -Wextra -pthread -mavx2 -lm #-shared
-CFLAGS_RELEASE = -O3 -Wall -Wextra -pthread -ffast-math -mavx2 -lm #-shared
-CFLAGS_RELEASE_LIB = -O3 -Wall -Wextra -shared -DSHARED -pthread -ffast-math -march=native -mavx2 -fPIC -lm
-CFLAGS_RELEASE_LIB_STATIC = -O3 -Wall -Wextra -pthread -DSTATIC -ffast-math -march=native -mavx2 -fPIC -c -lm
+CFLAGS_DEBUG = -g -Wall -Wextra -pthread -mavx2 -mavx512dq -lm #-shared
+CFLAGS_RELEASE = -O3 -Wall -Wextra -pthread -ffast-math -mavx2 -mavx512dq -lm #-shared
+CFLAGS_RELEASE_LIB = -O3 -Wall -Wextra -shared -DSHARED -pthread -ffast-math -march=native -mavx2 -mavx512dq -fPIC -lm
+CFLAGS_RELEASE_LIB_STATIC = -O3 -Wall -Wextra -pthread -DSTATIC -ffast-math -march=native -mavx2 -mavx512dq -fPIC -c -lm
 
 FILES = \
 	$(wildcard src/*.c) \

@@ -11,16 +11,17 @@ fractal_cmatrix_create(int height, int width)
 {
     HS_CMATRIX hc = malloc(sizeof(struct S_CMATRIX));
 
-    #ifdef __AVX2__
+    #if defined(__AVX2__) || defined(__AVX512DQ__)
+        // use the largest (AVX512) alignment
         #if defined(_WIN64) || defined(_WIN32)
-            hc->cmatrix = _aligned_malloc(sizeof(float *) * height, AVX_ALIGNMENT);
+            hc->cmatrix = _aligned_malloc(sizeof(float *) * height, AVX512_ALIGNMENT);
             for (int i = 0; i < height; ++i) {
-                hc->cmatrix[i] = _aligned_malloc(sizeof(float) * width, AVX_ALIGNMENT);
+                hc->cmatrix[i] = _aligned_malloc(sizeof(float) * width, AVX512_ALIGNMENT);
             } 
         #else // Linux
-            hc->cmatrix = aligned_alloc(AVX_ALIGNMENT, sizeof(float *) * height);
+            hc->cmatrix = aligned_alloc(AVX512_ALIGNMENT, sizeof(float *) * height);
             for (int i = 0; i < height; ++i) {
-                hc->cmatrix[i] = aligned_alloc(AVX_ALIGNMENT, sizeof(float) * width);
+                hc->cmatrix[i] = aligned_alloc(AVX512_ALIGNMENT, sizeof(float) * width);
             } 
         #endif
     #else
@@ -28,7 +29,7 @@ fractal_cmatrix_create(int height, int width)
         for (int i = 0; i < height; ++i) {
             hc->cmatrix[i] = malloc(sizeof(float) * width);
         }   
-    #endif
+    #endif // __AVX2__ || __AVX512DQ__
 
     hc->height = height;
     hc->width = width;
@@ -46,9 +47,9 @@ fractal_cmatrix_reshape(HCMATRIX hCmatrix, int height_new, int width_new)
             for (int i = 0; i < hc->height; ++i) {
                 _aligned_free(hc->cmatrix[i]);
             }
-            hc->cmatrix = _aligned_realloc(hc->cmatrix, sizeof(float *) * height_new, AVX_ALIGNMENT);
+            hc->cmatrix = _aligned_realloc(hc->cmatrix, sizeof(float *) * height_new, AVX512_ALIGNMENT);
             for (int i = 0; i < height_new; ++i) {
-                hc->cmatrix[i] = _aligned_malloc(sizeof(float) * width_new, AVX_ALIGNMENT);
+                hc->cmatrix[i] = _aligned_malloc(sizeof(float) * width_new, AVX512_ALIGNMENT);
             }
         #else
             // Linux
@@ -79,7 +80,7 @@ fractal_cmatrix_free(HCMATRIX hCmatrix)
 {
     HS_CMATRIX hc = (HS_CMATRIX) hCmatrix;
 
-    #if defined(__AVX2__) && (defined(_WIN32) || defined(_WIN64))
+    #if (defined(__AVX2__) || defined(__AVX512DQ__)) && (defined(_WIN32) || defined(_WIN64))
         for (int i = 0; i < hc->height; ++i) {
             _aligned_free(hc->cmatrix[i]);
         }

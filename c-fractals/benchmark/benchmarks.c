@@ -2,11 +2,11 @@
 
 
 int MAX_ITERATIONS   = 1000;
-int HEIGHT           = 1000;
-int WIDTH            = 1000;
+int HEIGHT           = 3*16*24; // multiple of vector size (16 for AVX512) and NUM_THREADS
+int WIDTH            = 3*16*24; // multiple of vector size (16 for AVX512) and NUM_THREADS
 float C_REAL         = -0.788485;//-0.835f
 float C_IMAG         = 0.004913;//-0.2321f
-int NUM_THREADS      = 6;
+int NUM_THREADS      = 12;
 enum FC_Mode MODE       = FC_MODE_JULIA;
 enum FC_Fractal FRACTAL = FC_FRAC_Z2;
 
@@ -34,6 +34,11 @@ main(void)
     BENCH_RUN(bench_avx, num_runs);
     BENCH_RUN(bench_avx_threaded, num_runs);
     #endif // __AVX2__
+
+    #ifdef __AVX512DQ__
+    BENCH_RUN(bench_avx512, num_runs);
+    BENCH_RUN(bench_avx512_threaded, num_runs);
+    #endif // __AVX512DQ__
 
     #ifdef CUDA
     fractal_cuda_init(WIDTH, HEIGHT);
