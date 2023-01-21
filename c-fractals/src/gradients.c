@@ -46,9 +46,9 @@ fractal_value_to_rgb_jet(uint8_t * r, uint8_t * g, uint8_t * b, int value)
     };
 
     if (value > 0) {
-        *r = colormap[value % 160][0];
-        *g = colormap[value % 160][1];
-        *b = colormap[value % COLORMAP_SIZE*10][2];
+        *r = colormap[value % 16][0];
+        *g = colormap[value % 16][1];
+        *b = colormap[value % 16][2];
     }
     else {
         *r = *g = *b = 0;

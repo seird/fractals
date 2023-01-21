@@ -41,10 +41,16 @@ build:
 build-cuda:
 	$(CC) $(FILES) -DCUDA -o a_release.exe -lcudafractals $(CFLAGS_RELEASE)
 
+build-opencl:
+	$(CC) $(FILES) -DOPENCL -o a_release.exe -lopenclfractals -L../opencl-fractals/lib -lOpenCL $(CFLAGS_RELEASE)
+
 run: build
 	./a_release.exe
 
 run-cuda: build-cuda
+	./a_release.exe
+
+run-opencl: build-opencl
 	./a_release.exe
 
 debug:

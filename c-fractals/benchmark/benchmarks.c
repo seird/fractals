@@ -47,5 +47,11 @@ main(void)
     fractal_cuda_clean();
     #endif
 
+    #ifdef OPENCL
+    fractal_opencl_init(WIDTH, HEIGHT);
+    BENCH_RUN(bench_opencl, num_runs);
+    fractal_opencl_clean();
+    #endif
+
     return 0;
 }

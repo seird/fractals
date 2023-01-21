@@ -10,6 +10,10 @@
 #include "../../cuda-fractals/include/fractal_cuda.h"
 #endif
 
+#ifdef OPENCL
+#include "../../opencl-fractals/include/fractal_opencl.h"
+#endif
+
 
 extern int MAX_ITERATIONS;
 extern int HEIGHT;
@@ -29,6 +33,7 @@ BENCH_FUNC(bench_avx512);
 BENCH_FUNC(bench_avx512_threaded);
 BENCH_FUNC(bench_cuda);
 BENCH_FUNC(bench_cuda_lyapunov);
+BENCH_FUNC(bench_opencl);
 
 
 #endif

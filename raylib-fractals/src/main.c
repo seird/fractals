@@ -1,5 +1,6 @@
 #include "../../c-fractals/include/fractal_color.h"
 #include "../../cuda-fractals/include/fractal_cuda.h"
+#include "../../opencl-fractals/include/fractal_opencl.h"
 #include "animations.h"
 #include "raylib.h"
 #include <stdio.h>
@@ -12,9 +13,9 @@
 #define MAX_ITERATIONS 250
 #define R_DEFAULT 2
 
-#ifdef CUDA
-#define WIDTH 1920
-#define HEIGHT 1080
+#if defined(CUDA) || defined(OPENCL)
+#define WIDTH 2560
+#define HEIGHT 1440
 #else
 #define WIDTH 1920 // multiple of (vector size) --> AVX2: 8, AVX512: 16
 #define HEIGHT 1080
@@ -197,6 +198,9 @@ main(void)
     #ifdef CUDA
         uint8_t * cuda_image = fractal_cuda_image_create(HEIGHT, WIDTH);
         fractal_cuda_init(WIDTH, HEIGHT);
+    #elif defined(OPENCL)
+        uint8_t * opencl_image = fractal_opencl_image_create(HEIGHT, WIDTH);
+        fractal_opencl_init(WIDTH, HEIGHT);
     #else
         HCMATRIX hc = fractal_cmatrix_create(HEIGHT, WIDTH);
     #endif
@@ -247,6 +251,8 @@ main(void)
             // Do the actual fractal computation
             #ifdef CUDA
                 fractal_cuda_get_colors(cuda_image, &fp);
+            #elif defined(OPENCL)
+                fractal_opencl_get_colors(opencl_image, &fp);
             #else
                 // fractal_avxf_get_colors_th(hc, &fp, NUM_THREADS);
                 fractal_avx512f_get_colors_th(hc, &fp, NUM_THREADS);
@@ -261,6 +267,10 @@ main(void)
                         c.r = cuda_image[h*WIDTH*3 + w*3];
                         c.g = cuda_image[h*WIDTH*3 + w*3 + 1];
                         c.b = cuda_image[h*WIDTH*3 + w*3 + 2];
+                    #elif defined(OPENCL)
+                        c.r = opencl_image[h*WIDTH*3 + w*3];
+                        c.g = opencl_image[h*WIDTH*3 + w*3 + 1];
+                        c.b = opencl_image[h*WIDTH*3 + w*3 + 2];
                     #else
                         uint8_t r, g, b;
                         colorfunc(&r, &g, &b, (int)*fractal_cmatrix_value(hc, h, w));
@@ -333,6 +343,9 @@ main(void)
     #ifdef CUDA
         fractal_cuda_image_free(cuda_image);
         fractal_cuda_clean();
+    #elif defined(OPENCL)
+        fractal_opencl_image_free(opencl_image);
+        fractal_opencl_clean();
     #else
         fractal_cmatrix_free(hc);
     #endif

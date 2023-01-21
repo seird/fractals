@@ -79,6 +79,10 @@ bench-cuda:
 	$(CC) -o benchmark.exe $(FILES_BENCH) $(CFLAGS_RELEASE) -DBENCHMARK -DCUDA  -L. -lm -lcudafractals
 	./benchmark.exe
 
+bench-opencl:
+	$(CC) -o benchmark.exe $(FILES_BENCH) $(CFLAGS_RELEASE) -DBENCHMARK -DOPENCL  -L.. -lm -lopenclfractals -lOpenCL
+	./benchmark.exe
+
 install: library
 ifneq ($(OS),Windows_NT)
 ifeq ($(shell uname),Linux)

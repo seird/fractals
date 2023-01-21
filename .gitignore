@@ -10,6 +10,7 @@ raylib-*_linux_amd64
 
 *.exe
 *.dll
+*.lib
 *.zip
 *.o
 *.a

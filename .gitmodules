@@ -1,0 +1,3 @@
+[submodule "opencl-fractals/OpenCL-Headers"]
+	path = opencl-fractals/OpenCL-Headers
+	url = https://github.com/KhronosGroup/OpenCL-Headers
