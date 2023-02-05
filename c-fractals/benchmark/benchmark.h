@@ -17,7 +17,7 @@
         fflush(stdout);\
     }\
     float time_elapsed = (float) clock()/CLOCKS_PER_SEC - time_start;\
-    printf("\n\n%ld ms per run \n", (long)(1000*time_elapsed/iterations));\
+    printf("\n\n%.1f ms per run \n", 1000.0f*time_elapsed/iterations);\
     printf("%ld ms total\n\n", (long)(1000*time_elapsed));\
 } while (0)
 
@@ -35,7 +35,7 @@
     clock_gettime(CLOCK_MONOTONIC, &_bench_end_time);\
     long elapsed_ns = (_bench_end_time.tv_sec - _bench_start_time.tv_sec) * (long)1e9 + (_bench_end_time.tv_nsec - _bench_start_time.tv_nsec);\
     long elapsed_ms = elapsed_ns / 1000000;\
-    printf("\n\n%ld ms per run \n", elapsed_ms/iterations);\
+    printf("\n\n%.1f ms per run \n", (float)elapsed_ms/iterations);\
     printf("%ld ms total\n\n", elapsed_ms);\
 } while (0)
 

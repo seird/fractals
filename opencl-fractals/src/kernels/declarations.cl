@@ -12,6 +12,9 @@ void fractal_zabs3(float * result_real, float * result_imag, const float z_real,
 void fractal_zabs4(float * result_real, float * result_imag, const float z_real, const float z_imag, const float c_real, const float c_imag);
 void fractal_magnet(float * result_real, float * result_imag, const float z_real, const float z_imag, const float c_real, const float c_imag);
 void fractal_z2_z(float * result_real, float * result_imag, const float z_real, const float z_imag, const float c_real, const float c_imag);
+void fractal_newton_z3(float * result_real, float * result_imag, const float z_real, const float z_imag, const float a_real, const float a_imag);
+void fractal_newton_sin(float * result_real, float * result_imag, const float z_real, const float z_imag, const float a_real, const float a_imag);
+void fractal_newton_sin1(float * result_real, float * result_imag, const float z_real, const float z_imag, const float a_real, const float a_imag);
 
 
 /** Fractal functions */
@@ -27,6 +30,9 @@ enum FC_Fractal {
     FC_FRAC_ZABS4,  /**< (abs(z_real) + abs(c_real)*j)^4 + c */
     FC_FRAC_MAGNET, /**< [(z^2 + c - 1)/(2z + c - 2)]^2 */
     FC_FRAC_Z2_Z,   /**< z^2 + c/z */
+    FC_FRAC_N_Z3,   /**< (Newton) z^3 - 1 */
+    FC_FRAC_N_SIN,  /**< (Newton) sin(z) */
+    FC_FRAC_N_SIN1, /**< (Newton) sin(z) - 1 */
     FC_FRAC_NUM_ENTRIES,
 };
 
@@ -36,6 +42,7 @@ enum FC_Mode {
     FC_MODE_JULIA,
     FC_MODE_LYAPUNOV,
     FC_MODE_FLAMES,
+    FC_MODE_NEWTON,
     FC_MODE_NUM_ENTRIES,
 };
 
@@ -47,6 +54,7 @@ enum FC_Color {
     FC_COLOR_JET,
     FC_COLOR_LAVENDER,
     FC_COLOR_BINARY,
+    FC_COLOR_PURPLE,
     FC_COLOR_NUM_ENTRIES
 };
 

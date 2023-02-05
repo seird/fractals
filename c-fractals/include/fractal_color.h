@@ -32,6 +32,7 @@ enum FC_Mode {
     FC_MODE_JULIA,
     FC_MODE_LYAPUNOV,
     FC_MODE_FLAMES,
+    FC_MODE_NEWTON,
     FC_MODE_NUM_ENTRIES,
 };
 

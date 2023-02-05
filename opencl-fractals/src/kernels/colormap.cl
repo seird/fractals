@@ -2,7 +2,7 @@
 
 
 void
-color_jet(global uchar * image, global uchar * M, size_t n)
+color_jet(global uchar * image, global uint * M, size_t n)
 {
     const uchar colormap[16][3] = {
         {  0,     0,   191},
@@ -34,7 +34,7 @@ color_jet(global uchar * image, global uchar * M, size_t n)
 
 
 void
-color_monochrome(global uchar * image, global uchar * M, size_t n)
+color_monochrome(global uchar * image, global uint * M, size_t n)
 {
     const uchar colormap[15][3] = {
         { 50,  50,  50},
@@ -65,7 +65,7 @@ color_monochrome(global uchar * image, global uchar * M, size_t n)
 
 
 void
-color_tri(global uchar * image, global uchar * M, size_t n)
+color_tri(global uchar * image, global uint * M, size_t n)
 {
     const uchar colormap[3][3] = {
         {255, 150, 150},
@@ -85,7 +85,7 @@ color_tri(global uchar * image, global uchar * M, size_t n)
 
 
 void
-color_ultra(global uchar * image, global uchar * M, size_t n)
+color_ultra(global uchar * image, global uint * M, size_t n)
 {
     const uchar colormap[16][3] = {
         { 66,  30,  15},
@@ -117,7 +117,7 @@ color_ultra(global uchar * image, global uchar * M, size_t n)
 
 
 void
-color_lavender(global uchar * image, global uchar * M, size_t n) {
+color_lavender(global uchar * image, global uint * M, size_t n) {
     const uchar colormap[34][3] = {
        { 69, 147, 254},
        {101, 154, 214},
@@ -166,14 +166,29 @@ color_lavender(global uchar * image, global uchar * M, size_t n) {
 
 
 void
-color_binary(global uchar * image, global uchar * M, size_t n)
+color_binary(global uchar * image, global uint * M, size_t n)
 {
     image[n * 3] = image[n * 3 + 1] = image[n * 3 + 2] = 255*(M[n] > 0);
 }
 
 
+void
+color_purple(global uchar * image, global uint * M, size_t n)
+{
+    if (M[n] > 0) {        
+        image[n * 3] = M[n] % 256;
+        image[n * 3 + 1] = 0;
+        image[n * 3 + 2] = M[n] % 256;
+    } else {
+        image[n * 3] = 0x14;
+        image[n * 3 + 1] = 0x0B;
+        image[n * 3 + 2] = 0xEC;
+    }
+}
+
+
 __kernel void
-colormap(__global uchar * image, __global uchar * M, const int width, const int height, const enum FC_Color color)
+colormap(__global uchar * image, __global uint * M, const int width, const int height, const enum FC_Color color)
 {
     size_t x = get_global_id(0);
     size_t y = get_global_id(1);
@@ -198,6 +213,9 @@ colormap(__global uchar * image, __global uchar * M, const int width, const int 
             break;
         case FC_COLOR_BINARY:
             color_binary(image, M, n);
+            break;
+        case FC_COLOR_PURPLE:
+            color_purple(image, M, n);
             break;
         default:
             break;

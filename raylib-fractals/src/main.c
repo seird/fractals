@@ -1,6 +1,12 @@
-#include "../../c-fractals/include/fractal_color.h"
+// Include the relevant fractal api header
+#ifdef CUDA
 #include "../../cuda-fractals/include/fractal_cuda.h"
+#elif defined(OPENCL)
 #include "../../opencl-fractals/include/fractal_opencl.h"
+#else
+#include "../../c-fractals/include/fractal_color.h"
+#endif
+
 #include "animations.h"
 #include "raylib.h"
 #include <stdio.h>
@@ -21,12 +27,14 @@
 #define HEIGHT 1080
 #endif
 
-#define LYAPUNOV_SEQUENCE "ABAABBAA"
+#define LYAPUNOV_SEQUENCE "ABAAB"
 
 
 struct FractalProperties fp;
 enum FC_Color f_color;
+#if !(defined(CUDA) || defined(OPENCL))
 colorfunc_t colorfunc;
+#endif
 float animation_speed;
 bool animate;
 bool update;
@@ -63,7 +71,9 @@ reset(bool view_only)
 
     f_color = FC_COLOR_ULTRA;
     fp.color = f_color;
+    #if !(defined(CUDA) || defined(OPENCL))
     colorfunc = fractal_colorfunc_get(f_color);
+    #endif
 
     animate = true;
     update = true;
@@ -131,7 +141,9 @@ handle_user_input()
     /* Cycle colors */
     if (IsKeyPressed(KEY_ONE)){
         f_color = (f_color + 1) % FC_COLOR_NUM_ENTRIES;
+        #if !(defined(CUDA) || defined(OPENCL))
         colorfunc = fractal_colorfunc_get(f_color);
+        #endif
         fp.color = f_color;
         update = true;
     }
@@ -142,7 +154,7 @@ handle_user_input()
     }
     /* Cycle modes */
     if (IsKeyPressed(KEY_THREE)){
-        fp.mode = (fp.mode + 1) % (FC_MODE_NUM_ENTRIES-1);
+        fp.mode = (fp.mode + 1) % (FC_MODE_NUM_ENTRIES);
         update = true;
     }
     /* Cycle animations */
@@ -254,8 +266,8 @@ main(void)
             #elif defined(OPENCL)
                 fractal_opencl_get_colors(opencl_image, &fp);
             #else
-                // fractal_avxf_get_colors_th(hc, &fp, NUM_THREADS);
-                fractal_avx512f_get_colors_th(hc, &fp, NUM_THREADS);
+                fractal_avxf_get_colors_th(hc, &fp, NUM_THREADS);
+                // fractal_avx512f_get_colors_th(hc, &fp, NUM_THREADS);
             #endif
 
             // Convert the values to a color image
@@ -316,7 +328,7 @@ main(void)
                          (animate ? "Pause" : "Unpause"), fp.color, fp.frac, fp.mode, animation);
             DrawText(buf, 10, 5, 20, PURPLE);
 
-            if (fp.mode == FC_MODE_JULIA) {
+            if (fp.mode == FC_MODE_JULIA || fp.mode == FC_MODE_NEWTON) {
                 sprintf(buf, "c = %5.02f + %5.02f j", fp.c_real,fp.c_imag);
                 DrawText(buf, WIDTH-200, 65, 20, GREEN);
             }

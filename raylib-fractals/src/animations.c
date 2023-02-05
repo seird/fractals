@@ -1,8 +1,10 @@
 #include "animations.h"
+#include <math.h>
 
 
 static animationfunc_t animationfuncs[NUM_ANIMATIONS] = {
     animation_default,
+    animation_newton,
     animation_iterations,
     animation_iterations_linear,
     animation_default_iterations,
@@ -22,6 +24,15 @@ animation_default(struct FractalProperties * fp, int step, float speed)
 {
     fp->c_real = 0.7885 * cosf((float)step / (2 * M_PI) / 20 * speed);
     fp->c_imag = 0.7885 * sinf((float)step / (2 * M_PI) / 10 * speed);
+}
+
+
+void
+animation_newton(struct FractalProperties * fp, int step, float speed)
+{
+    fp->c_real = 0.7885 * sinf(fmodf((float)step / 400, M_PI) * speed);
+    // fp->c_imag = 0.7885 * sinf(fmodf((float)step / 400, 2*M_PI) * speed);
+    fp->c_imag = 0.7885 * sinf((float)step / (2 * M_PI) / 200 * speed);
 }
 
 

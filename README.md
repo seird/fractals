@@ -3,6 +3,7 @@
 # Fractals
 
 - [C Fractal implementations](c-fractals)
+- [OpenCL Fractal implementation](opencl-fractals)
 - [CUDA Fractal implementation](cuda-fractals)
 - [Raylib rendering](raylib-fractals)
 - [Python wrapper](python-fractals)
@@ -10,15 +11,15 @@
 
 ## Performance
 
-cpu = 8700k @ 4.9GHz
-gpu = 1080Ti
+- cpu = 7900 @ 95W TDP
+- gpu = 7900xt
 
 ```
 Number of runs     =                   10
-Fractal iterations =                 1000
-Number of threads  =                    6
-HEIGHT             =                 1000
-WIDTH              =                 1000
+Fractal iterations =                 2000
+Number of threads  =                   24
+HEIGHT             =                 2048
+WIDTH              =                 2048
 C_REAL             =            -0.788485
 C_IMAG             =             0.004913
 MODE               =           MODE_JULIA
@@ -27,13 +28,15 @@ FRACTAL            =              FRAC_Z2
 
 **Time per run**
 
-|                 |  Linux (5.4.0-54)  |  Windows  |
-|-----------------|:------------------:|:---------:|
-|**Default**      | 1901 ms            | 721 ms    |
-|**Threaded**     | 321  ms            | 137 ms    |
-|**AVX2**         | 90   ms            | 91  ms    |
-|**AVX2 Threaded**| 18   ms            | 21  ms    |
-|**CUDA**         | 1    ms            | 2   ms    |
+|                   |   Windows   |
+|-------------------|:-----------:|
+|**Default**        | 4984.4 ms   |
+|**Threaded**       | 275.2  ms   |
+|**AVX2**           | 754.2  ms   |
+|**AVX2 Threaded**  | 46.2   ms   |
+|**AVX512**         | 442.6  ms   |
+|**AVX512 Threaded**| 32.4   ms   |
+|**OpenCL**         | 9.2    ms   |
 
 
 ## Examples

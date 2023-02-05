@@ -1,12 +1,12 @@
 #include "benchmarks.h"
 
 
-int MAX_ITERATIONS   = 1000;
-int HEIGHT           = 3*16*24; // multiple of vector size (16 for AVX512) and NUM_THREADS
-int WIDTH            = 3*16*24; // multiple of vector size (16 for AVX512) and NUM_THREADS
+int MAX_ITERATIONS   = 2000;
+int HEIGHT           = 2048; // multiple of vector size (16 for AVX512) and NUM_THREADS
+int WIDTH            = 2048; // multiple of vector size (16 for AVX512) and NUM_THREADS
 float C_REAL         = -0.788485;//-0.835f
 float C_IMAG         = 0.004913;//-0.2321f
-int NUM_THREADS      = 12;
+int NUM_THREADS      = 24;
 enum FC_Mode MODE       = FC_MODE_JULIA;
 enum FC_Fractal FRACTAL = FC_FRAC_Z2;
 

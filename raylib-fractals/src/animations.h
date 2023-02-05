@@ -10,6 +10,7 @@
 
 enum Animation {
     ANIMATION_DEFAULT,
+    ANIMATION_NEWTON,
     ANIMATION_ITERATIONS,
     ANIMATION_ITERATIONS_LINEAR,
     ANIMATION_DEFAULT_ITERATIONS,
@@ -24,6 +25,7 @@ typedef void (* animationfunc_t)(struct FractalProperties * fp, int step, float 
 animationfunc_t animationfunc_get(enum Animation animation);
 
 void animation_default(struct FractalProperties * fp, int step, float speed);
+void animation_newton(struct FractalProperties * fp, int step, float speed);
 void animation_iterations(struct FractalProperties * fp, int step, float speed);
 void animation_iterations_linear(struct FractalProperties * fp, int step, float speed);
 void animation_default_iterations(struct FractalProperties * fp, int step, float speed);

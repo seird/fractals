@@ -14,6 +14,7 @@
 
 
 #define MAX_SOURCE_SIZE (0x100000)
+#define MAX_LYAP_SIZE 0xFF
 
 
 static cl_uint num_sources;
@@ -27,9 +28,12 @@ static cl_program program;
 static cl_command_queue command_queue;
 static cl_kernel kernel_julia;
 static cl_kernel kernel_mandelbrot;
+static cl_kernel kernel_newton;
+static cl_kernel kernel_lyapunov;
 static cl_kernel kernel_colormap;
 static cl_mem m_mem_obj;
 static cl_mem fp_mem_obj;
+static cl_mem sequence_mem_obj;
 static cl_mem image_mem_obj;
 
 static int image_width;
@@ -71,15 +75,18 @@ fractal_opencl_init(int width, int height)
     // Create the OpenCL kernels
     kernel_julia = clCreateKernel(program, "julia", &ret);
     kernel_mandelbrot = clCreateKernel(program, "mandelbrot", &ret);
+    kernel_newton = clCreateKernel(program, "newton", &ret);
+    kernel_lyapunov = clCreateKernel(program, "lyapunov", &ret);
     kernel_colormap = clCreateKernel(program, "colormap", &ret);
 
     // Create a command queue
     command_queue = clCreateCommandQueueWithProperties(context, device_id, NULL, &ret);
 
     // Create memory buffers for the kernel inputs
-    m_mem_obj = clCreateBuffer(context, CL_MEM_WRITE_ONLY, width * height * sizeof(uint8_t), NULL, &ret);
+    m_mem_obj = clCreateBuffer(context, CL_MEM_READ_WRITE, width * height * sizeof(cl_uint), NULL, &ret);
     fp_mem_obj = clCreateBuffer(context, CL_MEM_READ_ONLY, sizeof(struct FractalProperties), NULL, &ret);
-    image_mem_obj = clCreateBuffer(context, CL_MEM_WRITE_ONLY, 3 * width * height * sizeof(uint8_t), NULL, &ret);
+    sequence_mem_obj = clCreateBuffer(context, CL_MEM_READ_ONLY, MAX_LYAP_SIZE * sizeof(char), NULL, &ret);
+    image_mem_obj = clCreateBuffer(context, CL_MEM_READ_WRITE, 3 * width * height * sizeof(uint8_t), NULL, &ret);
 
     return true;
 }
@@ -100,10 +107,13 @@ fractal_opencl_clean()
     ret |= clFinish(command_queue);
     ret |= clReleaseKernel(kernel_julia);
     ret |= clReleaseKernel(kernel_mandelbrot);
+    ret |= clReleaseKernel(kernel_newton);
+    ret |= clReleaseKernel(kernel_lyapunov);
     ret |= clReleaseKernel(kernel_colormap);
     ret |= clReleaseProgram(program);
     ret |= clReleaseMemObject(m_mem_obj);
     ret |= clReleaseMemObject(fp_mem_obj);
+    ret |= clReleaseMemObject(sequence_mem_obj);
     ret |= clReleaseMemObject(image_mem_obj);
     ret |= clReleaseCommandQueue(command_queue);
     ret |= clReleaseContext(context);
@@ -113,19 +123,21 @@ fractal_opencl_clean()
 }
 
 
-void
-fractal_opencl_get_colors(uint8_t * image, struct FractalProperties * fp)
+static bool
+do_kernel_fractal(uint8_t * image, struct FractalProperties * fp)
 {
-    if (num_sources == 0 || sourcelengths == NULL || sourcestrs == NULL) return;
-
     /* ---------------------------------------------------------- */
     /*                     Fratal Computation                     */
     /* ---------------------------------------------------------- */
 
     // Copy the inputs to their respective memory buffers
     ret |= clEnqueueWriteBuffer(command_queue, fp_mem_obj, CL_TRUE, 0, sizeof(struct FractalProperties), fp, 0, NULL, NULL);
+    if (fp->mode == FC_MODE_LYAPUNOV) {
+        ret |= clEnqueueWriteBuffer(command_queue, sequence_mem_obj, CL_TRUE, 0, sizeof(char) * fp->sequence_length, fp->sequence, 0, NULL, NULL);
+    }
     if (ret != CL_SUCCESS) {
         printf("failed to copy data from the host to the device: %d\n", ret);
+        return false;
     }
 
     cl_kernel kernel_mode = NULL;
@@ -136,6 +148,12 @@ fractal_opencl_get_colors(uint8_t * image, struct FractalProperties * fp)
         case FC_MODE_MANDELBROT:
             kernel_mode = kernel_mandelbrot;
             break;
+        case FC_MODE_NEWTON:
+            kernel_mode = kernel_newton;
+            break;
+        case FC_MODE_LYAPUNOV:
+            kernel_mode = kernel_lyapunov;
+            break;
         default:
             kernel_mode = kernel_julia;
     }
@@ -145,9 +163,13 @@ fractal_opencl_get_colors(uint8_t * image, struct FractalProperties * fp)
     ret |= clSetKernelArg(kernel_mode, 1, sizeof(cl_int), (void *)&image_width);
     ret |= clSetKernelArg(kernel_mode, 2, sizeof(cl_int), (void *)&image_height);
     ret |= clSetKernelArg(kernel_mode, 3, sizeof(cl_mem), (void *)&fp_mem_obj);
+    if (fp->mode == FC_MODE_LYAPUNOV) {
+        ret |= clSetKernelArg(kernel_mode, 4, sizeof(cl_mem), (void *)&sequence_mem_obj);
+        ret |= clSetKernelArg(kernel_mode, 5, sizeof(cl_int), (void *)&fp->sequence_length);
+    }
     if (ret != CL_SUCCESS) {
         printf("failed to set the fractal kernel arguments: %d\n", ret);
-        return;
+        return false;
     }
 
     // Execute the OpenCL fractal kernel
@@ -155,19 +177,19 @@ fractal_opencl_get_colors(uint8_t * image, struct FractalProperties * fp)
     // size_t local_item_size = 64; // Divide work items into groups of 64
     clEnqueueNDRangeKernel(command_queue, kernel_mode, 2, NULL, global_item_size, NULL, 0, NULL, NULL);
 
+    return true;
+}
 
 
+static bool
+do_kernel_colormap(uint8_t * image, struct FractalProperties * fp)
+{
     /* ---------------------------------------------------------- */
     /*                   Colormap Computation                     */
     /* ---------------------------------------------------------- */
 
     // Flush the command queue
     ret = clFlush(command_queue);
-
-    if (ret != CL_SUCCESS) {
-        printf("failed to copy data from the host to the device: %d\n", ret);
-        return;
-    }
 
     // Set the arguments of the kernel
     ret = clSetKernelArg(kernel_colormap, 0, sizeof(cl_mem), (void *)&image_mem_obj);
@@ -177,19 +199,26 @@ fractal_opencl_get_colors(uint8_t * image, struct FractalProperties * fp)
     ret |= clSetKernelArg(kernel_colormap, 4, sizeof(cl_GLenum), (void *)&fp->color);
     if (ret != CL_SUCCESS) {
         printf("failed to set the colormap kernel arguments: %d\n", ret);
-        return;
+        return false;
     }
 
     // Execute the OpenCL colormap kernel
-    // global_item_size = image_width*image_height; // Process the entire width*height plane
-    // local_item_size = 64; // Divide work items into groups of 64
+    size_t global_item_size[2] = {image_width, image_height}; // Process the entire width*height plane
     clEnqueueNDRangeKernel(command_queue, kernel_colormap, 2, NULL, global_item_size, NULL, 0, NULL, NULL);
+
+    return true;
+}
+
+void
+fractal_opencl_get_colors(uint8_t * image, struct FractalProperties * fp)
+{
+    do_kernel_fractal(image, fp);
+    do_kernel_colormap(image, fp);
 
     // Read the memory buffer image on the device to the local variable image
     ret = clEnqueueReadBuffer(command_queue, image_mem_obj, CL_TRUE, 0, 3 * image_width * image_height * sizeof(uint8_t), image, 0, NULL, NULL);
     if (ret != CL_SUCCESS) {
         printf("failed to copy data from the device to the host: %d\n", ret);
-        return;
     }
 }
 
@@ -199,8 +228,8 @@ int
 main()
 {
     /* ----------- INPUT PARAMETERS ----------- */
-    float c_real = -0.788485;
-	float c_imag = 0.004913;
+    float c_real = 1.0f;
+	float c_imag = 0.0f;
     float _Complex c = c_real + c_imag*I;
     float R = ceilf(cabsf(c)) + 1;
     
@@ -209,16 +238,16 @@ main()
     
     float aspect_ratio = (float)width/height;
 
-    float x_start = -R;
-    float x_end   =  R;
+    float x_start = -2.5f;
+    float x_end   =  1.0f;
 
-    float y_start = x_start/aspect_ratio;
-    float y_end = x_end/aspect_ratio;    
+    float y_start = -2.0f;
+    float y_end = 1.0f;    
 
     int max_iterations = 1000;
 
-    enum FC_Mode mode = FC_MODE_JULIA;
-    enum FC_Fractal fractal = FC_FRAC_Z2;
+    enum FC_Mode mode = FC_MODE_LYAPUNOV;
+    enum FC_Fractal fractal = FC_FRAC_N_SIN1;
     enum FC_Color color = FC_COLOR_ULTRA;
 
 
@@ -236,6 +265,9 @@ main()
         .c_imag = c_imag,
         .R = R,
         .max_iterations = max_iterations,
+
+        .sequence = "AABAB",
+        .sequence_length = sizeof("AABAB"),
     };
     /* ---------------------------------------- */
 

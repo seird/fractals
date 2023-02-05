@@ -1,5 +1,5 @@
 __kernel void
-mandelbrot(__global uchar * M, const int width, const int height, __global struct FractalProperties * fp)
+mandelbrot(__global uint * M, const int width, const int height, __global struct FractalProperties * fp)
 {
     uint x = get_global_id(0);
     uint y = get_global_id(1);
