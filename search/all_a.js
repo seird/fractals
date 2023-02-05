@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['usage_77',['Usage',['../usage.html',1,'']]],
-  ['usage_2edox_78',['usage.dox',['../usage_8dox.html',1,'']]]
+  ['usage_85',['Usage',['../usage.html',1,'']]],
+  ['usage_2edox_86',['usage.dox',['../usage_8dox.html',1,'']]]
 ];

@@ -23,6 +23,7 @@ var fractal__color_8h =
       [ "FC_MODE_JULIA", "fractal__color_8h.html#a31061c2a45d36b98fa8addb2f9546182a8302afa3c8fe71493cd2cf1f5afc5438", null ],
       [ "FC_MODE_LYAPUNOV", "fractal__color_8h.html#a31061c2a45d36b98fa8addb2f9546182a8908729ddc102e24e724ad51a87e7c48", null ],
       [ "FC_MODE_FLAMES", "fractal__color_8h.html#a31061c2a45d36b98fa8addb2f9546182a9b3c7aae8a03c76b8ddb232c88308da0", null ],
+      [ "FC_MODE_NEWTON", "fractal__color_8h.html#a31061c2a45d36b98fa8addb2f9546182abb0f2387132d91cebe09a45fd1f6cdfc", null ],
       [ "FC_MODE_NUM_ENTRIES", "fractal__color_8h.html#a31061c2a45d36b98fa8addb2f9546182a2faf2698349988b5335d14d009786987", null ]
     ] ],
     [ "FC_Color", "fractal__color_8h.html#a140ffa82fd3936ed1d892d3e5baf8ab2", [
