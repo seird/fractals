@@ -30,9 +30,8 @@ animation_default(struct FractalProperties * fp, int step, float speed)
 void
 animation_newton(struct FractalProperties * fp, int step, float speed)
 {
-    fp->c_real = 0.7885 * sinf(fmodf((float)step / 400, M_PI) * speed);
-    // fp->c_imag = 0.7885 * sinf(fmodf((float)step / 400, 2*M_PI) * speed);
-    fp->c_imag = 0.7885 * sinf((float)step / (2 * M_PI) / 200 * speed);
+    fp->c_real = 1;
+    fp->c_imag = 0.95f * sinf(fmodf((float)step / 200, 2*M_PI) * speed);
 }
 
 
