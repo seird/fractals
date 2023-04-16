@@ -8,6 +8,7 @@
 #endif
 
 #include "animations.h"
+#include "ui_strings.h"
 #include "raylib.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -318,14 +319,14 @@ main(void)
             sprintf(buf, "\n\n\n"
                          "WASD: Pan around\n"
                          "Space: %s\n"
-                         "1: Color: %d\n"
-                         "2: Fractal: %d\n"
-                         "3: Mode: %d\n"
-                         "4: Animation: %d\n"
+                         "1: Color: %s\n"
+                         "2: Fractal: %s\n"
+                         "3: Mode: %s\n"
+                         "4: Animation: %s\n"
                          "R: Reset\n"
                          "F2: Toggle position\n"
                          "F1: Toggle OSD\n",
-                         (animate ? "Pause" : "Unpause"), fp.color, fp.frac, fp.mode, animation);
+                         (animate ? "Pause" : "Unpause"), color_str[fp.color], fractal_str[fp.frac], mode_str[fp.mode], animation_str[animation]);
             DrawText(buf, 10, 5, 20, PURPLE);
 
             if (fp.mode == FC_MODE_JULIA || fp.mode == FC_MODE_NEWTON) {

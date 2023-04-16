@@ -1,4 +1,4 @@
-from ctypes import (CDLL, POINTER, Structure, byref, c_char_p, c_float, c_int,
+from ctypes import (POINTER, Structure, c_char_p, c_float, c_int,
                     c_uint8, c_size_t, c_void_p)
 from enum import Enum
 from typing import Optional

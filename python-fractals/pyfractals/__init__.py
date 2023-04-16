@@ -1,26 +1,30 @@
-import errno
 import os
 import platform
-import sys
-from ctypes import (CDLL, POINTER, Structure, byref, c_bool, c_char_p, c_float,
-                    c_int, c_void_p, cast, create_string_buffer, sizeof)
+from ctypes import (CDLL, POINTER, byref, c_bool, c_char_p, c_float, c_int, cast)
 from typing import List, Tuple
 
 from .datatypes import *
 
 p = os.path.dirname(os.path.abspath(__file__)) + "/resources"
 os.environ["PATH"] = p + os.pathsep + os.environ["PATH"]
-lib = CDLL(os.path.join(p, f"libfractal_{platform.system()}.dll"))
+_lib = CDLL(os.path.join(p, f"libfractal_{platform.system()}.dll"))
 
 try:
-    lib_cuda = CDLL(os.path.join(p, f"libcudafractals_{platform.system()}.dll"))
+    _lib_cuda = CDLL(os.path.join(p, f"libcudafractals_{platform.system()}.dll"))
     cuda = True
 except Exception:
     cuda = False
 
+try:
+    _lib_opencl = CDLL(os.path.join(p, f"libopenclfractals_{platform.system()}.dll"))
+    opencl = True
+except Exception:
+    opencl = False
 
-def wrap_lib_function(fname, argtypes: List = [], restype=None, cuda=False):
-    func = getattr(lib if not cuda else lib_cuda, fname, None)
+
+def wrap_lib_function(fname, argtypes: List = [], restype=None, lib=None):
+    lib = _lib if lib is None else lib
+    func = getattr(lib, fname, None)
     if not func:
         return None
     func.argtypes = argtypes
@@ -111,7 +115,7 @@ if cuda:
         "fractal_cuda_init",
         argtypes = [c_int, c_int],
         restype  = c_bool,
-        cuda     = cuda
+        lib      = _lib_cuda
     )
 
     # void fractal_cuda_clean();
@@ -119,7 +123,7 @@ if cuda:
         "fractal_cuda_clean",
         argtypes = None,
         restype  = None,
-        cuda     = cuda
+        lib      = _lib_cuda
     )
 
     # int * fractal_cuda_image_create(int width, int height);
@@ -127,7 +131,7 @@ if cuda:
         "fractal_cuda_image_create",
         argtypes = [c_int, c_int],
         restype  = c_uint8_p,
-        cuda     = cuda
+        lib      = _lib_cuda
     )
 
     # void fractal_cuda_image_free(uint8_t * image);
@@ -135,7 +139,7 @@ if cuda:
         "fractal_cuda_image_free",
         argtypes = [c_uint8_p],
         restype  = None,
-        cuda     = cuda
+        lib      = _lib_cuda
     )
 
     # void fractal_cuda_image_save(uint8_t * image, int width, int height, const char * filename);
@@ -143,7 +147,7 @@ if cuda:
         "fractal_cuda_image_save",
         argtypes = [c_uint8_p, c_int, c_int, c_char_p],
         restype  = None,
-        cuda     = cuda
+        lib      = _lib_cuda
     )
 
     # void fractal_cuda_get_colors(uint8_t * image, struct FractalProperties * fp);
@@ -151,9 +155,57 @@ if cuda:
         "fractal_cuda_get_colors",
         argtypes = [c_uint8_p, POINTER(FractalProperties)],
         restype  = None,
-        cuda     = cuda
+        lib      = _lib_cuda
     )
 
+
+if opencl:
+    _fractal_opencl_init_wrapped = wrap_lib_function(
+        "fractal_opencl_init",
+        argtypes = [c_int, c_int],
+        restype  = c_bool,
+        lib      = _lib_opencl
+    )
+
+    # void fractal_opencl_clean();
+    _fractal_opencl_clean_wrapped = wrap_lib_function(
+        "fractal_opencl_clean",
+        argtypes = None,
+        restype  = None,
+        lib      = _lib_opencl
+    )
+
+    # int * fractal_opencl_image_create(int width, int height);
+    _fractal_opencl_image_create_wrapped = wrap_lib_function(
+        "fractal_opencl_image_create",
+        argtypes = [c_int, c_int],
+        restype  = c_uint8_p,
+        lib      = _lib_opencl
+    )
+
+    # void fractal_opencl_image_free(uint8_t * image);
+    _fractal_opencl_image_free_wrapped = wrap_lib_function(
+        "fractal_opencl_image_free",
+        argtypes = [c_uint8_p],
+        restype  = None,
+        lib      = _lib_opencl
+    )
+
+    # void fractal_opencl_image_save(uint8_t * image, int width, int height, const char * filename);
+    _fractal_opencl_image_save_wrapped = wrap_lib_function(
+        "fractal_opencl_image_save",
+        argtypes = [c_uint8_p, c_int, c_int, c_char_p],
+        restype  = None,
+        lib      = _lib_opencl
+    )
+
+    # void fractal_opencl_get_colors(uint8_t * image, struct FractalProperties * fp);
+    _fractal_opencl_get_colors_wrapped = wrap_lib_function(
+        "fractal_opencl_get_colors",
+        argtypes = [c_uint8_p, POINTER(FractalProperties)],
+        restype  = None,
+        lib      = _lib_opencl
+    )
 
 
 def fractal_cmatrix_create(height: int, width: int) -> HCMATRIX:
@@ -269,3 +321,39 @@ def fractal_cuda_get_colors(image: c_uint8_p, fp: FractalProperties) -> None:
     Do the color computation
     """
     return _fractal_cuda_get_colors_wrapped(image, byref(fp))
+
+def fractal_opencl_image_save(image: c_uint8_p, width: int, height: int, filename: str) -> None:
+    """
+    Save an image array as png
+    """
+    return _fractal_opencl_image_save_wrapped(image, c_int(width), c_int(height), filename.encode('utf-8'))
+
+def fractal_opencl_image_create(width: int, height: int) -> c_uint8_p:
+    """
+    Create an image array
+    """
+    return _fractal_opencl_image_create_wrapped(c_int(height), c_int(width))
+
+def fractal_opencl_image_free(image: c_uint8_p) -> None:
+    """
+    Free an image array
+    """
+    return _fractal_opencl_image_free_wrapped(image)
+
+def fractal_opencl_init(width: int, height: int) -> bool:
+    """
+    Allocate the required memory on the CUDA device
+    """
+    return _fractal_opencl_init_wrapped(c_int(width), c_int(height))
+
+def fractal_opencl_clean() -> None:
+    """
+    Free the allocated memory
+    """
+    return _fractal_opencl_clean_wrapped()
+
+def fractal_opencl_get_colors(image: c_uint8_p, fp: FractalProperties) -> None:
+    """
+    Do the color computation
+    """
+    return _fractal_opencl_get_colors_wrapped(image, byref(fp))

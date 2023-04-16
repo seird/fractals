@@ -7,8 +7,8 @@ def example_lyapunov():
     height = 2000
     width = 2000
 
-    pf.fractal_cuda_init(width, height)
-    cuda_image = pf.fractal_cuda_image_create(width, height)
+    pf.fractal_opencl_init(width, height)
+    opencl_image = pf.fractal_opencl_image_create(width, height)
 
     elapsed_total = 0
 
@@ -25,19 +25,19 @@ def example_lyapunov():
                 color=pf.Color.TRI
             )
 
-            pf.fractal_cuda_get_colors(cuda_image, properties)
+            pf.fractal_opencl_get_colors(opencl_image, properties)
 
             elapsed = time.time() - start
             print(f"{sequence:5s} - {max_iterations:6d} - {elapsed} seconds.")
             elapsed_total += elapsed
 
-            pf.fractal_cuda_image_save(cuda_image, width, height, f"fractal_cuda_ultra_lyapunov_{sequence}_{max_iterations:010d}.png")
+            pf.fractal_opencl_image_save(opencl_image, width, height, f"fractal_opencl_ultra_lyapunov_{sequence}_{max_iterations:010d}.png")
 
 
     print("Total elapsed:", elapsed_total)
 
-    pf.fractal_cuda_image_free(cuda_image)
-    pf.fractal_cuda_clean()    
+    pf.fractal_opencl_image_free(opencl_image)
+    pf.fractal_opencl_clean()    
 
 
 if __name__ == "__main__":
