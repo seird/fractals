@@ -21,16 +21,16 @@ def example_opencl():
 
     elapsed_total = 0
     N = 10
-    counter = 10
+    counter = 0
     for i in range(N):
         start = time.time()
 
-        c_real = 0.7885 * math.cos(counter / (2 * math.pi))
-        c_imag = 0.7885 * math.sin(counter / (2 * math.pi))
-        counter += 0.1
+        c_real = 1
+        c_imag =  0.95 * math.sin((counter / 10) % (2*math.pi) * 1)
+        counter += 1
 
         properties = pf.FractalProperties(
-            fractal=pf.Fractal.Z2, mode=pf.Mode.JULIA,
+            fractal=pf.Fractal.N_Z3, mode=pf.Mode.NEWTON,
             c_real=c_real, c_imag=c_imag,
             x_start=x_start, x_end=x_end,
             y_start=y_start, y_end=y_end,

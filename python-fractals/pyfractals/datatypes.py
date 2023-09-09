@@ -20,6 +20,9 @@ class Fractal(Enum):
     ZABS4   = 8
     ZMAGNET = 9
     Z2_Z    = 10
+    N_Z3    = 11
+    N_SIN   = 12
+    N_SIN1  = 13
 
 
 class Mode(Enum):

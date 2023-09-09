@@ -59,6 +59,7 @@ endif
 library-no-stb: convert-kernels
 	$(CC) $(FILES) $(DIRS_INCLUDE) $(DIRS_LIB) $(CFLAGS_LIBRARY) -DNOSTB
 	ar -rc $(LIBNAME) *.o
+	xcopy /y $(LIBNAME) ..
 
 run: build
 	./$(PNAME)_release
