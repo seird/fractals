@@ -6,8 +6,8 @@ main(void)
     /* ----------- INPUT PARAMETERS ----------- */
     float R = 2.0f;
 
-    int height = 1000;
-    int width = 1000;
+    int height = 2048;
+    int width = 2048;
 
     float x_start = -R;
     float x_end = R;
@@ -15,11 +15,12 @@ main(void)
     float y_start = -R;
     float y_end = R;
 
-    int max_iterations = 200;
+    int max_iterations = 1000;
 
     enum FC_Mode mode = FC_MODE_BUDDHA;
     enum FC_Fractal fractal = FC_FRAC_Z2;
-    enum FC_Color color = FC_COLOR_RAW;
+    /* enum FC_Color color = FC_COLOR_RAW; */
+    enum FC_Color color = FC_COLOR_ULTRA;
     /* ---------------------------------------- */
 
     struct FractalProperties fp = {
@@ -43,9 +44,9 @@ main(void)
 
     HCMATRIX hCmatrix = fractal_cmatrix_create(height, width);
 
-    fractal_get_colors(hCmatrix, &fp);
+    fractal_avxf_get_colors(hCmatrix, &fp);
 
-    fractal_cmatrix_save(hCmatrix, "buddhabrot.png", color);
+    fractal_cmatrix_save(hCmatrix, "buddhabrot_avx.png", color);
 
     fractal_cmatrix_free(hCmatrix);
 

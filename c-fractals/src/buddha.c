@@ -47,7 +47,6 @@ void
 buddha_get_colors(HS_CMATRIX hc, struct FractalProperties* fp)
 {
     float _Complex trajectory[fp->max_iterations];
-    float visits[hc->height][hc->width]; // Count the number of visits made by a z-trajectory in a region of the image
     fractal_t fractal = fractal_get(fp->frac);
 
     float x_step = (fp->x_end - fp->x_start) / fp->buddha.real_steps;
@@ -74,3 +73,77 @@ buddha_get_colors(HS_CMATRIX hc, struct FractalProperties* fp)
         }
     }
 }
+
+#ifdef __AVX2__
+
+#include "compute_avx.h"
+
+void
+buddha_avxf_get_trajectory(HS_CMATRIX hc, fractal_avx_t fractal, __m256* c_real, __m256* c_imag, __m256* R, struct FractalProperties* fp)
+{
+    __m256 z_real = _mm256_set1_ps(0.0f);
+    __m256 z_imag = _mm256_set1_ps(0.0f);
+
+    float n_arr[VECFSIZE] __attribute__((aligned(AVX_ALIGNMENT)));
+    float trajectory_real[fp->max_iterations * VECFSIZE] __attribute__((aligned(AVX_ALIGNMENT)));
+    float trajectory_imag[fp->max_iterations * VECFSIZE] __attribute__((aligned(AVX_ALIGNMENT)));
+
+    __m256 n = _mm256_set1_ps(0); // Stores the iteration at which the escaped occured -- this is the length of the trajectory
+    __m256 escaped_so_far_mask = _mm256_set1_ps(0);
+    __m256 escaped_mask;
+
+    for (int i = 0; i < fp->max_iterations; ++i) {
+        fractal(&z_real, &z_imag, &z_real, &z_imag, c_real, c_imag);
+
+        // get all pixels that escaped this iteration
+        fractal_avxf_escape_magnitude_check(&escaped_mask, &z_real, &z_imag, R);
+
+        // get pixels that escaped for the first time
+        __m256 escaped_this_iteration_mask = _mm256_and_ps(
+          escaped_mask,
+          _mm256_xor_ps(escaped_mask, escaped_so_far_mask));
+
+        // for the newly escaped pixels, set the escape iteration
+        // color is iteration if mask = 1, else the color value remains the same
+        n = _mm256_blendv_ps(n, _mm256_set1_ps(i), escaped_this_iteration_mask);
+
+        // update pixels that escaped this iteration
+        escaped_so_far_mask = _mm256_or_ps(escaped_so_far_mask, escaped_this_iteration_mask);
+
+        // store the z's in the trajectory arrays
+        _mm256_store_ps(trajectory_real + i * VECFSIZE, z_real);
+        _mm256_store_ps(trajectory_imag + i * VECFSIZE, z_imag);
+
+        // abort if all pixels have escaped
+        if (_mm256_movemask_ps(escaped_so_far_mask) == 255)
+            return;
+    }
+
+    // update the visits
+    _mm256_store_ps(n_arr, n);
+    buddha_avxf_update_visits(hc, trajectory_real, trajectory_imag, n_arr, fp);
+}
+
+void
+buddha_avxf_update_visits(HS_CMATRIX hc, float* trajectory_real, float* trajectory_imag, float n_arr[VECFSIZE], struct FractalProperties* fp)
+{
+    float x_factor = hc->width / (fp->x_end - fp->x_start);
+    float y_factor = hc->height / (fp->y_end - fp->y_start);
+
+    for (int i = 0; i < VECFSIZE; ++i) {
+        if (!(int)n_arr[i])
+            continue;
+
+        for (int n = 0; n < fp->max_iterations; ++n) {
+            int w = (trajectory_real[n * VECFSIZE + i] - fp->x_start) * x_factor;
+            int h = (trajectory_imag[n * VECFSIZE + i] - fp->y_start) * y_factor;
+
+            if (w < 0 || w >= hc->width || h < 0 || h >= hc->height)
+                continue;
+
+            ++hc->cmatrix[h][w];
+        }
+    }
+}
+
+#endif // __AVX2__
