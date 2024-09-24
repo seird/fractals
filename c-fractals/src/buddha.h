@@ -1,7 +1,14 @@
 #ifndef __BUDDHA_H__
 #define __BUDDHA_H__
 
+/* Note that to zoom into the complex plane in Buddha mode should still sample the comlex plane in the -2..2 (or large enough) range
+ * To achieve this the real_steps / imag_steps should be inscreased?
+ * */
+#include "compute_avx.h"
+#include "fractals_avx.h"
 #include "main.h"
+
+extern pthread_mutex_t mutex_buddha;
 
 void
 buddha_get_colors(HS_CMATRIX hc, struct FractalProperties* fp);

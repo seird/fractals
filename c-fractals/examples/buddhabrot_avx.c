@@ -1,4 +1,5 @@
 #include "../include/fractal_color.h"
+#include <stdio.h>
 
 int
 main(void)
@@ -15,12 +16,12 @@ main(void)
     float y_start = -R;
     float y_end = R;
 
-    int max_iterations = 1000;
+    int max_iterations = 10000;
 
     enum FC_Mode mode = FC_MODE_BUDDHA;
     enum FC_Fractal fractal = FC_FRAC_Z2;
-    /* enum FC_Color color = FC_COLOR_RAW; */
-    enum FC_Color color = FC_COLOR_ULTRA;
+    enum FC_Color color = FC_COLOR_RAW;
+    /* enum FC_Color color = FC_COLOR_ULTRA; */
     /* ---------------------------------------- */
 
     struct FractalProperties fp = {
@@ -44,9 +45,13 @@ main(void)
 
     HCMATRIX hCmatrix = fractal_cmatrix_create(height, width);
 
-    fractal_avxf_get_colors(hCmatrix, &fp);
+    /* fractal_avxf_get_colors(hCmatrix, &fp); */
+    fractal_avxf_get_colors_th(hCmatrix, &fp, 16);
+    fractal_cmatrix_scale(hCmatrix);
 
-    fractal_cmatrix_save(hCmatrix, "buddhabrot_avx.png", color);
+    char filename[100];
+    sprintf(filename, "buddhabrot_avx_%d_%d.png", max_iterations, fp.buddha.real_steps);
+    fractal_cmatrix_save(hCmatrix, filename, color);
 
     fractal_cmatrix_free(hCmatrix);
 

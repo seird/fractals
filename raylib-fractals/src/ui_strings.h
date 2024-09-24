@@ -36,9 +36,10 @@ static char* color_str[] = {
     [FC_COLOR_JET] = "JET",
     [FC_COLOR_LAVENDER] = "LAVENDER",
     [FC_COLOR_BINARY] = "BINARY",
-    [FC_COLOR_RAW] = "RAW",
 #ifdef OPENCL
     [FC_COLOR_PURPLE] = "PURPLE",
+#else
+    [FC_COLOR_RAW] = "RAW",
 #endif
 };
 

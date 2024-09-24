@@ -128,6 +128,18 @@ fractal_cmatrix_max(HCMATRIX hCmatrix)
 }
 
 void
+fractal_cmatrix_scale(HCMATRIX hCmatrix)
+{
+    HS_CMATRIX hc = (HS_CMATRIX)hCmatrix;
+    float m = fractal_cmatrix_max(hCmatrix);
+    for (int h = 0; h < hc->height; ++h) {
+        for (int w = 0; w < hc->width; ++w) {
+            hc->cmatrix[h][w] *= 255.f / m;
+        }
+    }
+}
+
+void
 fractal_cmatrix_save(HCMATRIX hCmatrix, const char* filename, enum FC_Color color)
 {
     if (color == FC_COLOR_RAW) {

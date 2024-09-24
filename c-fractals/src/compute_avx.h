@@ -1,9 +1,7 @@
 #ifndef __COMPUTE_AVX_H__
 #define __COMPUTE_AVX_H__
 
-#ifndef __AVX2__
-#define __AVX2__
-#endif
+
 
 #if defined(__AVX2__) || defined(__AVX512DQ__)
 

@@ -219,6 +219,14 @@ float
 fractal_cmatrix_max(HCMATRIX hCmatrix);
 
 /**
+ * @brief Scale a cmatrix into the [0..255] range
+ *
+ * @param hCmatrix
+ */
+void
+fractal_cmatrix_scale(HCMATRIX hCmatrix);
+
+/**
  * @brief Save a color matrix as png
  *
  * @param hCmatrix

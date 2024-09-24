@@ -99,7 +99,7 @@ handle_user_input()
 
     bool shift_pressed = IsKeyDown(KEY_LEFT_SHIFT);
 
-    if (GetMouseWheelMove() == 1) {
+    if (GetMouseWheelMove() == 1 || IsKeyDown(KEY_RIGHT_ALT)) {
         if ((fp.x_end - fp.x_start > 0.01) && (fp.y_end - fp.y_start > 0.01)) {
             fp.x_start += shift_pressed ? 0.01 : 0.05;
             fp.y_start += (shift_pressed ? 0.01 : 0.05) / aspect_ratio;
@@ -108,7 +108,7 @@ handle_user_input()
             update = true;
         }
     }
-    if (GetMouseWheelMove() == -1) {
+    if (GetMouseWheelMove() == -1 || IsKeyDown(KEY_LEFT_ALT)) {
         fp.x_start -= shift_pressed ? 0.01 : 0.05;
         fp.y_start -= (shift_pressed ? 0.01 : 0.05) / aspect_ratio;
         fp.x_end += shift_pressed ? 0.01 : 0.05;
@@ -274,8 +274,8 @@ main(void)
 #elif defined(OPENCL)
             fractal_opencl_get_colors(opencl_image, &fp);
 #else
-            /* fractal_avxf_get_colors_th(hc, &fp, NUM_THREADS); */
-            fractal_avxf_get_colors(hc, &fp);
+            fractal_avxf_get_colors_th(hc, &fp, NUM_THREADS);
+            /* fractal_avxf_get_colors(hc, &fp); */
             // fractal_avx512f_get_colors_th(hc, &fp, NUM_THREADS);
 #endif
 

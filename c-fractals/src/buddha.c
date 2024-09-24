@@ -1,5 +1,8 @@
 #include "buddha.h"
 #include "main.h"
+#include <stdlib.h>
+
+pthread_mutex_t mutex_buddha;
 
 /*
  * Compute the trajectory in the complex plane
@@ -85,8 +88,8 @@ buddha_avxf_get_trajectory(HS_CMATRIX hc, fractal_avx_t fractal, __m256* c_real,
     __m256 z_imag = _mm256_set1_ps(0.0f);
 
     float n_arr[VECFSIZE] __attribute__((aligned(AVX_ALIGNMENT)));
-    float trajectory_real[fp->max_iterations * VECFSIZE] __attribute__((aligned(AVX_ALIGNMENT)));
-    float trajectory_imag[fp->max_iterations * VECFSIZE] __attribute__((aligned(AVX_ALIGNMENT)));
+    float* trajectory_real = aligned_alloc(AVX_ALIGNMENT, sizeof(float) * fp->max_iterations * VECFSIZE);
+    float* trajectory_imag = aligned_alloc(AVX_ALIGNMENT, sizeof(float) * fp->max_iterations * VECFSIZE);
 
     __m256 n = _mm256_set1_ps(0); // Stores the iteration at which the escaped occured -- this is the length of the trajectory
     __m256 escaped_so_far_mask = _mm256_set1_ps(0);
@@ -116,12 +119,16 @@ buddha_avxf_get_trajectory(HS_CMATRIX hc, fractal_avx_t fractal, __m256* c_real,
 
         // abort if all pixels have escaped
         if (_mm256_movemask_ps(escaped_so_far_mask) == 255)
-            return;
+            goto clean;
     }
 
     // update the visits
     _mm256_store_ps(n_arr, n);
     buddha_avxf_update_visits(hc, trajectory_real, trajectory_imag, n_arr, fp);
+
+clean:
+    free(trajectory_real);
+    free(trajectory_imag);
 }
 
 void
@@ -134,6 +141,8 @@ buddha_avxf_update_visits(HS_CMATRIX hc, float* trajectory_real, float* trajecto
         if (!(int)n_arr[i])
             continue;
 
+        pthread_mutex_lock(&mutex_buddha);
+
         for (int n = 0; n < fp->max_iterations; ++n) {
             int w = (trajectory_real[n * VECFSIZE + i] - fp->x_start) * x_factor;
             int h = (trajectory_imag[n * VECFSIZE + i] - fp->y_start) * y_factor;
@@ -143,6 +152,8 @@ buddha_avxf_update_visits(HS_CMATRIX hc, float* trajectory_real, float* trajecto
 
             ++hc->cmatrix[h][w];
         }
+
+        pthread_mutex_unlock(&mutex_buddha);
     }
 }
 
