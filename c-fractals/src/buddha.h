@@ -23,4 +23,14 @@ buddha_avxf_update_visits(HS_CMATRIX hc, float* trajectory_real, float* trajecto
 
 #endif // __AVX2__
 
+#ifdef __AVX512DQ__
+
+void
+buddha_avx512f_get_trajectory(HS_CMATRIX hc, fractal_avx512_t fractal, __m512* c_real, __m512* c_imag, __m512* R, struct FractalProperties* fp);
+
+void
+buddha_avx512f_update_visits(HS_CMATRIX hc, float* trajectory_real, float* trajectory_imag, float n_arr[VEC512FSIZE], struct FractalProperties* fp);
+
+#endif // __AVX512DQ__
+
 #endif // __BUDDHA_H__

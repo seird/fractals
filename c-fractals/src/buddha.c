@@ -158,3 +158,82 @@ buddha_avxf_update_visits(HS_CMATRIX hc, float* trajectory_real, float* trajecto
 }
 
 #endif // __AVX2__
+
+#ifdef __AVX512DQ__
+
+#include "compute_avx.h"
+
+void
+buddha_avx512f_get_trajectory(HS_CMATRIX hc, fractal_avx512_t fractal, __m512* c_real, __m512* c_imag, __m512* R, struct FractalProperties* fp)
+{
+    __m512 z_real = _mm512_set1_ps(0.0f);
+    __m512 z_imag = _mm512_set1_ps(0.0f);
+
+    float n_arr[VEC512FSIZE] __attribute__((aligned(AVX512_ALIGNMENT)));
+    float* trajectory_real = aligned_alloc(AVX512_ALIGNMENT, sizeof(float) * fp->max_iterations * VEC512FSIZE);
+    float* trajectory_imag = aligned_alloc(AVX512_ALIGNMENT, sizeof(float) * fp->max_iterations * VEC512FSIZE);
+
+    __m512 n = _mm512_set1_ps(0); // Stores the iteration at which the escaped occured -- this is the length of the trajectory
+    __mmask16 escaped_so_far_mask = 0;
+
+    for (int i = 0; i < fp->max_iterations; ++i) {
+        fractal(&z_real, &z_imag, &z_real, &z_imag, c_real, c_imag);
+
+        // get all pixels that escaped this iteration
+        __mmask16 escaped_mask = fractal_avx512f_escape_magnitude_check(&z_real, &z_imag, R);
+
+        // get pixels that escaped for the first time
+        __mmask16 escaped_this_iteration_mask = escaped_mask & (escaped_mask ^ escaped_so_far_mask);
+
+        // for the newly escaped pixels, set the escape iteration
+        // color is iteration if mask = 1, else the color value remains the same
+        n = _mm512_mask_blend_ps(escaped_this_iteration_mask, n, _mm512_set1_ps(i));
+
+        // update pixels that escaped this iteration
+        escaped_so_far_mask = escaped_so_far_mask ^ escaped_this_iteration_mask;
+
+        // store the z's in the trajectory arrays
+        _mm512_store_ps(trajectory_real + i * VEC512FSIZE, z_real);
+        _mm512_store_ps(trajectory_imag + i * VEC512FSIZE, z_imag);
+
+        // abort if all pixels have escaped
+        if (escaped_so_far_mask == 0xFFFF)
+            goto clean; // mask == 0b1111111111111111 --> all 16 pixels escaped
+    }
+
+    // update the visits
+    _mm512_store_ps(n_arr, n);
+    buddha_avx512f_update_visits(hc, trajectory_real, trajectory_imag, n_arr, fp);
+
+clean:
+    free(trajectory_real);
+    free(trajectory_imag);
+}
+
+void
+buddha_avx512f_update_visits(HS_CMATRIX hc, float* trajectory_real, float* trajectory_imag, float n_arr[VEC512FSIZE], struct FractalProperties* fp)
+{
+    float x_factor = hc->width / (fp->x_end - fp->x_start);
+    float y_factor = hc->height / (fp->y_end - fp->y_start);
+
+    for (int i = 0; i < VEC512FSIZE; ++i) {
+        if (!(int)n_arr[i])
+            continue;
+
+        pthread_mutex_lock(&mutex_buddha);
+
+        for (int n = 0; n < fp->max_iterations; ++n) {
+            int w = (trajectory_real[n * VEC512FSIZE + i] - fp->x_start) * x_factor;
+            int h = (trajectory_imag[n * VEC512FSIZE + i] - fp->y_start) * y_factor;
+
+            if (w < 0 || w >= hc->width || h < 0 || h >= hc->height)
+                continue;
+
+            ++hc->cmatrix[h][w];
+        }
+
+        pthread_mutex_unlock(&mutex_buddha);
+    }
+}
+
+#endif // __AVX512DQ__
