@@ -1,6 +1,7 @@
 var fractal__color_8h =
 [
     [ "Flame", "struct_flame.html", "struct_flame" ],
+    [ "Buddha", "struct_buddha.html", "struct_buddha" ],
     [ "FractalProperties", "struct_fractal_properties.html", "struct_fractal_properties" ],
     [ "HCMATRIX", "fractal__color_8h.html#a28467cd203f60e27a7a86c91fcffb88d", null ],
     [ "colorfunc_t", "fractal__color_8h.html#a8bacf9cd76d1dba4a5778ba5e2455243", null ],
@@ -24,6 +25,7 @@ var fractal__color_8h =
       [ "FC_MODE_LYAPUNOV", "fractal__color_8h.html#a31061c2a45d36b98fa8addb2f9546182a8908729ddc102e24e724ad51a87e7c48", null ],
       [ "FC_MODE_FLAMES", "fractal__color_8h.html#a31061c2a45d36b98fa8addb2f9546182a9b3c7aae8a03c76b8ddb232c88308da0", null ],
       [ "FC_MODE_NEWTON", "fractal__color_8h.html#a31061c2a45d36b98fa8addb2f9546182abb0f2387132d91cebe09a45fd1f6cdfc", null ],
+      [ "FC_MODE_BUDDHA", "fractal__color_8h.html#a31061c2a45d36b98fa8addb2f9546182a8c7b32722942d8eacb74dd473928b12e", null ],
       [ "FC_MODE_NUM_ENTRIES", "fractal__color_8h.html#a31061c2a45d36b98fa8addb2f9546182a2faf2698349988b5335d14d009786987", null ]
     ] ],
     [ "FC_Color", "fractal__color_8h.html#a140ffa82fd3936ed1d892d3e5baf8ab2", [
@@ -33,6 +35,7 @@ var fractal__color_8h =
       [ "FC_COLOR_JET", "fractal__color_8h.html#a140ffa82fd3936ed1d892d3e5baf8ab2aebeeda5ca92b897bb8e994397cb733c3", null ],
       [ "FC_COLOR_LAVENDER", "fractal__color_8h.html#a140ffa82fd3936ed1d892d3e5baf8ab2ad01d2dcde5cd314e8c16db69d811de39", null ],
       [ "FC_COLOR_BINARY", "fractal__color_8h.html#a140ffa82fd3936ed1d892d3e5baf8ab2af0515d9fd887d068032f0ea4828eb5f0", null ],
+      [ "FC_COLOR_RAW", "fractal__color_8h.html#a140ffa82fd3936ed1d892d3e5baf8ab2af2f4ee73100bf0448442571dffaf3eaf", null ],
       [ "FC_COLOR_NUM_ENTRIES", "fractal__color_8h.html#a140ffa82fd3936ed1d892d3e5baf8ab2aa50d767ebfef707b2d8d75f57d5f1c6b", null ]
     ] ],
     [ "fractal_cmatrix_create", "fractal__color_8h.html#a60a2f7b320f74fdffab5e46fcef13990", null ],
@@ -48,7 +51,9 @@ var fractal__color_8h =
     [ "fractal_avx512f_get_colors", "fractal__color_8h.html#af453aeb2fa05c5b041f254c6255b9eed", null ],
     [ "fractal_avx512f_get_colors_th", "fractal__color_8h.html#a4cd39cdd2cc98c020126e5d9d01f504f", null ],
     [ "fractal_cmatrix_max", "fractal__color_8h.html#a405a9f940f4e9a99f5cf0499c9ce77bd", null ],
+    [ "fractal_cmatrix_scale", "fractal__color_8h.html#aff85f6d11971ea3db7da6b008f732f7e", null ],
     [ "fractal_cmatrix_save", "fractal__color_8h.html#abb78ffe6ed72ac21bff36acd543d8052", null ],
+    [ "fractal_cmatrix_save_raw", "fractal__color_8h.html#afb6da9d527c0705a8d76b691384820b1", null ],
     [ "fractal_value_to_color", "fractal__color_8h.html#ac01b9f501b17e12952bb7517e15343e6", null ],
     [ "fractal_colorfunc_get", "fractal__color_8h.html#a2792099d6fdfa448759fc5fe16b341f9", null ]
 ];

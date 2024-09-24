@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['y_5fend_90',['y_end',['../struct_fractal_properties.html#ac68978469b9f04b28b0c5b663f09f4ac',1,'FractalProperties']]],
-  ['y_5fstart_91',['y_start',['../struct_fractal_properties.html#acf886b2cc47ed1ebf1d0a6c33571e943',1,'FractalProperties']]]
+  ['x_5fend_96',['x_end',['../struct_fractal_properties.html#af71281b3fc8abea5f4de554ea44aee88',1,'FractalProperties']]],
+  ['x_5fstart_97',['x_start',['../struct_fractal_properties.html#a8b84d22b3628deeb7d4d923e2a0a7cb5',1,'FractalProperties']]]
 ];

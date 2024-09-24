@@ -13,6 +13,7 @@ var struct_fractal_properties =
     [ "max_iterations", "struct_fractal_properties.html#a04520a8d25b0a80db9c410ab721af195", null ],
     [ "sequence", "struct_fractal_properties.html#acff6438815a61b92c8bd1c35e1b5f773", null ],
     [ "sequence_length", "struct_fractal_properties.html#a6c60ea1b8981a5225310fcaca9fa70b9", null ],
+    [ "buddha", "struct_fractal_properties.html#a4ebf635dbe7616257fbd3d9737a43f89", null ],
     [ "flame", "struct_fractal_properties.html#a33ee71dbb91f43fd700db7d2aa58d4aa", null ],
     [ "_x_step", "struct_fractal_properties.html#a7192f3f583c3b3c2bc8ab16f45738ddc", null ],
     [ "_y_step", "struct_fractal_properties.html#aece9dd5fb00881953f6e60467e71fbcb", null ]

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['num_5fchaos_5fgames_140',['num_chaos_games',['../struct_flame.html#addca7165f1db9603dea08b43c1962b68',1,'Flame']]]
+  ['imag_5fsteps_150',['imag_steps',['../struct_buddha.html#ae784758360d12bfe975905a511004781',1,'Buddha']]]
 ];

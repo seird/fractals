@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['hcmatrix_74',['HCMATRIX',['../fractal__color_8h.html#a28467cd203f60e27a7a86c91fcffb88d',1,'fractal_color.h']]],
-  ['height_75',['height',['../struct_flame.html#a5279599e0a7c5377736dc8798e3096fe',1,'Flame']]]
+  ['gamma_77',['gamma',['../struct_flame.html#a60f50dad0afc31b38f2a981cd6970e61',1,'Flame']]],
+  ['getting_20started_78',['Getting Started',['../getting-started.html',1,'']]],
+  ['getting_2dstarted_2edox_79',['getting-started.dox',['../getting-started_8dox.html',1,'']]]
 ];

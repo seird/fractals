@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['width_146',['width',['../struct_flame.html#a492ce4bb10b4bfbdddc11c40e3ac41eb',1,'Flame']]]
+  ['r_154',['R',['../struct_fractal_properties.html#a61cc21487dc339544d26271a20768c95',1,'FractalProperties']]],
+  ['real_5fsteps_155',['real_steps',['../struct_buddha.html#a44ce33a22b0e4c76ee42808706223fa2',1,'Buddha']]]
 ];

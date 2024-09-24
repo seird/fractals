@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['width_87',['width',['../struct_flame.html#a492ce4bb10b4bfbdddc11c40e3ac41eb',1,'Flame']]]
+  ['usage_93',['Usage',['../usage.html',1,'']]],
+  ['usage_2edox_94',['usage.dox',['../usage_8dox.html',1,'']]]
 ];
